@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+    <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
+    <h1>Sampling Analysis</h1>
+    <ul class="nav nav-tabs" id="metadataTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="explicited-design-tab" data-toggle="tab" href="#explicited-design" role="tab" aria-controls="explicited-design" aria-selected="true">Sample Size</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="all-design-tab" data-toggle="tab" href="#all-design" role="tab" aria-controls="all-design" aria-selected="false">Recruting Participants</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="treatment-tab" data-toggle="tab" href="#treatment" role="tab" aria-controls="treatment" aria-selected="false">Sample Description Characteristics</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="explicited-design" role="tabpanel" aria-labelledby="explicited-design-tab">
+        <h4>Sample Size</h4>
+        <div class="chart" id="Sample Size">
+            <script>
+                var graphs = {{sampleChart | safe}};
+                var layout = {
+                  };
+                Plotly.newPlot('Sample Size',graphs,layout);
+            </script>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="all-design" role="tabpanel" aria-labelledby="all-design-tab">
+        <h4>Recruting Participants</h4>
+          <div class="chart" id="Recruting Participants">
+            <script>
+                var graphs = {{recruting | safe}};
+                var layout = {
+                  };
+                Plotly.newPlot('Recruting Participants',graphs,layout);
+            </script>
+        </div>
+
+      </div>
+      <div class="tab-pane fade" id="treatment" role="tabpanel" aria-labelledby="treatment-tab">
+        <h4>Sample Description Characteristics</h4>
+          <div class="chart" id="Sample Description Characteristics">
+            <script>
+                var graphs = {{charac_plot | safe}};
+                var layout = {
+                  };
+                Plotly.newPlot('Sample Description Characteristics',graphs,layout);
+            </script>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

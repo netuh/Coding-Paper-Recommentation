@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block content %}
+    <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
+    <h1>Metadata</h1>
+    <ul class="nav nav-tabs" id="metadataTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="author-tab" data-toggle="tab" href="#author" role="tab" aria-controls="author" aria-selected="true">Author Chart</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="year-tab" data-toggle="tab" href="#year" role="tab" aria-controls="year" aria-selected="false">Publication Year Chart</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="venue-tab" data-toggle="tab" href="#venue" role="tab" aria-controls="venue" aria-selected="false">Publication Venue Chart</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="author" role="tabpanel" aria-labelledby="author-tab">
+        <h4>Author Chart</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Researcher's Name</th>
+              <th>Quantity of Papers</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for author in most_common_authors %}
+              <tr>
+                <td> {{loop.index}} </td>
+                <td> {{ author[0] }} </td>
+                <td> {{ author[1] }} </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tab-pane fade" id="year" role="tabpanel" aria-labelledby="year-tab">
+        <h4>Year Chart</h4>
+        <div class="chart" id="Year Bar chart">
+            <script>
+                var graphs = {{plot_years | safe}};
+                var layout = {
+                      xaxis: {
+                        autotick: false,
+                        ticks: "outside",
+                        tick0: 0,
+                        dtick: 1
+                      }
+                  };
+                Plotly.newPlot('Year Bar chart',graphs,layout);
+            </script>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="venue" role="tabpanel" aria-labelledby="venue-tab">
+        <h4>Venue Chart</h4>
+        <div class="chart" id="bargraph2">
+          <script>
+            var graphs = {{plot_venues | safe}};
+            var layout = {
+                  xaxis: {
+                    autotick: false,
+                    ticks: "outside",
+                    tick0: 0,
+                    dtick: 1
+                  }
+              };
+            Plotly.newPlot('bargraph2',graphs,layout);
+          </script>
+      </div>
+      </div>
+    </div>
+{% endblock content %}

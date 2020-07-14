@@ -1,0 +1,525 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Compre",
+				"COMPREENSION"
+			],
+			[
+				"median_",
+				"median_task_duration\tint ⟠"
+			],
+			[
+				"median",
+				"median_task_duration\tint ⟠"
+			],
+			[
+				"de",
+				"default"
+			],
+			[
+				"flask",
+				"flaskblog\tmodule ⟠"
+			],
+			[
+				"cha",
+				"charac"
+			],
+			[
+				"has",
+				"has_professional"
+			],
+			[
+				"pr",
+				"profile"
+			],
+			[
+				"app",
+				"append"
+			],
+			[
+				"c",
+				"Counter"
+			],
+			[
+				"pu",
+				"publications"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"__",
+				"__name__"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": ".gitignore",
+			"settings":
+			{
+				"buffer_size": 2035,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"terminus: o",
+				"Terminus: Open Default Shell in Panel"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			],
+			[
+				"terminus",
+				"Terminus: List Shells"
+			],
+			[
+				"termin",
+				"Terminal: Open"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 225.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/netuh/git/Coding-Paper-Recommentation"
+	],
+	"file_history":
+	[
+		"/Users/netuh/Downloads/JogoDamas/src/Componentes/Coordenada.java",
+		"/Users/netuh/Downloads/JogoDamas/src/Componentes/MesaCondição.java",
+		"/Users/netuh/Downloads/Poo/src/auxTelas/TrataCliente.java",
+		"/Users/netuh/Downloads/Poo/src/auxTelas/Recebedor.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/tiposdados/Veiculo.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/controller/ExibirTVeiculos.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/controller/VendaVeiculo.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/controller/AlterarVeiculo.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/controller/ControleDosDados.java",
+		"/Users/netuh/Downloads/AppConcessionária/src/aplicacao/Aplicacao.java",
+		"/Users/netuh/Downloads/PooTeste/src/Operacoes/Soma.java",
+		"/Users/netuh/Downloads/PooTeste/src/Operacoes/OperacaoBasica.java",
+		"/Users/netuh/Downloads/PooTeste/src/CalculadoraOO/GerarCalculos.java",
+		"/Users/netuh/Downloads/PooTeste/src/CalculadoraOO/CalculadoraMain.java",
+		"/Users/netuh/Downloads/PooTeste/src/CalculadoraOO/Calculadora.java",
+		"/Users/netuh/Downloads/PooTeste/src/Operacoes/Radiciacao.java",
+		"/Users/netuh/Downloads/PooTeste/src/CalculadoraOO/EvalPlus.java",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/sampling_pages/sampling_main.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/sampling/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/util.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/models.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/measuriments/__init__.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/task_pages/tasks.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/design/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/design_pages/designs.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/__init__.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/layout.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/data_vizualization.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/sampling_pages/designs.html",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/guidelines/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/sampling/__init__.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/task/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/templates/task_pages/tasks_copy.html",
+		"/Users/netuh/git/ESE_CodingTool/run.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/data_vizualization/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/main/routes.py",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/task/__init__.py",
+		"/Users/netuh/Downloads/RedBlackTree/src/main/java/redblacktree/datatype/Tree.java",
+		"/Users/netuh/Google Drive/UNICAP/P III/2020.1/CantinaUnicap - 2,5/CatolicaFood/src/catolicafood/Loja/Historico.java",
+		"/Users/netuh/git/IST_Coding/coding_tool/design/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/sampling/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/metadata/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/guideline/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/layout.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/metadata.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/models.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/util.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/article/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/detail_article.html",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/12-Error-Pages/flaskblog/users/routes.py",
+		"/Users/netuh/git/IST_Coding/run.py",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/12-Error-Pages/flaskblog/posts/routes.py",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/12-Error-Pages/flaskblog/templates/home.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/publications.csv",
+		"/Users/netuh/git/ESE_CodingTool/flaskblog/site.db",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/config.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/__init__.py",
+		"/Users/netuh/git/12-Error-Pages/run.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/main/__init__.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/main/routes.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/posts/forms.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/posts/routes.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/users/forms.py",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/default.jpg",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/ddd3ffe2e3271c40.jpg",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/85ed1b444539873d.png",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/7ef894751d31a45b.png",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/7798432669b8b3ac.jpg",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/2e32b4c96a8d8f10.jpg",
+		"/Users/netuh/git/12-Error-Pages/flaskblog/models.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/measurements/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/article/forms.py",
+		"/Users/netuh/Google Drive/UNICAP/POO/projetos/2020.1/projetopoo1gq/src/projetopoo1gq/ProjetoPoo1GQ.java",
+		"/Users/netuh/Downloads/CatolicaFood/src/catolicafood/menu/Menu.java",
+		"/Users/netuh/git/IST_Coding/coding_tool/__init__.py",
+		"/Users/netuh/Downloads/Atividade de POO (extract.me)/atividade_de_POO/src/atividade_de_poo/Pais.java",
+		"/Users/netuh/Downloads/Atividade de POO (extract.me)/atividade_de_POO/src/atividade_de_poo/Atividade_de_POO.java",
+		"/Users/netuh/git/IST_Coding/coding_tool/main/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/article/__init__.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/doe.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/guidelines.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/experiment_map.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/measurements.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/sampling.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/publications_backup.csv",
+		"/Users/netuh/git/IST_Coding/.gitignore",
+		"/Users/netuh/git/cloud-client/snippets.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/guidelines.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/config.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/detail_article2.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/select_articles.html",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/09-Pagination/flaskblog/routes.py",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/09-Pagination/flaskblog/templates/user_posts.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/home.html",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/09-Pagination/flaskblog/templates/post.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/recruiting_strategy.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/sampling/forms.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/doe_backup.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/static/csv/measuriments_backup.csv",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/about.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/by_characteristics.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/sampling/util.py",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/12-Error-Pages/flaskblog/templates/post.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/guideline_details.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/time_measurements.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/objective_measurements.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/measurements_general.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/subjective_measurements.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/distribution.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/measurements/__init__.py",
+		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/cajazeiras.sumocfg",
+		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/simu.xml",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/duration.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/tasks.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/desings.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/metadata/util.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/design/__init__.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/samplings.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/db/seed.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/db/__init__.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/db/__init__",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/13-Deployment-Linode/flaskblog/templates/login.html",
+		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/13-Deployment-Linode/flaskblog/templates/register.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/by_classification.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/characteristics.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/institution.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/most_authors.html",
+		"/Users/netuh/Google Drive/research/IST_tool/coding_tool/sampling/util.py"
+	],
+	"find":
+	{
+		"height": 30.0
+	},
+	"find_in_files":
+	{
+		"height": 161.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": ".gitignore",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2035,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2035,
+								2035
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"open_with_edit": true,
+							"syntax": "Packages/Git Formats/Git Ignore.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 30.0
+	},
+	"input":
+	{
+		"height": 71.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.Terminus":
+	{
+		"height": 180.0
+	},
+	"output.Terminus 2":
+	{
+		"height": 180.0
+	},
+	"output.Terminus 3":
+	{
+		"height": 180.0
+	},
+	"output.exec":
+	{
+		"height": 108.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Anaconda Python Builder",
+	"project": "Coding-Paper-Recommentation.sublime-project",
+	"replace":
+	{
+		"height": 56.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 241.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

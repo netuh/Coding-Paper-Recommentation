@@ -1,0 +1,8 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Data Vizualization</h1>
+    <h2><a href="{{ url_for('data_vizualization.metadata') }}">Paper Metadata</a></h2>
+    <h2><a href="{{ url_for('design.index') }}">Design Analysis</a></h2>
+    <h2><a href="{{ url_for('task.index') }}">Task Analysis</a></h2>
+    <h2><a href="{{ url_for('sampling.sampling_main') }}">Sampling Analysis</a></h2>
+{% endblock content %}
