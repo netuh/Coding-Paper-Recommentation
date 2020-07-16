@@ -138,5 +138,5 @@ dmypy.json
 cython_debug/
 
 .DS_Store
-site.db
+*.db
 Coding-Paper-Recommentation.sublime-project

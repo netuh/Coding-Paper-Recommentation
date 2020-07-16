@@ -152,7 +152,7 @@ def createPaper3():
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=120, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
-    addMeasuriment(experiment=e, newMeasure='QUESTION', instrument='form')
+    addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='Experimenter and log')
     addMeasuriment(experiment=e, newMeasure='Others',
@@ -267,7 +267,7 @@ def createPaper10():
     addTask(newTaskType='TEST', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
-                   instrument='questionaire')
+                   instrument='form')
     addMeasuriment(experiment=e, newMeasure='CODE', details='test cases')
     createStatistics(e, 1, 'Mann-Whitney')
 
@@ -285,7 +285,7 @@ def createPaper11():
     addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
-                   instrument='questionaire')
+                   instrument='form')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='Experimenter')
 
     createStatistics(e, 0, 'Mann-Whitney')
@@ -363,7 +363,7 @@ def createPaper14():
     addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='CODE', instrument='SVN')
+    addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
 
     createStatistics(
@@ -587,7 +587,7 @@ def createPaper24():
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME',
-                   instrument='monitor')
+                   instrument='Experimenter')
 
     createStatistics(
         e, 1, 'Shapiro-Wilk, ANOVA, t-test, Wilcoxon; Kruskal Wallis test; Fishers Least-Significant Difference (LSD) mean comparison test')
@@ -608,7 +608,7 @@ def createPaper25():
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
-                   instrument='questionaire')
+                   instrument='form')
 
     createStatistics(e, 1, 'Wilk-Shapiro; Mann-Whitney')
 
@@ -623,7 +623,7 @@ def createPaper25():
     addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE')
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE',
-                   instrument='questionaire')
+                   instrument='form')
     createStatistics(e2, 1, 'Mann-Whitney; Shapiro test')
 
     s2 = createSampling('Extra Grade', e2)
@@ -793,8 +793,8 @@ def createPaper34():
                         explicity=1, treatmentQuantity=2, experiment=e)
     addTask(newTaskType='CONSTRUCTION', newQuantity=2, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='CODE', instrument='GitHub')
-    addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='Form')
+    addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
+    addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
     createStatistics(e, 1, 'Shapiro-Wilk Test; Linear Mixed Model Analysis')
 
@@ -889,7 +889,7 @@ def createPaper39():
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='email')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
-                   instrument='questionaire')
+                   instrument='form')
 
     createStatistics(
         e, 1, 'Fishers exact test; x2 test; Mann-Whitney; ANOVA; repeated measures permutation test')
@@ -1274,8 +1274,8 @@ def createPaper56():
                         explicity=0, treatmentQuantity=2, experiment=e)
     addTask(newTaskType='DEGUGGING', newQuantity=2, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'enviroment')
-    addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'enviroment')
+    addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'tool')
+    addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'tool')
 
     createStatistics(e, 0, 't-test')
 
@@ -1920,7 +1920,7 @@ def createPaper81():
     addTask(newTaskType='TEST', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', details='code and test')
-    addMeasuriment(experiment=e, newMeasure='TIME', instrument='online survey')
+    addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
     createStatistics(e, 0, 'Shapiro-Wilk; Wilcoxon; two-way permutation test')
@@ -2099,7 +2099,7 @@ def createPaper88():
                         explicity=0, treatmentQuantity=2, experiment=e)
     addTask(newTaskType='REVIEW', newQuantity=3, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='others', details='MRI scanner data')
+    addMeasuriment(experiment=e, newMeasure='Others', details='MRI scanner data')
 
     createStatistics(e, 1, 'Wilcoxon')
 
