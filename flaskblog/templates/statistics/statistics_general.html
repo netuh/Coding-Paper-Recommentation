@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+    <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
+    <h1>Statistics Analysis </h1>
+    <div class="chart" id="Statistics Analysis">
+        <script>
+            var graphs = {{statisticChart | safe}};
+            var layout = {
+              };
+            Plotly.newPlot('Statistics Analysis',graphs,layout);
+        </script>
+    </div>
+    <h1>Power Analysis</h1>
+    <div class="chart" id="Power Analysis">
+        <script>
+            var graphs = {{powerChart | safe}};
+            var layout = {
+              };
+            Plotly.newPlot('Power Analysis',graphs,layout);
+        </script>
+    </div>
+{% endblock content %}
