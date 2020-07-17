@@ -111,13 +111,19 @@ class Sampling(db.Model):
     def __repr__(self):
         return f"Sampling('{self.recruitment_type}', '{self.sample_size}')"
 
+    def sampleQuantity(self):
+        total = 0
+        for a_profile in self.profiles:
+            total += a_profile.quantity
+        return total
+
     def sample_classification(self):
         has_student = False
         has_professional = False
         total = 0
         classification = 0
         for a_profile in self.profiles:
-            if (a_profile.profile == 'PROFESSIONAL'):
+            if (a_profile.profile == 'Professionals'):
                 has_professional = True
             else:
                 has_student = True

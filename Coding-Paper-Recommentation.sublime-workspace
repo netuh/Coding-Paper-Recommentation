@@ -4,20 +4,164 @@
 		"selected_items":
 		[
 			[
+				"measurement_",
+				"measurement_instruments"
+			],
+			[
+				"Main",
+				"MAINTENANCE"
+			],
+			[
+				"Gra",
+				"GradStudent"
+			],
+			[
+				"Grad",
+				"Gradstudent"
+			],
+			[
+				"Personali",
+				"personality"
+			],
+			[
+				"study",
+				"Study"
+			],
+			[
+				"pai",
+				"Paired"
+			],
+			[
+				"pr",
+				"Programming"
+			],
+			[
+				"median_",
+				"median_experiment_duration"
+			],
+			[
+				"programmin",
+				"programming"
+			],
+			[
+				"Pro",
+				"Professional"
+			],
+			[
+				"Mo",
+				"Moreno"
+			],
+			[
+				"Exp",
+				"Experience"
+			],
+			[
+				"Pair",
+				"Paired"
+			],
+			[
+				"Factor",
+				"Factorial"
+			],
+			[
+				"de",
+				"design"
+			],
+			[
+				"Profe",
+				"Professionals"
+			],
+			[
+				"exe",
+				"experience"
+			],
+			[
+				"progrma",
+				"programming"
+			],
+			[
+				"pro",
+				"Professional"
+			],
+			[
+				"Cons",
+				"CONSTRUCTION"
+			],
+			[
+				"Ex",
+				"Experience"
+			],
+			[
+				"Exper",
+				"Experimenter"
+			],
+			[
+				"Compa",
+				"Comparison"
+			],
+			[
+				"La",
+				"Laboratory"
+			],
+			[
+				"re",
+				"recorder"
+			],
+			[
+				"Professional",
+				"Professionals"
+			],
+			[
+				"Prof",
+				"Professionals"
+			],
+			[
+				"in",
+				"instrument"
+			],
+			[
+				"O",
+				"Others"
+			],
+			[
+				"experi",
+				"experience"
+			],
+			[
+				"gr",
+				"Grade"
+			],
+			[
+				"Cou",
+				"Course"
+			],
+			[
+				"under",
+				"Undergradstudent"
+			],
+			[
+				"Progrma",
+				"Programming"
+			],
+			[
+				"prof",
+				"Professionals"
+			],
+			[
+				"De",
+				"Design"
+			],
+			[
+				"grad",
+				"GradStudent"
+			],
+			[
 				"Compre",
 				"COMPREENSION"
 			],
 			[
-				"median_",
-				"median_task_duration\tint ⟠"
-			],
-			[
 				"median",
 				"median_task_duration\tint ⟠"
-			],
-			[
-				"de",
-				"default"
 			],
 			[
 				"flask",
@@ -30,10 +174,6 @@
 			[
 				"has",
 				"has_professional"
-			],
-			[
-				"pr",
-				"profile"
 			],
 			[
 				"app",
@@ -60,11 +200,10 @@
 	"buffers":
 	[
 		{
-			"file": ".gitignore",
+			"file": "flaskblog/finder/routes.py",
 			"settings":
 			{
-				"buffer_size": 2035,
-				"encoding": "UTF-8",
+				"buffer_size": 989,
 				"line_ending": "Unix"
 			}
 		}
@@ -145,10 +284,26 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/netuh/git/Coding-Paper-Recommentation"
+		"/Users/netuh/git/Coding-Paper-Recommentation",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates"
 	],
 	"file_history":
 	[
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/statistics/routes.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/data_vizualization.html",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/statistics/statistics_general.html",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/__init__.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/models.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/measurements/routes.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/statistics/__init__.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/run.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/measurements/measurements_general.html",
+		"/Users/netuh/git/Coding-Paper-Recommentation/.gitignore",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/task/routes.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/finder/routes.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/Coding-Paper-Recommentation.sublime-project",
+		"/Users/netuh/git/Coding-Paper-Recommentation/requirements.txt",
 		"/Users/netuh/Downloads/JogoDamas/src/Componentes/Coordenada.java",
 		"/Users/netuh/Downloads/JogoDamas/src/Componentes/MesaCondição.java",
 		"/Users/netuh/Downloads/Poo/src/auxTelas/TrataCliente.java",
@@ -262,25 +417,11 @@
 		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/cajazeiras.sumocfg",
 		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/simu.xml",
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/duration.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/tasks.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/desings.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/metadata/util.py",
-		"/Users/netuh/git/IST_Coding/coding_tool/design/__init__.py",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/samplings.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/db/seed.py",
-		"/Users/netuh/git/IST_Coding/coding_tool/db/__init__.py",
-		"/Users/netuh/git/IST_Coding/coding_tool/db/__init__",
-		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/13-Deployment-Linode/flaskblog/templates/login.html",
-		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/13-Deployment-Linode/flaskblog/templates/register.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/by_classification.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/characteristics.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/institution.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/most_authors.html",
-		"/Users/netuh/Google Drive/research/IST_tool/coding_tool/sampling/util.py"
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/tasks.html"
 	],
 	"find":
 	{
-		"height": 30.0
+		"height": 70.0
 	},
 	"find_in_files":
 	{
@@ -291,16 +432,31 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"Form",
+			"questionaire",
+			"QUESTION",
+			"others",
+			"maintenance",
+			"comprehension",
+			"comprehesion",
+			"2006",
+			"eye",
+			"''Not",
+			"'",
+			"''",
+			"addExperiment",
+			"'Wohlin et al.'"
 		],
-		"highlight": false,
+		"highlight": true,
 		"in_selection": false,
 		"preserve_case": false,
 		"regex": true,
 		"replace_history":
 		[
+			"form"
 		],
 		"reverse": false,
 		"show_context": true,
@@ -316,19 +472,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": ".gitignore",
+					"file": "flaskblog/finder/routes.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2035,
+						"buffer_size": 989,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2035,
-								2035
+								0,
+								0
 							]
 						],
 						"settings":
@@ -351,64 +507,65 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
 								"bh_double_quote",
 								"bh_double_quote_center",
 								"bh_double_quote_open",
 								"bh_double_quote_close",
 								"bh_double_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
 								"bh_square",
 								"bh_square_center",
 								"bh_square_open",
 								"bh_square_close",
 								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content"
 							],
-							"open_with_edit": true,
-							"syntax": "Packages/Git Formats/Git Ignore.sublime-syntax"
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -479,7 +636,7 @@
 	"project": "Coding-Paper-Recommentation.sublime-project",
 	"replace":
 	{
-		"height": 56.0
+		"height": 114.0
 	},
 	"save_all_on_build": true,
 	"select_file":
