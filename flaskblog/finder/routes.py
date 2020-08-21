@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from flaskblog.models import Publication, Sampling
+from flaskblog.models import Publication, ExperimentDesign
 from flaskblog.finder.forms import SelectArticleForm
 from flaskblog import db
 import scholarly
@@ -11,34 +11,15 @@ finder = Blueprint('finder', __name__)
 def index():
     form = SelectArticleForm()
 
-    samplings = Sampling.query.all()
-    max_value = -1
-    min_value = 600
-    for s in samplings:
-        if (s.sampleQuantity() > max_value):
-            max_value = s.sampleQuantity()
-        if (s.sampleQuantity() < min_value):
-            min_value = s.sampleQuantity()
+    design = ExperimentDesign.query.all()
+    designs = []
+    for s in design:
+        if (not s.design_description in designs):
+            designs.append(s.design_description)
+    form.designs.choices = designs
+    # design_list = [('DS1', 'DS1'), ('DS2', 'DS2')]
+    # form.designs.choices = design_list
 
-    print(min_value)
-    print(max_value)
-    design_list = [('-None-', '-None-')]
-    form.designs.choices = design_list
-
-    task_type_list = ['a', 'b', 'c']
-    form.performed_tasks.choices = task_type_list
-
-    nature_of_data_list = ['a', 'b', 'c']
-    form.nature_of_data.choices = nature_of_data_list
-
-    duration_list = [('-None-', '-None-')]
-    form.duration.choices = duration_list
-
-    profile_list = []
-    form.profile_type.choices = profile_list
-
-    recruitment_list = []
-    form.recruting_type.choices = recruitment_list
     # if form.validate_on_submit():
     #     print(f'select={form.lab_settings.data}')
     #     data = {}

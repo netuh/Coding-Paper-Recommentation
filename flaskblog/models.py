@@ -85,6 +85,7 @@ class ExperimentDesign(db.Model):
     experiment = db.relationship("Experiment", back_populates="design")
     treatment_quantity = db.Column(db.Integer, default=1)
     design_description = db.Column(db.String(100))
+    design_normalized = db.Column(db.String(100))
     is_explicity_design = db.Column(db.Integer, default=0)
 
 
@@ -177,4 +178,5 @@ class Statistics(db.Model):
     exp_id = db.Column(db.Integer, db.ForeignKey(
         'experiment.exp_id'), nullable=False)
     statistic_details = db.Column(db.String(200))
+    p_or_np = db.Column(db.String(200))
     has_power = db.Column(db.Integer, default=0)
