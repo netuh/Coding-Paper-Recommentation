@@ -118,24 +118,6 @@ class Sampling(db.Model):
             total += a_profile.quantity
         return total
 
-    def sample_classification(self):
-        has_student = False
-        has_professional = False
-        total = 0
-        classification = 0
-        for a_profile in self.profiles:
-            if (a_profile.profile == 'Professionals'):
-                has_professional = True
-            else:
-                has_student = True
-            total += a_profile.quantity
-        if (has_student and has_professional):
-            return 'mix', total
-        elif (has_professional):
-            return 'professional_only', total
-        else:
-            return 'student_only', total
-
 
 class Recruting(db.Model):
     __tablename__ = 'recruting'

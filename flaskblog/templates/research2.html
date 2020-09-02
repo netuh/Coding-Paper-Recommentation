@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% for post in pubs %}
+        <article class="media content-section">
+          <div class="media-body">
+            <h2><a class="article-title" href="{{ url_for('finder.details', pub_id=post.pub_id) }}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.authors }}</p>
+          </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
