@@ -2261,4 +2261,4 @@ def before_first_request_func():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
