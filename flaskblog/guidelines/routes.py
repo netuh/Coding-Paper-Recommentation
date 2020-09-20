@@ -10,6 +10,11 @@ def all():
     guidelines = Guideline.query.all()
     return render_template('guidelines.html', guidelines=guidelines)
 
+@guidelines.route("/guidelines_test")
+def all_test():
+    guidelines = Guideline.query.all()
+    return render_template('guidelines_test.html', guidelines=guidelines)
+
 
 @guidelines.route("/guideline/<int:guide_id>/")
 def guide(guide_id):

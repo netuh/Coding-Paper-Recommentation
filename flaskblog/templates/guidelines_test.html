@@ -1,0 +1,31 @@
+{% extends "layout_materialize.html" %}
+{% block content %}
+ <div class="container">
+        <div class="col s12">
+            <h1>Guidelines</h1>
+            <table data-toggle="table" data-sort-stable="true" data-sort-name="quantity"
+                data-sort-order="desc" class="highlight responsive-table" >
+          <thead>
+            <tr>
+              <th data-field="name" data-sortable="true">Guideline</th>
+              <th data-field="year" data-sortable="true">Authors</th>
+              <th data-field="quantity" data-sortable="true">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for guideline in guidelines %}
+              <tr>
+                <td>
+                  <a href="{{ url_for('guidelines.guide', guide_id=guideline.guide_id) }}">
+                      {{ guideline.title }}
+                  </a>
+                </td>
+                <td> {{ guideline.authors }} </td>
+                <td> {{ guideline.referenced_by|length }} </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+ </div>
+{% endblock content %}
