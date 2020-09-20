@@ -4,6 +4,7 @@ from flaskblog.util import *
 
 from collections import Counter
 import numpy as np
+import json
 
 statistics = Blueprint('statistics', __name__)
 
@@ -21,3 +22,17 @@ def index():
     powerChart = create_plot_bar(powerCounter)
     return render_template('statistics/statistics_general.html', statisticChart=statisticChart,
                            powerChart=powerChart)
+
+@statistics.route("/statistics/index/teste")
+def index_teste():
+    statistics = Statistics.query.all()
+    statisticCounter = Counter()
+    powerCounter = Counter()
+    for s in statistics:
+        for aStat in s.statistic_details.split(";"):
+            statisticCounter.update([aStat])
+        powerCounter.update([s.has_power])
+    statisticChart = json.loads(create_plot_bar(statisticCounter))
+    powerChart = json.loads(create_plot_bar(powerCounter))
+    return render_template('statistics/statistics_general_teste.html', statisticChart=statisticChart[0],
+                           powerChart=powerChart[0])
