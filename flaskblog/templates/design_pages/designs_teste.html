@@ -1,0 +1,113 @@
+{% extends "layout_materialize.html" %}
+{% block content %}
+<div class="container">
+    <div class="col s12">
+        <h1>Design Analysis</h1>
+        <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width tab-demo z-depth-1">
+            <li class="tab"><a href="#explicited-tab">Explicited Design</a></li>
+            <li class="tab"><a class="active" href="#all-tab">All Designs</a></li>
+            <li class="tab"><a href="#factor-tab">Treatment by Factor</a></li>
+        </ul>
+
+        <div id="explicited-tab" class="col s12">
+              <div class="chart-container">
+                <canvas id="chart-explicited"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-explicited', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ explicited_design["x"]|safe }},
+                    datasets:[{
+                        label: "Explicited Design",
+                        data: {{ explicited_design["y"]|safe }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
+        </div>
+        <div id="all-tab" class="col s12">
+            <div class="chart-container">
+                <canvas id="chart-all"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-all', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ all_design["x"]|safe }},
+                    datasets:[{
+                        label: "All Designs",
+                        data: {{ all_design["y"]|safe }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
+        </div>
+        <div id="factor-tab" class="col s12">
+             <div class="chart-container">
+                <canvas id="chart-factor"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-factor', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ treatment["x"]|safe  }},
+                    datasets:[{
+                        label: "Treatment by Factor",
+                        data: {{ treatment["y"]|safe  }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
+        </div>
+    </div>
+</div>
+{% endblock content %}
