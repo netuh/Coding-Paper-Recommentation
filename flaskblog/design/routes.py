@@ -22,6 +22,27 @@ def index():
     treatment_chart = create_plot_bar(treatmentCounter)
     return render_template('design_pages/designs.html', all_design=all_design_chart, explicited_design=explicited_chart, treatment=treatment_chart)
 
+@design.route("/designIndex_teste")
+def index_teste():
+    desings = ExperimentDesign.query.all()
+    designCounter = Counter()
+    explicitDesignCounter = Counter()
+    treatmentCounter = Counter()
+    for a_desing in desings:
+        designCounter.update([a_desing.design_description])
+        if (a_desing.is_explicity_design == 1):
+            explicitDesignCounter.update([a_desing.design_description])
+        treatmentCounter.update([a_desing.treatment_quantity])
+    all_design_chart = json.loads(create_plot_bar(designCounter))
+    explicited_chart = json.loads(create_plot_bar(explicitDesignCounter))
+    treatment_chart = json.loads(create_plot_bar(treatmentCounter))
+
+    print(all_design_chart[0])
+    print(explicited_chart[0])
+    print(treatment_chart[0])
+
+    return render_template('design_pages/designs_teste.html', all_design=all_design_chart[0], explicited_design=explicited_chart[0], treatment=treatment_chart[0])
+
 
 @design.route("/detailDesign")
 def detailDesign():

@@ -108,9 +108,6 @@ class Sampling(db.Model):
     recruiting_strategies = db.relationship("Recruting", uselist=False,
                                             backref="parent_recru", lazy=True)
 
-    def __repr__(self):
-        return f"Sampling('{self.recruitment_type}', '{self.sample_size}')"
-
     def sampleQuantity(self):
         total = 0
         for a_profile in self.profiles:

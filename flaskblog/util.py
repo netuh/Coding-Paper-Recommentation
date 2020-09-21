@@ -46,8 +46,9 @@ def create_plot_bar(c):
     y = []
     # for element in c.items():
     for element in c.most_common():
-        x.append(element[0])
-        y.append(element[1])
+        if element[0] and element[1]:
+            x.append(element[0])
+            y.append(element[1])
     df = pd.DataFrame({'x': x, 'y': y})  # creating a sample dataframe
     data = [
         go.Bar(
