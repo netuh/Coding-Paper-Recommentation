@@ -5074,7 +5074,7 @@ small {
 }
 
 .tabs .tab a {
-  color: rgba(238, 110, 115, 0.7);
+  color: #7e57c2;
   display: block;
   width: 100%;
   height: 100%;
@@ -5087,13 +5087,13 @@ small {
 }
 
 .tabs .tab a:focus, .tabs .tab a:focus.active {
-  background-color: rgba(246, 178, 181, 0.2);
+  background-color: #ede7f6;
   outline: none;
 }
 
 .tabs .tab a:hover, .tabs .tab a.active {
   background-color: transparent;
-  color: #ee6e73;
+  color: #7e57c2;
 }
 
 .tabs .tab.disabled a,
@@ -5106,7 +5106,7 @@ small {
   position: absolute;
   bottom: 0;
   height: 2px;
-  background-color: #f6b2b5;
+  background-color: #7e57c2;
   will-change: left, right;
 }
 
@@ -5571,7 +5571,7 @@ button.btn-floating {
 }
 
 .dropdown-content li:hover, .dropdown-content li.active {
-  background-color: #eee;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-content li:focus {
@@ -5585,7 +5585,7 @@ button.btn-floating {
 
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 16px;
-  color: #26a69a;
+  color: #fff;
   display: block;
   line-height: 22px;
   padding: 14px 16px;
