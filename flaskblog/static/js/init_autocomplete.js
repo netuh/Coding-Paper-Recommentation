@@ -111,7 +111,7 @@ $("#result-search").on("click","li.element-list", function(event){
         url=event.target.parentNode.href;
 
     search_paper(url);
-    window.scrollTo(0,0);
+    $("html, body").animate({ scrollTop: "0" });
 
 });
 
