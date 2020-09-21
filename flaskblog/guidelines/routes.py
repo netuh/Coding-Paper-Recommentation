@@ -27,3 +27,15 @@ def guide(guide_id):
     link = paperData.bib['url']
     return render_template('guideline_details.html', title=title, author=author,
                            abstract=abstract, link=link, references=g.referenced_by)
+
+@guidelines.route("/guideline_teste/<int:guide_id>/")
+def guide_teste(guide_id):
+    g = Guideline.query.get_or_404(guide_id)
+    search_query = scholarly.search_pubs_query(g.title)
+    paperData = next(search_query)
+    title = paperData.bib['title']
+    author = paperData.bib['author']
+    abstract = paperData.bib['abstract']
+    link = paperData.bib['url']
+    return render_template('guideline_details_teste.html', title=title, author=author,
+                           abstract=abstract, link=link, references=g.referenced_by)
