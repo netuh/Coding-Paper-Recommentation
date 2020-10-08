@@ -118,6 +118,28 @@ class Sampling(db.Model):
             total += a_profile.quantity
         return total
 
+    def sample_classification(self):
+        total = 0
+        student = 0
+        professional = 0
+        for a_profile in self.profiles:
+            if a_profile.profile == 'undergradstudent':
+                student += a_profile.quantity
+            elif a_profile.profile == 'gradstudent':
+                student += a_profile.quantity
+            elif a_profile.profile == 'student':
+                student += a_profile.quantity
+            elif a_profile.profile == 'professionals':
+                professional += a_profile.quantity
+            total += a_profile.quantity
+        if student > 0 and professional > 0:
+            return 'mix', total
+        if student > 0:
+            return 'student_only', total
+        if professional > 0:
+            return 'professional_only', total
+        return 'others', total
+
 
 class Recruting(db.Model):
     __tablename__ = 'recruting'

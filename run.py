@@ -35,14 +35,14 @@ def createGuidelines():
 
 
 def createAGuideline(newTitle, newAuthors):
-    g = Guideline(title=newTitle, authors=newAuthors)
+    g = Guideline(title=newTitle.lower(), authors=newAuthors.lower())
     guides[newAuthors] = g
 
 
 def newExperiment(newTitle, newYear, newVenue, newAuthors, guidelines, newSettings):
-    p = Publication(title=newTitle, year=newYear, venue=newVenue,
-                    authors=newAuthors)
-    e = Experiment(settings=newSettings)
+    p = Publication(title=newTitle, year=newYear, venue=newVenue.lower(),
+                    authors=newAuthors.lower())
+    e = Experiment(settings=newSettings.lower())
     for g in guidelines:
         p.guidelines.append(guides[g])
     p.experiments.append(e)
@@ -52,20 +52,20 @@ def newExperiment(newTitle, newYear, newVenue, newAuthors, guidelines, newSettin
 
 
 def addExperiment(experiment, newSettings):
-    e = Experiment(settings=newSettings)
+    e = Experiment(settings=newSettings.lower())
     experiment.exp_pub.experiments.append(e)
 
     db.session.add(e)
     return e
 
 def addTask(newTaskType, newQuantity, experiment):
-    t = Task(task_type=newTaskType, quantity=newQuantity)
+    t = Task(task_type=newTaskType.lower(), quantity=newQuantity)
     t.task_parent = experiment
     db.session.add(t)
 
 
 def setExperimentDesign(newDesign, explicity, treatmentQuantity, experiment, normalizedDesing):
-    d = ExperimentDesign(design_description=newDesign, is_explicity_design=explicity,
+    d = ExperimentDesign(design_description=newDesign.lower(), is_explicity_design=explicity,
                          treatment_quantity=treatmentQuantity, design_normalized=normalizedDesing)
     experiment.design = d
     db.session.add(d)
@@ -74,29 +74,29 @@ def setExperimentDesign(newDesign, explicity, treatmentQuantity, experiment, nor
 def createSampling(strategy, experiment):
     s = Sampling()
     s.exp = experiment
-    r = Recruting(recruiting_strategy=strategy, parent_recru=s)
+    r = Recruting(recruiting_strategy=strategy.lower(), parent_recru=s)
     db.session.add(s)
     db.session.add(r)
     return s
 
 
 def addProfile(newProfile, newQuantity, sample):
-    sp = SamplingProfile(profile=newProfile,
+    sp = SamplingProfile(profile=newProfile.lower(),
                          quantity=newQuantity, parent_profile=sample)
     db.session.add(sp)
 
 
 def addCharacteristic(newCharac, sample):
-    sc = SamplingCharacteristic(charac=newCharac, parent_charac=sample)
+    sc = SamplingCharacteristic(charac=newCharac.lower(), parent_charac=sample)
     db.session.add(sc)
 
 
 def addMeasuriment(experiment, newMeasure='TIME', instrument=None, details=None):
-    m = Measurement(measurement_type=newMeasure)
+    m = Measurement(measurement_type=newMeasure.lower())
     if (instrument):
-        m.measurement_instruments = instrument
+        m.measurement_instruments = instrument.lower()
     if (details):
-        m.measurement_details = details
+        m.measurement_details = details.lower()
     experiment.measurements.append(m)
     db.session.add(m)
 
@@ -105,7 +105,7 @@ def addMeasuriment(experiment, newMeasure='TIME', instrument=None, details=None)
 #     print('ReclassifiedDesing='+ReclassifiedDesing)
 
 def createStatistics(experiment, hasPower=0, details=None, np_p=0):
-    s = Statistics(has_power=hasPower, statistic_details=details)
+    s = Statistics(has_power=hasPower, statistic_details=details.lower())
     s.p_or_np = np_p
     s.exp = experiment
     db.session.add(s)
@@ -121,7 +121,7 @@ def createPaper1():
     setExperimentDesign(newDesign='between-subjects with balanced design',
                         explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Voluntiers', e)
-    addProfile(newProfile='Posgrad Student', newQuantity=44, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=44, sample=s)
     addCharacteristic(newCharac='age', sample=s)
     addCharacteristic(newCharac='sex', sample=s)
     addCharacteristic(newCharac='nationality', sample=s)
@@ -181,7 +181,7 @@ def createPaper4():
     setExperimentDesign(newDesign='Paired Comparison Design',
                         explicity=1, treatmentQuantity=1, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Not Clear', e)
-    addProfile(newProfile='Undergrad Student', newQuantity=114, sample=s)
+    addProfile(newProfile='Undergradstudent', newQuantity=114, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -201,7 +201,7 @@ def createPaper5():
                         explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Undergradstudent', newQuantity=23, sample=s)
-    addProfile(newProfile='Gradstudent', newQuantity=1, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=1, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
     createStatistics(e, 0, 'Kruskal–Wallis rank-sum tests; Mann–Whitney U test')
@@ -220,7 +220,7 @@ def createPaper6():
     setExperimentDesign(newDesign='standard one factor and two treatments',
                         explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     s = createSampling('Voluntiers', e)
-    addProfile(newProfile='Gradstudent', newQuantity=34, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=34, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='tool')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
     addCharacteristic(newCharac='Java experience', sample=s)
@@ -241,8 +241,7 @@ def createPaper7():
     setExperimentDesign(newDesign='standard one factor and two treatments',
                         explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Voluntiers', e)
-    s = createSampling('Extra grade', e)
-    addProfile(newProfile='Gradstudent', newQuantity=50, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=50, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
     createStatistics(e, 0, 'Mann-Whitney test')

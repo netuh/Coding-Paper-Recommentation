@@ -66,7 +66,6 @@ def list_articles():
     if (tasks and len(tasks) > 0):
         studies = selectTask(tasks, studies)
     if (sample.lower() != 'all'):
-        print(sample)
         studies = selectSample(sample, studies)
     return render_template('research2.html', pubs=studies)
 
