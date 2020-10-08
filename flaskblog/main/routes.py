@@ -13,3 +13,7 @@ def home():
 @main.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+@main.route("/teste")
+def teste():
+    return render_template('home_materialized.html', title= 'Coding Paper Recommendation')

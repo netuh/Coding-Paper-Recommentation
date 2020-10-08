@@ -1,8 +1,9 @@
-from flask import render_template, request, Blueprint, redirect, url_for, session
-from flaskblog.models import *
+
 from flaskblog.finder.forms import SelectArticleForm
 from flaskblog import db
 import scholarly
+import json
+from sqlalchemy import or_
 
 finder = Blueprint('finder', __name__)
 
@@ -46,31 +47,12 @@ def select():
     return render_template('finder/select.html', form=form)
 
 
-@ finder.route("/list_articles")
-def list_articles():
-    design = session['designs']
-    tasks = session['tasks']
-    measurements = session['measurements']
-    sample = session['sample']
-
-    query_result = db.session.query(
-        Publication
-    ).join(
-        Publication.experiments
-    ).join(
-        Experiment.design
-    ).filter(ExperimentDesign.design_normalized == design)
-    studies = query_result.all()
-    if (measurements and len(measurements) > 0):
-        studies = selectMeasurements(measurements, studies)
-    if (tasks and len(tasks) > 0):
-        studies = selectTask(tasks, studies)
-    if (sample.lower() != 'all'):
-        studies = selectSample(sample, studies)
-    return render_template('research2.html', pubs=studies)
 
 
-@ finder.route("/search")
+
+
+
+
 def search():
     page = request.args.get('page', 1, type=int)
     pubs = Publication.query.order_by(
@@ -78,7 +60,7 @@ def search():
     return render_template('research.html', pubs=pubs)
 
 
-@ finder.route("/details/<int:pub_id>")
+
 def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
     search_query = scholarly.search_pubs_query(pub.title)
@@ -94,40 +76,3 @@ def details(pub_id):
                            link=link)
 
 
-def selectMeasurements(measurements, studies):
-    selected = []
-    for aPub in studies:
-        add = False
-        for aExp in aPub.experiments:
-            for aMeasu in aExp.measurements:
-                if aMeasu.measurement_type in measurements:
-                    add = True
-        if (add):
-            selected.append(aPub)
-    return selected
-
-
-def selectTask(tasks, studies):
-    selected = []
-    for aPub in studies:
-        add = False
-        for aExp in aPub.experiments:
-            for aTask in aExp.tasks:
-                if aTask.task_type in tasks:
-                    add = True
-        if (add):
-            selected.append(aPub)
-    return selected
-
-
-def selectSample(sample, studies):
-    selected = []
-    for aPub in studies:
-        add = False
-        for aExp in aPub.experiments:
-            for aSample in aExp.sample.profiles:
-                if (sample in aSample.profile.lower()):
-                    add = True
-        if (add):
-            selected.append(aPub)
-    return selected
