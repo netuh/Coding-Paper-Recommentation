@@ -14,17 +14,17 @@
 
 <body>
 <ul id="data-visualization" class="dropdown-content deep-purple lighten-1">
-  <li><a href="{{ url_for('data_vizualization.metadata_teste') }}">Paper Metadata</a></li>
+  <li><a class="white-text" href="{{ url_for('data_vizualization.metadata_teste') }}">Paper Metadata</a></li>
   <li class="divider"></li>
-  <li><a href="{{ url_for('design.index_teste') }}">Design Analysis</a></li>
+  <li><a class="white-text" href="{{ url_for('design.index_teste') }}">Design Analysis</a></li>
   <li class="divider"></li>
-  <li><a href="{{ url_for('task.index_teste') }}">Task Analysis</a></li>
+  <li><a class="white-text" href="{{ url_for('task.index_teste') }}">Task Analysis</a></li>
   <li class="divider"></li>
-  <li><a href="{{ url_for('sampling.sampling_main_teste') }}">Sampling Analysis</a></li>
+  <li><a class="white-text" href="{{ url_for('sampling.sampling_main_teste') }}">Sampling Analysis</a></li>
   <li class="divider"></li>
-  <li><a href="{{ url_for('measurements.index_teste') }}">Measuriment Analysis</a></li>
+  <li><a class="white-text" href="{{ url_for('measurements.index_teste') }}">Measuriment Analysis</a></li>
   <li class="divider"></li>
-  <li><a href="{{ url_for('statistics.index_teste') }}">Statistics</a></li>
+  <li><a class="white-text" href="{{ url_for('statistics.index_teste') }}">Statistics</a></li>
 </ul>
     <nav class=" deep-purple lighten-1" role="navigation">
         <div class="nav-wrapper container">
@@ -35,13 +35,27 @@
                 <li><a href="{{ url_for('main.home') }}">Home</a></li>
                 <li><a href="{{ url_for('guidelines.all_test') }}">Guidelines</a></li>
                  <li><a class="data-vizualization-trigger" href="#!" data-target="data-visualization">Data Vizualization<i class="material-icons right">arrow_drop_down</i></a></li>
-                <li><a href="{{ url_for('finder.index') }}">Search Paper Reference</a></li>
+                <li><a href="{{ url_for('finder.index_teste') }}">Search Paper Reference</a></li>
             </ul>
 
             <ul ID="nav-mobile" class="sidenav">
                 <li><a href="{{ url_for('main.home') }}">Home</a></li>
                 <li><a href="{{ url_for('guidelines.all') }}">Guidelines</a></li>
-                <li><a href="{{ url_for('data_vizualization.index') }}">Data Vizualization</a></li>
+                <ul class="collapsible expandable">
+                    <li>
+                        <a class="collapsible-header">Data Vizualization</a>
+                        <div class="collapsible-body">
+                            <ul>
+                              <li><a href="{{ url_for('data_vizualization.metadata_teste') }}">Paper Metadata</a></li>
+                              <li><a href="{{ url_for('design.index_teste') }}">Design Analysis</a></li>
+                              <li><a href="{{ url_for('task.index_teste') }}">Task Analysis</a></li>
+                              <li><a href="{{ url_for('sampling.sampling_main_teste') }}">Sampling Analysis</a></li>
+                              <li><a href="{{ url_for('measurements.index_teste') }}">Measuriment Analysis</a></li>
+                              <li><a href="{{ url_for('statistics.index_teste') }}">Statistics</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
                 <li><a href="{{ url_for('finder.index') }}">Search Paper Reference</a></li>
             </ul>
 

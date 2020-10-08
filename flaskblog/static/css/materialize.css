@@ -5585,7 +5585,7 @@ button.btn-floating {
 
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 16px;
-  color: #fff;
+  color: #7e57c2;
   display: block;
   line-height: 22px;
   padding: 14px 16px;
@@ -5902,7 +5902,7 @@ body.keyboard-focused .dropdown-content li:focus {
   border: none;
   line-height: inherit;
   height: inherit;
-  padding: 0 16px;
+  padding: 0 32px;
 }
 
 .sidenav .collapsible-header:hover,
@@ -6699,7 +6699,7 @@ textarea.materialize-textarea {
 
 /* Autocomplete */
 .autocomplete-content li .highlight {
-  color: #444;
+  color: #7e57c2;
 }
 
 .autocomplete-content li img {
