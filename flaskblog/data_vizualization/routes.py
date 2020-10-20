@@ -25,7 +25,6 @@ def metadata():
         counter_authors.update(map(str.strip, pub.authors.split(';')))
 
     bar_venues = create_plot_bar(counter_venues)
-    print(bar_venues)
     bar_years = create_plot_bar(counter_years)
     return render_template('metadata.html', plot_venues=bar_venues, plot_years=bar_years,
                            most_common_authors=counter_authors.most_common(11))

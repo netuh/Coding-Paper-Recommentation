@@ -24,7 +24,10 @@ def createGuidelines():
                      'Kitchenham, B.')
     createAGuideline('Qualitative Methods in Empirical Studies of Software Engineering',
                      'Seaman, C.B.')
-
+    createAGuideline('A practical guide for using statistical tests to assess randomized algorithms in software engineering',
+                     'A. Arcuri, L. Briand')
+    createAGuideline('A critique and improvement of the cl common language effect size statistics of mcgraw and wong',
+                     'A. Vargha , H.D. Delaney')
 
     for g in guides.values():
         db.session.add(g)
@@ -32,14 +35,14 @@ def createGuidelines():
 
 
 def createAGuideline(newTitle, newAuthors):
-    g = Guideline(title=newTitle, authors=newAuthors)
+    g = Guideline(title=newTitle.lower(), authors=newAuthors.lower())
     guides[newAuthors] = g
 
 
 def newExperiment(newTitle, newYear, newVenue, newAuthors, guidelines, newSettings):
-    p = Publication(title=newTitle, year=newYear, venue=newVenue,
-                    authors=newAuthors)
-    e = Experiment(settings=newSettings)
+    p = Publication(title=newTitle, year=newYear, venue=newVenue.lower(),
+                    authors=newAuthors.lower())
+    e = Experiment(settings=newSettings.lower())
     for g in guidelines:
         p.guidelines.append(guides[g])
     p.experiments.append(e)
@@ -49,22 +52,21 @@ def newExperiment(newTitle, newYear, newVenue, newAuthors, guidelines, newSettin
 
 
 def addExperiment(experiment, newSettings):
-    e = Experiment(settings=newSettings)
+    e = Experiment(settings=newSettings.lower())
     experiment.exp_pub.experiments.append(e)
 
     db.session.add(e)
     return e
 
-
 def addTask(newTaskType, newQuantity, experiment):
-    t = Task(task_type=newTaskType, quantity=newQuantity)
+    t = Task(task_type=newTaskType.lower(), quantity=newQuantity)
     t.task_parent = experiment
     db.session.add(t)
 
 
-def setExperimentDesign(newDesign, explicity, treatmentQuantity, experiment):
-    d = ExperimentDesign(design_description=newDesign, is_explicity_design=explicity,
-                         treatment_quantity=treatmentQuantity)
+def setExperimentDesign(newDesign, explicity, treatmentQuantity, experiment, normalizedDesing):
+    d = ExperimentDesign(design_description=newDesign.lower(), is_explicity_design=explicity,
+                         treatment_quantity=treatmentQuantity, design_normalized=normalizedDesing)
     experiment.design = d
     db.session.add(d)
 
@@ -72,35 +74,39 @@ def setExperimentDesign(newDesign, explicity, treatmentQuantity, experiment):
 def createSampling(strategy, experiment):
     s = Sampling()
     s.exp = experiment
-    r = Recruting(recruiting_strategy=strategy, parent_recru=s)
+    r = Recruting(recruiting_strategy=strategy.lower(), parent_recru=s)
     db.session.add(s)
     db.session.add(r)
     return s
 
 
 def addProfile(newProfile, newQuantity, sample):
-    sp = SamplingProfile(profile=newProfile,
+    sp = SamplingProfile(profile=newProfile.lower(),
                          quantity=newQuantity, parent_profile=sample)
     db.session.add(sp)
 
 
 def addCharacteristic(newCharac, sample):
-    sc = SamplingCharacteristic(charac=newCharac, parent_charac=sample)
+    sc = SamplingCharacteristic(charac=newCharac.lower(), parent_charac=sample)
     db.session.add(sc)
 
 
 def addMeasuriment(experiment, newMeasure='TIME', instrument=None, details=None):
-    m = Measurement(measurement_type=newMeasure)
+    m = Measurement(measurement_type=newMeasure.lower())
     if (instrument):
-        m.measurement_instruments = instrument
+        m.measurement_instruments = instrument.lower()
     if (details):
-        m.measurement_details = details
+        m.measurement_details = details.lower()
     experiment.measurements.append(m)
     db.session.add(m)
 
+# def attachDesign(experiment, ReclassifiedDesing):
+#     experiment.design_normalized=ReclassifiedDesing
+#     print('ReclassifiedDesing='+ReclassifiedDesing)
 
-def createStatistics(experiment, hasPower=0, details=None):
-    s = Statistics(has_power=hasPower, statistic_details=details)
+def createStatistics(experiment, hasPower=0, details=None, np_p=0):
+    s = Statistics(has_power=hasPower, statistic_details=details.lower())
+    s.p_or_np = np_p
     s.exp = experiment
     db.session.add(s)
 
@@ -109,12 +115,13 @@ def createPaper1():
     e = newExperiment('Answering software evolution questions: An empirical evaluation', 2013, 'IST',
                       'Lile Hattori; Marco D’Ambros; Michele Lanza; Mircea Lungu',
                       ['Wohlin et al.'], 'Laboratory')
+    # attachDesign(e, 'Independent groups')
     e.median_experiment_duration = 0.5
-    addTask(newTaskType='COMPREENSION', newQuantity=6, experiment=e)
-    setExperimentDesign(newDesign='between-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=6, experiment=e)
+    setExperimentDesign(newDesign='between-subjects with balanced design',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Voluntiers', e)
-    addProfile(newProfile='Posgrad Student', newQuantity=44, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=44, sample=s)
     addCharacteristic(newCharac='age', sample=s)
     addCharacteristic(newCharac='sex', sample=s)
     addCharacteristic(newCharac='nationality', sample=s)
@@ -123,32 +130,35 @@ def createPaper1():
     addCharacteristic(newCharac='Linux experience', sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 0, 't-test; Mann–Whitney')
+    createStatistics(e, 0, 'Shapiro–Wilk test; Student’s t-test; Mann–Whitney U test', 2)
 
 
 def createPaper2():
     e = newExperiment('The impact of Software Testing education on code reliability: An empirical assessment', 2018, 'JSS',
                       'Otávio Augusto Lazzarini Lemos; Fábio Fagundes Silveira; Fabiano Cutigi Ferrari; Alessandro Garcia',
                       ['Montgomery et al.'], 'Laboratory')
+    # attachDesign(e, 'Pretest and posttest control')
     e.median_task_duration = 2
+
     addTask(newTaskType='CONSTRUCTION', newQuantity=4, experiment=e)
-    setExperimentDesign(newDesign='cross-over design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+    setExperimentDesign(newDesign='pre-post test with control group',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Pretest and posttest control')
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=60, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 0, 't-test; Shapiro-Wilk')
+    createStatistics(e, 0, 'Student’s t-test; Shapiro-Wilk test', 2)
 
 
 def createPaper3():
     e = newExperiment('A replicated experiment for evaluating the effectiveness of pairing practice in PSP education', 2019, 'JSS',
                       'Guoping Rong; He Zhang; Bohan Liu; Qi Shan; Dong Shao',
                       [], 'Laboratory')
+    # attachDesign(e, 'Independent groups')
     e.median_task_duration = 2
     addTask(newTaskType='CONSTRUCTION', newQuantity=4, experiment=e)
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    setExperimentDesign(newDesign='Not Clear',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=120, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
@@ -158,39 +168,43 @@ def createPaper3():
     addMeasuriment(experiment=e, newMeasure='Others',
                    details='Number Of Errors')
     addMeasuriment(experiment=e, newMeasure='Others', details='grade')
-    createStatistics(e, 0, 'Wilcoxon')
+    createStatistics(e, 0, 'Wilcoxon rank-sum test')
 
 
 def createPaper4():
     e = newExperiment('On some end-user programming constructs and their understandability', 2018, 'JSS',
                       'M Mackowiak,; J Nawrocki; M Ochodek',
                       [], 'Laboratory')
+    # attachDesign(e, 'Independent groups')
     e.median_experiment_duration = 0.1
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=1, experiment=e)
+                        explicity=1, treatmentQuantity=1, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Not Clear', e)
-    addProfile(newProfile='Undergrad Student', newQuantity=114, sample=s)
+    addProfile(newProfile='Undergradstudent', newQuantity=114, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
-    createStatistics(e, 1, 'Mann-Whitney; Wilcoxon')
+    createStatistics(e, 1, 'Mann–Whitney–Willcoxon test; Shapiro–Wilk tests; exact Fisher test; post-hoc power analyses; Cliff’s δ effect size measure')
 
 
 def createPaper5():
     e = newExperiment('A controlled experiment in assessing and estimating software maintenance tasks', 2018, 'JSS',
                       'M Mackowiak,; J Nawrocki; M Ochodek',
                       [], 'Laboratory')
-    e.median_experiment_duration = 0.1
-    addTask(newTaskType='MAINTENANCE', newQuantity=17, experiment=e)
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    e.median_experiment_duration = 7
+    addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='Independent groups')
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Undergradstudent', newQuantity=23, sample=s)
-    addProfile(newProfile='Gradstudent', newQuantity=1, sample=s)
+    addProfile(newProfile='GradStudent', newQuantity=1, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 1, 'Mann-Whitney')
+    createStatistics(e, 0, 'Kruskal–Wallis rank-sum tests; Mann–Whitney U test')
 
 
 def createPaper6():
@@ -199,14 +213,21 @@ def createPaper6():
                       ['Wohlin et al.', 'Lott and Rombach'], 'Laboratory and Home')
     e.median_experiment_duration = 35
     e.median_task_duration = 4
-    addTask(newTaskType='CONSTRUCTION', newQuantity=27, experiment=e)
+    # attachDesign(e, '4-group crossover')
+    addTask(newTaskType='CONSTRUCTION', newQuantity=9, experiment=e)
+    addTask(newTaskType='CONSTRUCTION', newQuantity=9, experiment=e)
+    addTask(newTaskType='CONSTRUCTION', newQuantity=9, experiment=e)
     setExperimentDesign(newDesign='standard one factor and two treatments',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     s = createSampling('Voluntiers', e)
-    addProfile(newProfile='Gradstudent', newQuantity=34, sample=s)
-    addMeasuriment(experiment=e, newMeasure='CODE')
-    addMeasuriment(experiment=e, newMeasure='TIME')
-    createStatistics(e, 1, 'Kolmogorov–Smirnov; Shapiro–Wilk; Mann-Whitney')
+    addProfile(newProfile='GradStudent', newQuantity=34, sample=s)
+    addMeasuriment(experiment=e, newMeasure='CODE', instrument='tool')
+    addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
+    addCharacteristic(newCharac='Java experience', sample=s)
+    addCharacteristic(newCharac='Programming experience', sample=s)
+    addCharacteristic(newCharac='OO experience', sample=s)
+    addCharacteristic(newCharac='Industry experience', sample=s)
+    createStatistics(e, 1, 'Kolmogorov–Smirnov test; Shapiro–Wilk test; Mann–Whitney U test; Pearson product-moment correlation coefficient r; Cohen’s d; Wilcoxon W; Wilcoxon Z; Wilcoxon Exact')
 
 
 def createPaper7():
@@ -215,30 +236,15 @@ def createPaper7():
                       [], 'Laboratory')
     e.median_experiment_duration = 0.1
     e.median_task_duration = 9
+    # attachDesign(e, 'Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
     setExperimentDesign(newDesign='standard one factor and two treatments',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    s = createSampling('Extra grade', e)
-    addProfile(newProfile='Gradstudent', newQuantity=50, sample=s)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    s = createSampling('Voluntiers', e)
+    addProfile(newProfile='GradStudent', newQuantity=50, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 0, 'Mann-Whitney')
-
-
-def createPaper8():
-    e = newExperiment('Are team personality and climate related to satisfaction and software quality? Aggregating results from a twice replicated experiment', 2015, 'IST',
-                      'Acuña, S. T.; Gómez, M. N.; Hannay, J. E.; Juristo, N.; Pfahl, D.',
-                      [], 'Laboratory')
-    e.median_experiment_duration = 100
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
-
-    addMeasuriment(experiment=e, newMeasure='CODE')
-    createStatistics(e, 1, 'Meta-analyses of correlations')
-
-    s = createSampling('Not Clear', e)
-    addProfile(newProfile='Gradstudent', newQuantity=105, sample=s)
+    createStatistics(e, 0, 'Mann-Whitney test')
 
 
 def createPaper9():
@@ -246,12 +252,12 @@ def createPaper9():
                       'Fucci, D.; Turhan, B.; Juristo, N.; Dieste, O.; Tosun-Misirli, A.; Oivo, M.',
                       [], 'Company')
     e.median_experiment_duration = 5
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=1, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=1, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e)
-
     addMeasuriment(experiment=e, newMeasure='CODE')
-    createStatistics(e, 1, 'ANOVA')
+    createStatistics(e, 1, 'ANOVA; Barlett K-squared test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Professionals', newQuantity=30, sample=s)
@@ -260,53 +266,37 @@ def createPaper9():
 def createPaper10():
     e = newExperiment('Tester interactivity makes a difference in search-based software testing: A controlled experiment', 2016, 'IST',
                       'Marculescu, B.; Poulding, S.; Feldt, R.; Petersen, K.; Torkar, R. ',
-                      [], 'Company')
+                      ['A. Arcuri, L. Briand', 'A. Vargha , H.D. Delaney'], 'Company')
     e.median_task_duration = 0.75
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='crossover design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='TEST', newQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='TEST', newQuantity=1, experiment=e)
+    addTask(newTaskType='TEST', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='form')
     addMeasuriment(experiment=e, newMeasure='CODE', details='test cases')
-    createStatistics(e, 1, 'Mann-Whitney')
+    createStatistics(e, 1, 'Mann-Whitney U-test; Vargha and Delaney')
 
-    s = createSampling('Voluntiers', e)
+    s = createSampling('part of Course', e)
     addProfile(newProfile='Gradstudent', newQuantity=58, sample=s)
-
-
-def createPaper11():
-    e = newExperiment('Comparing the comprehensibility of requirements models: An experiment replication', 2018, 'IST',
-                      'Siqueira FL',
-                      ['Wohlin et al.'], 'Laboratory')
-    e.median_task_duration = 1.5
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
-
-    addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
-                   instrument='form')
-    addMeasuriment(experiment=e, newMeasure='TIME', instrument='Experimenter')
-
-    createStatistics(e, 0, 'Mann-Whitney')
-
-    s = createSampling('Part of Course', e)
-    addProfile(newProfile='Gradstudent', newQuantity=32, sample=s)
 
 
 def createPaper12():
     e = newExperiment('Live programming in practice: A controlled experiment on state machines for robotic behaviors', 2018, 'IST',
                       'Campusano, M.; Fabry, J.; Bergel, A.',
                       [], 'Laboratory')
+    # attachDesign(e, '4-group crossover')
     # experiment 1
     e.median_task_duration = 4
     setExperimentDesign(newDesign='within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
-    createStatistics(e, 0, 'Mann-Whitney')
+    createStatistics(e, 0, 'Mann–Whitney test')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Gradstudent', newQuantity=2, sample=s)
@@ -318,7 +308,8 @@ def createPaper12():
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
     setExperimentDesign(newDesign='within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='4-group crossover')
+    # attachDesign(e2, '4-group crossover')
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e2, newMeasure='TIME')
@@ -329,39 +320,16 @@ def createPaper12():
     addProfile(newProfile='Undergradstudent', newQuantity=8, sample=s2)
 
 
-def createPaper13():
-    e = newExperiment('Using cognitive dimensions to evaluate the usability of security APIs: An empirical investigation', 2019, 'IST',
-                      'Wijayarathna, C.; Arachchilage, N. A. G. ',
-                      ['Wohlin et al.'], 'Home')
-    e.median_task_duration = 1.5
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=1, experiment=e)
-    addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
-
-    addMeasuriment(experiment=e, newMeasure='CODE')
-    addMeasuriment(experiment=e, newMeasure='TIME')
-
-    createStatistics(e, 0, '')
-
-    s = createSampling('Reward', e)
-    addCharacteristic(newCharac='development experience', sample=s)
-    addCharacteristic(newCharac='Java experience', sample=s)
-    addCharacteristic(newCharac='Hour Java', sample=s)
-    addCharacteristic(newCharac='API Experience', sample=s)
-    addProfile(newProfile='Professionals', newQuantity=40, sample=s)
-
-
 def createPaper14():
     e = newExperiment('The impact of test-first programming on branch coverage and mutation score indicator of unit tests: An experiment', 2010, 'IST',
                       'Madeyski L.',
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 5
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='TEST', newQuantity=1, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
-    addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='design is one factor with the two treatments',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='CONSTRUCTION;TEST', newQuantity=10, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
@@ -370,7 +338,7 @@ def createPaper14():
         e, 1, 'Kolmogorov–Smirnov; Shapiro–Wilk; Mahalanobis distance;' +
         ' Levene’s test of homogeneity; Test of Equality of Covariance Matrices; MANCOVA')
 
-    s = createSampling('Not Clear', e)
+    s = createSampling('Part of Course', e)
     addCharacteristic(newCharac='programming experience', sample=s)
     addCharacteristic(newCharac='JUnit experience', sample=s)
     addCharacteristic(newCharac='Larger program in JAVA', sample=s)
@@ -383,35 +351,38 @@ def createPaper15():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     e.median_experiment_duration = 28
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='counterbalanced within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='upload')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 1, 'Wilcoxon')
+    createStatistics(e, 0, 'MANOVA; Wilcoxon rank sum test; ')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=13, sample=s)
 
 
 def createPaper16():
-    e = newExperiment('An Empirical Study on the Developers’ Perception of Software Coupling', 2012, 'ICSE',
+    e = newExperiment('An Empirical Study on the Developers’ Perception of Software Coupling', 2013, 'ICSE',
                       'Bavota, G.; Dit, B.; Oliveto, R.; Di Penta, M.; Poshyvanyk, D.; De Lucia, A.',
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=1, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=4, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
-    createStatistics(e, 1, 'Mann-Whitney test')
+    createStatistics(e, 1, 'Mann-Whitney test; cliff’s effect size')
 
-    s = createSampling('Not Clear', e)
+    s = createSampling('Voluntiers', e)
     addProfile(newProfile='GradStudent', newQuantity=49, sample=s)
     addProfile(newProfile='Undergradstudent', newQuantity=10, sample=s)
     addProfile(newProfile='Professionals', newQuantity=14, sample=s)
@@ -423,9 +394,11 @@ def createPaper17():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='Cross-Validation Design',
-                        explicity=1, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=12, experiment=e)
+                        explicity=1, treatmentQuantity=4, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='CONSTRUCTION', newQuantity=6, experiment=e)
+    addTask(newTaskType='CONSTRUCTION', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
@@ -444,9 +417,10 @@ def createPaper18():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=4, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='screen recorder')
@@ -463,25 +437,30 @@ def createPaper18():
 def createPaper19():
     e = newExperiment('The Effect of Noise on Software Engineers’ Performance', 2018, 'ESEM',
                       'Romano, S.; Scanniello, G.; Fucci, D.; Juristo, N.; Turhan, B.',
-                      ['Juristo and Moreno', 'Wohlin et al.'], 'Laboratory')
+                      ['Juristo and Moreno', 'Wohlin et al.', 'Jedlitschka et al.'], 'Laboratory')
     e.median_task_duration = 0.5
     e.median_experiment_duration = 0.1
+    # attachDesign(e, 'crossover design')
+    # setExperimentDesign(newDesign='ABBA crossover design', explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     setExperimentDesign(newDesign='AB/BA crossover design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
-    createStatistics(e, 1, 'Mann-Whitney; t-test; Shapiro test')
+    createStatistics(e, 1, 'Mann-Whitney U test; Shapiro test, Cliff’s δ effect')
 
     s = createSampling('Extra Grade', e)
     addProfile(newProfile='Undergradstudent', newQuantity=55, sample=s)
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
-    setExperimentDesign(newDesign='within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
-    addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e2)
+    # attachDesign(e2, 'crossover design')
+    setExperimentDesign(newDesign='AB/BA crossover design',
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='crossover design')
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e2)
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE')
     createStatistics(e2, 1, 'Mann-Whitney; Shapiro test')
 
@@ -495,16 +474,19 @@ def createPaper20():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=23, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=1, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=23, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='Others',
                    instrument='eye traker')
-    addMeasuriment(experiment=e, newMeasure='Others',
-                   instrument='Eclipse iTrace')
+    addMeasuriment(experiment=e, newMeasure='CODE',
+                   instrument='tool')
+    addMeasuriment(experiment=e, newMeasure='TIME',
+                   instrument='tool')
 
-    createStatistics(e, 1, 'wilcoxon test, Bonferroni p-value correction')
+    createStatistics(e, 1, 'wilcoxon test, Bonferroni p-value correction; Cohen’s d')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=3, sample=s)
@@ -518,13 +500,14 @@ def createPaper21():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='DEGUGGING', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Mann-Whitney')
+    createStatistics(e, 0, 'Mann-Whitney U test')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Undergradstudent', newQuantity=18, sample=s)
@@ -536,17 +519,18 @@ def createPaper22():
                       [], 'Laboratory')
     #e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=4, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=4, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='DEGUGGING', newQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='Others',
                    instrument='eye traker')
     addMeasuriment(experiment=e, newMeasure='Others',
                    instrument='Brain Image')
 
-    createStatistics(e, 1, 'Wilcoxon')
+    createStatistics(e, 1, 'Wilcoxon Signed-Rank Test; Cliff`s Delta (d) Effect Size')
 
     s = createSampling('Reward', e)
     addProfile(newProfile='Professionals', newQuantity=15, sample=s)
@@ -558,17 +542,16 @@ def createPaper23():
                       [], 'Laboratory')
     e.median_task_duration = 1.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=8, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=8, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='Others',
-                   instrument='eye traker')
-    addMeasuriment(experiment=e, newMeasure='Others',
-                   instrument='Brain Image')
+    addMeasuriment(experiment=e, newMeasure='TIME',
+                   instrument='form')
+    addMeasuriment(experiment=e, newMeasure='CODE')
 
-    createStatistics(e, 0, 'Kolmogorov-Smirnov; Levene test; t-test')
+    createStatistics(e, 0, 'Kolmogorov-Smirnov; Levene test; Student’s t-test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=26, sample=s)
@@ -581,16 +564,18 @@ def createPaper24():
                       ['R. Moen, T. Nolan, and L. Provost'], 'Laboratory')
     e.median_task_duration = 3
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='incomplete within-subjects design',
-                        explicity=1, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='Experimenter')
 
     createStatistics(
-        e, 1, 'Shapiro-Wilk, ANOVA, t-test, Wilcoxon; Kruskal Wallis test; Fishers Least-Significant Difference (LSD) mean comparison test')
+        e, 1, 'Shapiro-Wilk test; G*Power 3;  ANOVA')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=5, sample=s)
@@ -602,29 +587,31 @@ def createPaper25():
                       [], 'Laboratory')
     e.median_task_duration = 2
     e.median_experiment_duration = 0.1
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, '4-group crossover')
+    setExperimentDesign(newDesign='completely balanced design',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='form')
 
-    createStatistics(e, 1, 'Wilk-Shapiro; Mann-Whitney')
+    createStatistics(e, 1, 'Wilk-Shapiro test; Mann-Whitney test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=16, sample=s)
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, '4-group crossover')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e2)
+                        explicity=0, treatmentQuantity=2, experiment=e2, normalizedDesing='4-group crossover')
     e2.median_task_duration = 2
     addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE')
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE',
                    instrument='form')
-    createStatistics(e2, 1, 'Mann-Whitney; Shapiro test')
+    createStatistics(e2, 1, 'Mann-Whitney test; Shapiro-Wilk test; ANOVA')
 
     s2 = createSampling('Extra Grade', e2)
     addProfile(newProfile='Undergradstudent', newQuantity=20, sample=s2)
@@ -636,15 +623,16 @@ def createPaper26():
                       [], 'Laboratory')
     e.median_task_duration = 3
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='tool')
 
-    createStatistics(e, 1, 'Shapiro-Wilk test; t-test')
+    createStatistics(e, 1, 'Shapiro-Wilk test; post-hoc power analysis; t-test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Programming experience', sample=s)
@@ -659,8 +647,9 @@ def createPaper27():
                       ['Juristo and Moreno'], 'Laboratory')
     e.median_task_duration = 3
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
@@ -684,8 +673,9 @@ def createPaper28():
                       [], 'Laboratory')
     e.median_task_duration = 3
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='INSPECTION', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
@@ -704,14 +694,15 @@ def createPaper29():
                       [], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=23, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=23, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Wilcoxon')
+    createStatistics(e, 0, 'Mann-Whitney test')
 
     s = createSampling('Reward', e)
     addCharacteristic(newCharac='Industry experience', sample=s)
@@ -726,17 +717,21 @@ def createPaper30():
                       [], 'Laboratory')
     e.median_task_duration = 2.5
     #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=12, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 1, 'Wilcoxon')
+    createStatistics(e, 1, 'Wilcoxon Rank Sum test')
 
     s = createSampling('Not Clear', e)
-    addCharacteristic(newCharac='programmin experience', sample=s)
+    addCharacteristic(newCharac='Industry experience', sample=s)
+    addCharacteristic(newCharac='programming experience', sample=s)
     addCharacteristic(newCharac='Code Smells experience', sample=s)
 
     addProfile(newProfile='Professionals', newQuantity=19, sample=s)
@@ -750,7 +745,7 @@ def createPaper30():
 #     #e.median_experiment_duration = 28
 #     setExperimentDesign(newDesign='Factorial Design',
 #                         explicity=0, treatmentQuantity=3, experiment=e)
-#     addTask(newTaskType='COMPREENSION', newQuantity=12, experiment=e)
+#     addTask(newTaskType='COMPREHENSION', newQuantity=12, experiment=e)
 
 #     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 #     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -769,9 +764,11 @@ def createPaper32():
                       [], 'Laboratory')
     #e.median_task_duration = 2.5
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='within-subject, counterbalanced',
-                        explicity=1, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
@@ -789,8 +786,9 @@ def createPaper34():
                       [], 'Laboratory')
     #e.median_task_duration = 2.5
     #e.median_experiment_duration = 28
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='CONSTRUCTION', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
@@ -808,9 +806,11 @@ def createPaper35():
                       [], 'Home')
     #e.median_task_duration = 2.5
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='Within Subject Design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=11, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='COMPREHENSION', newQuantity=6, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='tool')
@@ -832,8 +832,9 @@ def createPaper36():
                       ['Wohlin et al.', 'Juristo and Moreno', 'Jedlitschka et al.'], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subjects balanced design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='tool')
@@ -849,31 +850,31 @@ def createPaper36():
     addProfile(newProfile='Undergradstudent', newQuantity=40, sample=s)
 
 
-def createPaper37():
-    e = newExperiment('Using Psycho-Physiological Measures to Assess Task Difficulty in Software Development', 2013, 'EASE',
-                      'Fritz, T.; Begel, A.; Müller, S. C.; Yigit-Elliott, S.; Züger, M.',
-                      [], 'Laboratory')
-    e.median_task_duration = 1.5
-    #e.median_experiment_duration = 28
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=8, experiment=e)
+# def createPaper37():
+#     e = newExperiment('Using Psycho-Physiological Measures to Assess Task Difficulty in Software Development', 2013, 'ICSE',
+#                       'Fritz, T.; Begel, A.; Müller, S. C.; Yigit-Elliott, S.; Züger, M.',
+#                       [], 'Laboratory')
+#     e.median_task_duration = 1.5
+#     #e.median_experiment_duration = 28
+#     setExperimentDesign(newDesign='',
+#                         explicity=0, treatmentQuantity=2, experiment=e)
+#     addTask(newTaskType='COMPREHENSION', newQuantity=8, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
-    addMeasuriment(experiment=e, newMeasure='Others',
-                   instrument='eye-tracking')
-    addMeasuriment(experiment=e, newMeasure='Others', instrument='EDA')
-    addMeasuriment(experiment=e, newMeasure='Others', instrument='EEG')
+#     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
+#     addMeasuriment(experiment=e, newMeasure='Others',
+#                    instrument='eye-tracking')
+#     addMeasuriment(experiment=e, newMeasure='Others', instrument='EDA')
+#     addMeasuriment(experiment=e, newMeasure='Others', instrument='EEG')
 
-    createStatistics(
-        e, 0, 'ANOVA')
+#     createStatistics(
+#         e, 0, 'ANOVA')
 
-    s = createSampling('Reward', e)
-    addCharacteristic(newCharac='age', sample=s)
-    addCharacteristic(newCharac='gender', sample=s)
-    addCharacteristic(newCharac='Professional experience', sample=s)
+#     s = createSampling('Reward', e)
+#     addCharacteristic(newCharac='age', sample=s)
+#     addCharacteristic(newCharac='gender', sample=s)
+#     addCharacteristic(newCharac='Professional experience', sample=s)
 
-    addProfile(newProfile='Professionals', newQuantity=15, sample=s)
+#     addProfile(newProfile='Professionals', newQuantity=15, sample=s)
 
 
 def createPaper39():
@@ -882,8 +883,10 @@ def createPaper39():
                       ['Wohlin et al.'], 'Laboratory')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 28
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='counter-balanced design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
+    addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='email')
@@ -903,19 +906,20 @@ def createPaper39():
 def createPaper40():
     e = newExperiment('Understanding JavaScript Event-Based Interactions', 2014, 'ICSE',
                       'Alimadadi, S.; Sequeira, S.; Mesbah, A.; Pattabiraman, K.',
-                      [], 'Laboratory')
+                      ['Wohlin et al.'], 'Laboratory')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 28
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=6, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='paper form')
 
     createStatistics(
-        e, 0, 'Independent-samples t-tests with unequal variances')
+        e, 0, 'Independent-samples t-tests with unequal variances; Mann-Whitney U test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Web programming experience', sample=s)
@@ -926,10 +930,11 @@ def createPaper40():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Company')
+    # attachDesign(e2, 'Independent groups')
     setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='Independent groups')
     #e2.median_task_duration = 2
-    addTask(newTaskType='COMPREENSION', newQuantity=4, experiment=e2)
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='TIME')
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE',
                    instrument='paper form')
@@ -946,15 +951,16 @@ def createPaper41():
                       ['Wohlin et al.'], 'Home')
     #e.median_task_duration = 2
     e.median_experiment_duration = 14
-    setExperimentDesign(newDesign='factorial design',
-                        explicity=1, treatmentQuantity=4, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='two-by-two, between-subjects, factorial design',
+                        explicity=1, treatmentQuantity=4, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
 
     createStatistics(
-        e, 0, 't-test; Tests of normality; Levenes test; ANOVA')
+        e, 0, 'Bartlett’s test of sphericity; MANOVA')
 
     s = createSampling('Reward', e)
 
@@ -967,15 +973,16 @@ def createPaper42():
                       [], 'Home')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 14
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='DEGUGGING', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='tool')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
 
     createStatistics(
-        e, 1, 'Cohens; t-test')
+        e, 1, 'Cohen’s d; t-test')
 
     s = createSampling('Not Clear', e)
 
@@ -989,15 +996,16 @@ def createPaper43():
                       [], 'Home')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 14
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=9, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='screen recorder')
 
     createStatistics(
-        e, 0, 'Wilcoxon')
+        e, 0, 'Wilcoxon Signed Rank Test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Java experience', sample=s)
@@ -1012,11 +1020,10 @@ def createPaper45():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 14
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
-    addTask(newTaskType='DEGUGGING', newQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=1, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='CONSTRUCTION; DEGUGGING; COMPREHENSION', newQuantity=3, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
@@ -1036,12 +1043,15 @@ def createPaper45():
 def createPaper46():
     e = newExperiment('The Impact of Imperfect Change Rules on Framework API Evolution Identification: An Empirical Study', 2015, 'ESE',
                       'Wu, W.; Serveaux, A.; Guéhéneuc, Y. G.; Antoniol, G.',
-                      [], 'Home')
+                      ['Wohlin et al.'], 'Home')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 14
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=13, experiment=e)
+    # attachDesign(e, '4-group crossover')
+    setExperimentDesign(newDesign='complete block design',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='4-group crossover')
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e)
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='tool')
@@ -1049,7 +1059,7 @@ def createPaper46():
                    instrument='tool')
 
     createStatistics(
-        e, 0, 't-test')
+        e, 1, 'Kruskal-Wallis test; Cliff`s Delta d')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='gender', sample=s)
@@ -1067,10 +1077,11 @@ def createPaper47():
                       [], 'Company')
     e.median_task_duration = 5
     e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='crossover design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=3, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=17, experiment=e)
-    addTask(newTaskType='DEGUGGING', newQuantity=2, experiment=e)
+    addTask(newTaskType='CONSTRUCTION', newQuantity=17, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE',
                    instrument='tool')
@@ -1092,10 +1103,10 @@ def createPaper48():
                       [], 'Company')
     e.median_task_duration = 2
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='DEGUGGING', newQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=4, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='form')
@@ -1103,7 +1114,7 @@ def createPaper48():
                    instrument='Experimenter')
 
     createStatistics(
-        e, 0, 'Kolmogorov-Smirnov; Levene test; t-test')
+        e, 0, 'Kolmogorov-Smirnov; Levene test; Student’s t-test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Java Experience', sample=s)
@@ -1120,17 +1131,21 @@ def createPaper49():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e)
-    addTask(newTaskType='CONSTRUCTION', newQuantity=4, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='MAINTENANCE; CONSTRUCTION', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
+    addMeasuriment(experiment=e, newMeasure='CODE')
 
     createStatistics(
         e, 0, 'Wilcoxon; t-test')
 
     s = createSampling('Not Clear', e)
+    addCharacteristic(newCharac='Programming Experience', sample=s)
+    addCharacteristic(newCharac='age', sample=s)
+    addCharacteristic(newCharac='Java Experience', sample=s)
     addCharacteristic(newCharac='Programming Experience', sample=s)
 
     addProfile(newProfile='Student', newQuantity=12, sample=s)
@@ -1142,20 +1157,21 @@ def createPaper50():
                       [], 'Laboratory')
     e.median_task_duration = 3
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='Balanced crossover design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
 
     createStatistics(
-        e, 0, 'non-directional one-sample sign test;Kruskal-Wallis')
+        e, 0, 'non-directional one-sample sign test; Kruskal-Wallis; Cliff`s d')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Professional Experience', sample=s)
     addCharacteristic(newCharac='JUnit Experience', sample=s)
 
-    addProfile(newProfile='Gradstudent', newQuantity=12, sample=s)
+    addProfile(newProfile='Gradstudent', newQuantity=21, sample=s)
 
 def createPaper51():
     e = newExperiment('CodeHint: Dynamic and Interactive Synthesis of Code Snippets'
@@ -1164,9 +1180,12 @@ def createPaper51():
                       [], 'Laboratory')
     #e.median_task_duration = 3
     #e.median_experiment_duration = 2
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='within-subjects counterbalanced',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
+    addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
+    addTask(newTaskType='MAINTENANCE', newQuantity=5, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1177,13 +1196,14 @@ def createPaper51():
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='Professional Experience', sample=s)s
 
-    addProfile(newProfile='Student', newQuantity=12, sample=s)
+    addProfile(newProfile='Gradstudent', newQuantity=12, sample=s)
+    addProfile(newProfile='Undergradstudent', newQuantity=2, sample=s)
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, '4-group crossover')
     setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
-    e2.median_task_duration = 2
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='4-group crossover')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='TIME')
     addMeasuriment(experiment=e2, newMeasure='CODE')
@@ -1201,32 +1221,35 @@ def createPaper52():
                       [], 'Laboratory')
     #e.median_task_duration = 3
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(
-        e, 0, 'Mann-Whitney')
+    createStatistics(e, 0, 'Mann-Whitney')
 
-    s = createSampling('Voluntiers', e)
+    s = createSampling('Paid', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
+    addCharacteristic(newCharac='Java Experience', sample=s)
+    addCharacteristic(newCharac='C# Experience', sample=s)
+    addCharacteristic(newCharac='Refactoring Experience', sample=s)
 
     addProfile(newProfile='Student', newQuantity=6, sample=s)
     addProfile(newProfile='Professionals', newQuantity=2, sample=s)
 
 def createPaper53():
-    e = newExperiment('Does syntax highlighting help programming novices?'
-                      , 2018, 'ESE',
+    e = newExperiment('Does syntax highlighting help programming novices?', 2018, 'ESE',
                       'Hannebauer, C.; Hesenius, M.; Gruhn, V.',
                       [], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=20, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='COMPREHENSION', newQuantity=20, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
 
@@ -1247,8 +1270,9 @@ def createPaper55():
                       [], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 2
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='within-subjects balanced design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='DEGUGGING', newQuantity=20, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
@@ -1270,8 +1294,9 @@ def createPaper56():
                       [], 'Laboratory')
     e.median_task_duration = 1.5
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='DEGUGGING', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'tool')
@@ -1293,8 +1318,9 @@ def createPaper58():
                       [], 'Laboratory')
     e.median_task_duration = 1.5
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='Latin Square design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'tool')
@@ -1309,11 +1335,12 @@ def createPaper58():
     addProfile(newProfile='Gradstudent', newQuantity=10, sample=s)
 
     # experiment 2
-    e2 = addExperiment(e, newSettings='Company')
-    setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
+    e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, 'crossover design')
+    setExperimentDesign(newDesign='Latin Square design',
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='crossover design')
     #e2.median_task_duration = 2
-    addTask(newTaskType='COMPREENSION', newQuantity=4, experiment=e2)
+    addTask(newTaskType='COMPREHENSION', newQuantity=4, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE' , instrument = 'tool')
     addMeasuriment(experiment=e2, newMeasure='TIME' , instrument = 'tool')
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE' , instrument = 'screen recorder')
@@ -1331,8 +1358,9 @@ def createPaper59():
                       [], 'Laboratory')
     e.median_task_duration = 1.5
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='one-factor two-level, within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'tool')
@@ -1347,8 +1375,9 @@ def createPaper59():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, 'crossover design')
     setExperimentDesign(newDesign='one-factor two-level, within-subjects design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='crossover design')
     #e2.median_task_duration = 2
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE' , instrument = 'tool')
@@ -1369,9 +1398,10 @@ def createPaper60():
                       [], 'Laboratory')
     e.median_task_duration = 1.2
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=3, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='COMPREHENSION', newQuantity=3, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'form')
@@ -1391,8 +1421,9 @@ def createPaper61():
                       [], 'Home')
     e.median_task_duration = 1.2
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'tool')
@@ -1411,8 +1442,9 @@ def createPaper62():
                       [], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='between-subject design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='randomized block design',
+                        explicity=1, treatmentQuantity=4, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'tool')
@@ -1438,8 +1470,9 @@ def createPaper63():
                       [], 'Laboratory')
     #e.median_task_duration = 1
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='repeated measures with cross-over experimental design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1454,8 +1487,9 @@ def createPaper63():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, 'crossover design')
     setExperimentDesign(newDesign='repeated measures with cross-over experimental design',
-                        explicity=1, treatmentQuantity=2, experiment=e2)
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='crossover design')
     #e2.median_task_duration = 2
     addTask(newTaskType='CONSTRUCTION', newQuantity=6, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='TIME')
@@ -1469,8 +1503,9 @@ def createPaper63():
 
     # experiment 3
     e3 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e3, 'crossover design')
     setExperimentDesign(newDesign='repeated measures with cross-over experimental design',
-                        explicity=1, treatmentQuantity=2, experiment=e3)
+                        explicity=1, treatmentQuantity=2, experiment=e3, normalizedDesing='crossover design')
     #e2.median_task_duration = 2
     addTask(newTaskType='CONSTRUCTION', newQuantity=6, experiment=e3)
     addMeasuriment(experiment=e3, newMeasure='TIME')
@@ -1489,8 +1524,9 @@ def createPaper64():
                       [], 'Laboratory')
     #e.median_task_duration = 1
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='factorial design',
-                        explicity=1, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='2x2 randomized between-subject factorial design',
+                        explicity=1, treatmentQuantity=3, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1510,8 +1546,9 @@ def createPaper65():
                       [], 'Laboratory')
     e.median_task_duration = 5
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='factorial design',
-                        explicity=1, treatmentQuantity=4, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=4, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form', details='TAM, self-estimation and diaries')
@@ -1526,8 +1563,9 @@ def createPaper65():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
-    setExperimentDesign(newDesign='factorial design',
-                        explicity=1, treatmentQuantity=4, experiment=e2)
+    # attachDesign(e2, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=4, experiment=e2, normalizedDesing='Independent groups')
     #e2.median_task_duration = 2
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE', instrument='form', details='TAM, self-estimation and diaries')
@@ -1547,8 +1585,9 @@ def createPaper66():
                       [], 'Laboratory')
     e.median_task_duration = 0.5
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='between-subject design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='within-subjects design',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='CONSTRUCTION', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1569,8 +1608,9 @@ def createPaper67():
                       [], 'Laboratory')
     e.median_task_duration = 0.5
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'Pretest and posttest control')
     setExperimentDesign(newDesign='partially counter-balanced repeated measures design',
-                        explicity=1, treatmentQuantity=3, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Pretest and posttest control')
     addTask(newTaskType='REVIEW', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='tool')
@@ -1592,8 +1632,9 @@ def createPaper68():
                       [], 'Laboratory')
     e.median_task_duration = 0.5
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='factorial design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
@@ -1615,8 +1656,9 @@ def createPaper69():
                       ['Wohlin et al.'], 'Laboratory')
     #e.median_task_duration = 0.5
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='one factor and two treatments with two blocking variables',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='TEST', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
@@ -1635,15 +1677,16 @@ def createPaper70():
                       ['Wohlin et al.'], 'Laboratory')
     #e.median_task_duration = 0.5
     e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=3, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
 
     createStatistics(e, 0, '')
 
-    s = createSampling('Not Clear', e)
+    s = createSampling('Part of Course', e)
     #addCharacteristic(newCharac='Test Experience', sample=s)
 
     addProfile(newProfile='Undergradstudent', newQuantity=55, sample=s)
@@ -1656,8 +1699,9 @@ def createPaper71():
                       ['Kitchenham, B.', 'Seaman, C.B.'], 'Laboratory')
     #e.median_task_duration = 0.5
     e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
@@ -1671,8 +1715,9 @@ def createPaper71():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
+    # attachDesign(e2, 'Independent groups')
     setExperimentDesign(newDesign='factorial design',
-                        explicity=1, treatmentQuantity=4, experiment=e2)
+                        explicity=1, treatmentQuantity=4, experiment=e2, normalizedDesing='Independent groups')
     #e2.median_task_duration = 2
     addTask(newTaskType='CONSTRUCTION', newQuantity=4, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE', instrument='audio recorder')
@@ -1692,8 +1737,9 @@ def createPaper72():
                       ['Wohlin et al.'], 'Laboratory')
     e.median_task_duration = 4
     #e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=4, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1713,10 +1759,10 @@ def createPaper73():
                       ['Juristo and Moreno'], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-group user study',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
+    addTask(newTaskType='MAINTENANCE; COMPREHENSION', newQuantity=3, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1729,16 +1775,17 @@ def createPaper73():
     addProfile(newProfile='Professionals', newQuantity=1, sample=s)
     addProfile(newProfile='Gradstudent', newQuantity=9, sample=s)
 
-def createPaper74(): #Parei aqui
+def createPaper74():
     e = newExperiment('Labeling source code with information retrieval methods: an empirical study'
                       , 2014, 'ESE',
                       'De Lucia, A.; Di Penta, M.; Oliveto, R.; Panichella, A.; Panichella, S.',
                       [], 'Home')
     #e.median_task_duration = 1
     e.median_experiment_duration = 14
+    # attachDesign(e, 'Pretest and posttest control')
     setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=4, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=10, experiment=e)
+                        explicity=0, treatmentQuantity=4, experiment=e, normalizedDesing='Pretest and posttest control')
+    addTask(newTaskType='COMPREHENSION', newQuantity=10, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
@@ -1755,10 +1802,10 @@ def createPaper74(): #Parei aqui
     # experiment 2
     e2 = addExperiment(e, newSettings='Home')
     setExperimentDesign(newDesign='factorial design',
-                        explicity=0, treatmentQuantity=4, experiment=e2)
+                        explicity=0, treatmentQuantity=4, experiment=e2, normalizedDesing='Pretest and posttest control')
     #e2.median_task_duration = 2
     e2.median_experiment_duration = 14
-    addTask(newTaskType='COMPREENSION', newQuantity=10, experiment=e2)
+    addTask(newTaskType='COMPREHENSION', newQuantity=10, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e2, newMeasure='TIME')
 
@@ -1779,8 +1826,9 @@ def createPaper75():
                       [], 'Laboratory')
     #e.median_task_duration = 1
     #e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='unbalanced design',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', details= 'Test Coverage')
@@ -1799,8 +1847,9 @@ def createPaper76():
                       [], 'Laboratory')
     #e.median_task_duration = 1
     #e.median_experiment_duration = 30
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='Latin Square',
-                        explicity=1, treatmentQuantity=3, experiment=e)
+                        explicity=1, treatmentQuantity=3, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='DEGUGGING', newQuantity=9, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
@@ -1821,8 +1870,9 @@ def createPaper77():
                       [], 'Laboratory')
     #e.median_task_duration = 1
     #e.median_experiment_duration = 30
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='two-way mixed model ANOVA design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='MAINTENANCE', newQuantity=10, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
@@ -1844,8 +1894,9 @@ def createPaper78():
                       [], 'Laboratory')
     e.median_task_duration = 0.45
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=10, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='tool')
@@ -1862,29 +1913,29 @@ def createPaper78():
     addProfile(newProfile='Student', newQuantity=42, sample=s)
     addProfile(newProfile='Professionals', newQuantity=12, sample=s)
 
-def createPaper79():
-    e = newExperiment('An Empirical Study on the Impact of C++ Lambdas and Programmer Experience'
-                      , 2013, 'IST',
-                      'Mäntylä, M. V.; Itkonen, J.',
-                      [], 'Laboratory')
-    #e.median_task_duration = 4
-    e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='TEST', newQuantity=2, experiment=e)
+# def createPaper79():
+#     e = newExperiment('An Empirical Study on the Impact of C++ Lambdas and Programmer Experience'
+#                       , 2013, 'IST',
+#                       'Mäntylä, M. V.; Itkonen, J.',
+#                       [], 'Laboratory')
+#     #e.median_task_duration = 4
+#     e.median_experiment_duration = 30
+#     setExperimentDesign(newDesign='Paired Comparison Design',
+#                         explicity=0, treatmentQuantity=2, experiment=e)
+#     addTask(newTaskType='TEST', newQuantity=2, experiment=e)
 
-    addMeasuriment(experiment=e, newMeasure='CODE')
-    addMeasuriment(experiment=e, newMeasure='TIME')
+#     addMeasuriment(experiment=e, newMeasure='CODE')
+#     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'F-Score')
+#     createStatistics(e, 0, 'F-Score')
 
-    s = createSampling('Not Clear', e)
-    addCharacteristic(newCharac='credit', sample=s)
-    addCharacteristic(newCharac='years of Study', sample=s)
-    addCharacteristic(newCharac='Programming Experience', sample=s)
-    addCharacteristic(newCharac='Test Experience', sample=s)
+#     s = createSampling('Not Clear', e)
+#     addCharacteristic(newCharac='credit', sample=s)
+#     addCharacteristic(newCharac='years of Study', sample=s)
+#     addCharacteristic(newCharac='Programming Experience', sample=s)
+#     addCharacteristic(newCharac='Test Experience', sample=s)
 
-    addProfile(newProfile='Gradstudent', newQuantity=130, sample=s)
+#     addProfile(newProfile='Gradstudent', newQuantity=130, sample=s)
 
 def createPaper80():
     e = newExperiment('An Experimental Evaluation of Test Driven Development vs. Test-Last Development with Industry Professionals'
@@ -1893,8 +1944,9 @@ def createPaper80():
                       [], 'Laboratory')
     #e.median_task_duration = 4
     e.median_experiment_duration = 30
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='email')
@@ -1915,8 +1967,9 @@ def createPaper81():
                       [], 'Laboratory')
     e.median_task_duration = 0.45
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'Pretest and posttest control')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Pretest and posttest control')
     addTask(newTaskType='TEST', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', details='code and test')
@@ -1939,8 +1992,9 @@ def createPaper82():
                       [], 'Laboratory')
     e.median_task_duration = 0.45
     #e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=6, experiment=e)
+    # attachDesign(e, 'Pretest and posttest control')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=6, experiment=e, normalizedDesing='Pretest and posttest control')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
@@ -1963,8 +2017,9 @@ def createPaper83():
                       [], 'Laboratory')
     e.median_task_duration = 1
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'Pretest and posttest control')
     setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=6, experiment=e)
+                        explicity=0, treatmentQuantity=6, experiment=e, normalizedDesing='Pretest and posttest control')
     addTask(newTaskType='DEGUGGING', newQuantity=10, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
@@ -1985,8 +2040,9 @@ def createPaper84():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 30
+    # attachDesign(e, '4-group crossover')
     setExperimentDesign(newDesign='paired design one factor and two treatments',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
@@ -2010,8 +2066,9 @@ def createPaper85():
                       [], 'Laboratory')
     e.median_task_duration = 1.6
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'Pretest and posttest control')
     setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='Pretest and posttest control')
     addTask(newTaskType='MAINTENANCE', newQuantity=2, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE')
@@ -2032,9 +2089,10 @@ def createPaper86():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 30
+    # attachDesign(e, 'crossover design')
     setExperimentDesign(newDesign='cross validation experimental design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
-    addTask(newTaskType='COMPREENSION', newQuantity=5, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='crossover design')
+    addTask(newTaskType='COMPREHENSION', newQuantity=5, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
@@ -2056,8 +2114,9 @@ def createPaper87():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='between-subjects design',
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=6, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
@@ -2072,8 +2131,8 @@ def createPaper87():
 
     # experiment 2
     e2 = addExperiment(e, newSettings='Laboratory')
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e2)
+    setExperimentDesign(newDesign='between-subjects design',
+                        explicity=1, treatmentQuantity=2, experiment=e2, normalizedDesing='Independent groups')
     e2.median_task_duration = 2
     #e2.median_experiment_duration = 14
     addTask(newTaskType='CONSTRUCTION', newQuantity=10, experiment=e2)
@@ -2095,8 +2154,9 @@ def createPaper88():
                       ['Wohlin et al.'], 'Home')
     #e.median_task_duration = 0.8
     #e.median_experiment_duration = 30
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=2, experiment=e)
+    # attachDesign(e, '4-group crossover')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=2, experiment=e, normalizedDesing='4-group crossover')
     addTask(newTaskType='REVIEW', newQuantity=3, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='Others', details='MRI scanner data')
@@ -2116,8 +2176,9 @@ def createPaper89():
                       [], 'Laboratory')
     #e.median_task_duration = 0.8
     e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Paired Comparison Design',
-                        explicity=0, treatmentQuantity=5, experiment=e)
+    # attachDesign(e, 'Independent groups')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=5, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='USB stick')
@@ -2136,8 +2197,9 @@ def createPaper90():
                       [], 'Laboratory')
     e.median_task_duration = 2
     #e.median_experiment_duration = 2
+    # attachDesign(e, 'Independent groups')
     setExperimentDesign(newDesign='between-subjects experiment design',
-                        explicity=1, treatmentQuantity=2, experiment=e)
+                        explicity=1, treatmentQuantity=2, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
@@ -2152,13 +2214,14 @@ def createPaper90():
 
 def createPaper91():
     e = newExperiment('Decoding the representation of code in the brain: An fMRI study of code review and expertise'
-                      , 2011, 'TSE',
+                      , 2017, 'ICSE',
                       'Floyd, B.; Santander, T.; Weimer, W.',
                       [], 'Laboratory')
     #e.median_task_duration = 2
     #e.median_experiment_duration = 2
-    setExperimentDesign(newDesign='Factorial Design',
-                        explicity=0, treatmentQuantity=3, experiment=e)
+    # attachDesign(e, 'crossover design')
+    setExperimentDesign(newDesign='',
+                        explicity=0, treatmentQuantity=3, experiment=e, normalizedDesing='crossover design')
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e)
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
@@ -2183,12 +2246,9 @@ def before_first_request_func():
     createPaper5()
     createPaper6()
     createPaper7()
-    createPaper8()
     createPaper9()
     createPaper10()
-    createPaper11()
     createPaper12()
-    createPaper13()
     createPaper14()
     createPaper15()
     createPaper16()
@@ -2209,7 +2269,6 @@ def before_first_request_func():
     createPaper32()
     createPaper34()
     createPaper36()
-    createPaper37()
     createPaper39()
     createPaper40()
     createPaper41()
@@ -2245,7 +2304,7 @@ def before_first_request_func():
     createPaper75()
     createPaper76()
     createPaper78()
-    createPaper79()
+    # createPaper79()
     createPaper80()
     createPaper81()
     createPaper82()

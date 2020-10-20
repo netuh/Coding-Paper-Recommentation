@@ -85,6 +85,7 @@ class ExperimentDesign(db.Model):
     experiment = db.relationship("Experiment", back_populates="design")
     treatment_quantity = db.Column(db.Integer, default=1)
     design_description = db.Column(db.String(100))
+    design_normalized = db.Column(db.String(100))
     is_explicity_design = db.Column(db.Integer, default=0)
 
 
@@ -115,22 +116,26 @@ class Sampling(db.Model):
         return total
 
     def sample_classification(self):
-        has_student = False
-        has_professional = False
         total = 0
-        classification = 0
+        student = 0
+        professional = 0
         for a_profile in self.profiles:
-            if (a_profile.profile == 'Professionals'):
-                has_professional = True
-            else:
-                has_student = True
+            if a_profile.profile == 'undergradstudent':
+                student += a_profile.quantity
+            elif a_profile.profile == 'gradstudent':
+                student += a_profile.quantity
+            elif a_profile.profile == 'student':
+                student += a_profile.quantity
+            elif a_profile.profile == 'professionals':
+                professional += a_profile.quantity
             total += a_profile.quantity
-        if (has_student and has_professional):
+        if student > 0 and professional > 0:
             return 'mix', total
-        elif (has_professional):
-            return 'professional_only', total
-        else:
+        if student > 0:
             return 'student_only', total
+        if professional > 0:
+            return 'professional_only', total
+        return 'others', total
 
 
 class Recruting(db.Model):
@@ -174,4 +179,5 @@ class Statistics(db.Model):
     exp_id = db.Column(db.Integer, db.ForeignKey(
         'experiment.exp_id'), nullable=False)
     statistic_details = db.Column(db.String(200))
+    p_or_np = db.Column(db.String(200))
     has_power = db.Column(db.Integer, default=0)

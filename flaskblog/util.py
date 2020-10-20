@@ -28,7 +28,6 @@ def create_plot_violin(dic_data, message='total'):
     data = []
     counter = 0
     for key, piece_of_data in dic_data.items():
-        print(key)
         df = pd.DataFrame({'y': piece_of_data})
         total = 0
         for data_point in piece_of_data:

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"wo",
+				"Wohlin"
+			],
+			[
+				"des",
+				"designs\tset ⟠"
+			],
+			[
+				"min",
+				"min_score"
+			],
+			[
 				"measurement_",
 				"measurement_instruments"
 			],
@@ -200,10 +212,27 @@
 	"buffers":
 	[
 		{
-			"file": "flaskblog/finder/routes.py",
+			"file": "flaskblog/models.py",
 			"settings":
 			{
-				"buffer_size": 989,
+				"buffer_size": 7101,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "flaskblog/util.py",
+			"settings":
+			{
+				"buffer_size": 1679,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "run.py",
+			"settings":
+			{
+				"buffer_size": 100238,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -285,23 +314,28 @@
 	"expanded_folders":
 	[
 		"/Users/netuh/git/Coding-Paper-Recommentation",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates"
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog"
 	],
 	"file_history":
 	[
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/models.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/run.py",
+		"/Users/netuh/Downloads/Conference-LaTeX-template_10-17-19/conference_101719.tex",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/finder/forms.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/finder/routes.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/finder/select.html",
+		"/Users/netuh/git/IST_Coding/coding_tool/templates/select_articles.html",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/measurements/routes.py",
+		"/Users/netuh/git/IST_Coding/coding_tool/article/forms.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/__init__.py",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/layout.html",
+		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/measurements/measurements_general.html",
 		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/statistics/routes.py",
 		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/data_vizualization.html",
 		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/statistics/statistics_general.html",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/__init__.py",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/models.py",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/measurements/routes.py",
 		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/statistics/__init__.py",
-		"/Users/netuh/git/Coding-Paper-Recommentation/run.py",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/templates/measurements/measurements_general.html",
 		"/Users/netuh/git/Coding-Paper-Recommentation/.gitignore",
 		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/task/routes.py",
-		"/Users/netuh/git/Coding-Paper-Recommentation/flaskblog/finder/routes.py",
 		"/Users/netuh/git/Coding-Paper-Recommentation/Coding-Paper-Recommentation.sublime-project",
 		"/Users/netuh/git/Coding-Paper-Recommentation/requirements.txt",
 		"/Users/netuh/Downloads/JogoDamas/src/Componentes/Coordenada.java",
@@ -375,7 +409,6 @@
 		"/Users/netuh/git/12-Error-Pages/flaskblog/static/profile_pics/2e32b4c96a8d8f10.jpg",
 		"/Users/netuh/git/12-Error-Pages/flaskblog/models.py",
 		"/Users/netuh/git/IST_Coding/coding_tool/measurements/routes.py",
-		"/Users/netuh/git/IST_Coding/coding_tool/article/forms.py",
 		"/Users/netuh/Google Drive/UNICAP/POO/projetos/2020.1/projetopoo1gq/src/projetopoo1gq/ProjetoPoo1GQ.java",
 		"/Users/netuh/Downloads/CatolicaFood/src/catolicafood/menu/Menu.java",
 		"/Users/netuh/git/IST_Coding/coding_tool/__init__.py",
@@ -394,7 +427,6 @@
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/guidelines.html",
 		"/Users/netuh/git/IST_Coding/coding_tool/config.py",
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/detail_article2.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/select_articles.html",
 		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/09-Pagination/flaskblog/routes.py",
 		"/Users/netuh/Downloads/code_snippets-master/Python/Flask_Blog/09-Pagination/flaskblog/templates/user_posts.html",
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/home.html",
@@ -413,11 +445,7 @@
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/measurements_general.html",
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/subjective_measurements.html",
 		"/Users/netuh/git/IST_Coding/coding_tool/templates/distribution.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/measurements/__init__.py",
-		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/cajazeiras.sumocfg",
-		"/Users/netuh/Google Drive/research/pos-doc/Sumo - Emulacao Cajazeiras/simu.xml",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/duration.html",
-		"/Users/netuh/git/IST_Coding/coding_tool/templates/tasks.html"
+		"/Users/netuh/git/IST_Coding/coding_tool/measurements/__init__.py"
 	],
 	"find":
 	{
@@ -428,6 +456,7 @@
 		"height": 161.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -435,6 +464,12 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"9, 'ICSE'",
+			"ICSE",
+			"createPaper8",
+			"cross",
+			"5",
+			"sample_classification",
 			"Form",
 			"questionaire",
 			"QUESTION",
@@ -467,16 +502,16 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "flaskblog/finder/routes.py",
+					"file": "flaskblog/models.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 989,
+						"buffer_size": 7101,
 						"regions":
 						{
 						},
@@ -507,68 +542,203 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
 								"bh_default",
 								"bh_default_center",
 								"bh_default_open",
 								"bh_default_close",
 								"bh_default_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
 								"bh_regex",
 								"bh_regex_center",
 								"bh_regex_open",
 								"bh_regex_close",
 								"bh_regex_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
 								"bh_single_quote_close",
-								"bh_single_quote_content"
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
 							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
+						"translation.y": 988.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "flaskblog/util.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1679,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "run.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 100238,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								77594,
+								77594
+							]
+						],
+						"settings":
+						{
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content"
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 34875.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

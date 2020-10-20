@@ -1,74 +1,145 @@
-from flask import render_template, request, Blueprint, make_response, jsonify
-from flaskblog.models import Publication, Sampling
+from flask import render_template, request, Blueprint, redirect, url_for, session, jsonify
 from flaskblog.finder.forms import SelectArticleForm
+from flaskblog.models import *
 from flaskblog import db
 import scholarly
 import json
 from sqlalchemy import or_
 
+
 finder = Blueprint('finder', __name__)
 
 
-@finder.route("/finder/select", methods=['GET', 'POST'])
-def index():
+@finder.route("/select", methods=['GET', 'POST'])
+def select():
     form = SelectArticleForm()
 
-    samplings = Sampling.query.all()
-    max_value = -1
-    min_value = 600
-    for s in samplings:
-        if (s.sampleQuantity() > max_value):
-            max_value = s.sampleQuantity()
-        if (s.sampleQuantity() < min_value):
-            min_value = s.sampleQuantity()
+    design = ExperimentDesign.query.all()
+    availableDesign = []
+    for s in design:
+        tupleWord = tuple((s.design_normalized, s.design_normalized))
+        if (not tupleWord in availableDesign):
+            availableDesign.append(tupleWord)
+    form.designs.choices = availableDesign
 
-    print(min_value)
-    print(max_value)
-    design_list = [('-None-', '-None-')]
-    form.designs.choices = design_list
+    tasks = Task.query.all()
+    taskType = []
+    for s in tasks:
+        for word in s.task_type.split(';'):
+            word = word.replace(" ", "")
+            tupleWord = tuple((word, word))
+            if (not tupleWord in taskType):
+                taskType.append(tupleWord)
+    form.tasks.choices = taskType
 
-    task_type_list = ['a', 'b', 'c']
-    form.performed_tasks.choices = task_type_list
+    measurement = Measurement.query.all()
+    availableMeasurement = []
+    for s in measurement:
+        tupleWord = tuple((s.measurement_type, s.measurement_type))
+        if (not tupleWord in availableMeasurement):
+            availableMeasurement.append(tupleWord)
+    form.measurements.choices = availableMeasurement
 
-    nature_of_data_list = ['a', 'b', 'c']
-    form.nature_of_data.choices = nature_of_data_list
-
-    duration_list = [('-None-', '-None-')]
-    form.duration.choices = duration_list
-
-    profile_list = []
-    form.profile_type.choices = profile_list
-
-    recruitment_list = []
-    form.recruting_type.choices = recruitment_list
-    # if form.validate_on_submit():
-    #     print(f'select={form.lab_settings.data}')
-    #     data = {}
-    #     data['min'] = form.sample_size_min.data
-    #     data['max'] = form.sample_size_max.data
-    #     if form.lab_settings.data:
-    #         data['lab'] = True
-    #     if form.recruting_type.data:
-    #         data['recruting'] = form.recruting_type.data
-    #     if form.nature_of_data.data:
-    #         data['nature_of_data'] = form.nature_of_data.data
-    #     if form.performed_tasks.data:
-    #         data['performed_tasks'] = form.performed_tasks.data
-    #     if form.profile_type.data:
-    #         data['profile_type'] = form.profile_type.data
-
-    #     if form.designs.data != '-None-':
-    #         data['design'] = form.designs.data
-    #     if form.duration.data != '-None-':
-    #         data['duration'] = form.duration.data
-    #     messages = json.dumps(data)
-    #     return redirect(url_for('articles.list_articles', page=1, messages=messages))
+    if form.validate_on_submit():
+        session['tasks'] = form.tasks.data
+        session['designs'] = form.designs.data
+        session['measurements'] = form.measurements.data
+        session['sample'] = form.sample.data.lower()
+        return redirect(url_for('finder.list_articles', page=1))
     return render_template('finder/select.html', form=form)
+
+
+@ finder.route("/list_articles")
+def list_articles():
+    design = session['designs']
+    tasks = session['tasks']
+    measurements = session['measurements']
+    sample = session['sample']
+
+    query_result = db.session.query(
+        Publication
+    ).join(
+        Publication.experiments
+    ).join(
+        Experiment.design
+    ).filter(ExperimentDesign.design_normalized == design)
+    studies = query_result.all()
+    if (measurements and len(measurements) > 0):
+        studies = selectMeasurements(measurements, studies)
+    if (tasks and len(tasks) > 0):
+        studies = selectTask(tasks, studies)
+    if (sample.lower() != 'all'):
+        print(sample)
+        studies = selectSample(sample, studies)
+    return render_template('research2.html', pubs=studies)
+
+
+@ finder.route("/search")
+def search():
+    page = request.args.get('page', 1, type=int)
+    pubs = Publication.query.order_by(
+        Publication.year.desc()).paginate(page=page, per_page=5)
+    return render_template('research.html', pubs=pubs)
+
+
+@ finder.route("/details/<int:pub_id>")
+def details(pub_id):
+    pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
+    search_query = scholarly.search_pubs_query(pub.title)
+    paperData = next(search_query)
+    title = paperData.bib['title']
+    author = paperData.bib['author']
+    abstract = paperData.bib['abstract']
+    link = paperData.bib['url']
+    year = pub.year
+    venue = pub.venue
+    return render_template('detail.html', title=title, author=author,
+                           abstract=abstract, year=year, venue=venue,
+                           link=link)
+
+
+def selectMeasurements(measurements, studies):
+    selected = []
+    for aPub in studies:
+        add = False
+        for aExp in aPub.experiments:
+            for aMeasu in aExp.measurements:
+                if aMeasu.measurement_type in measurements:
+                    add = True
+        if (add):
+            selected.append(aPub)
+    return selected
+
+
+def selectTask(tasks, studies):
+    selected = []
+    for aPub in studies:
+        add = False
+        for aExp in aPub.experiments:
+            for aTask in aExp.tasks:
+                if aTask.task_type in tasks:
+                    add = True
+        if (add):
+            selected.append(aPub)
+    return selected
+
+
+def selectSample(sample, studies):
+    selected = []
+    for aPub in studies:
+        add = False
+        for aExp in aPub.experiments:
+            for aSample in aExp.sample.profiles:
+                if (sample in aSample.profile.lower()):
+                    add = True
+        if (add):
+            selected.append(aPub)
+    return selected
 
 
 @finder.route("/finder/select_teste")
 def index_teste():
-    papers = Publication.query.all();
+    papers = Publication.query.all()
     authors = get_authors_papers(papers)
     titles = get_papers_title(papers)
     dict_authors_titles = dict.fromkeys(titles + authors)
@@ -92,32 +163,25 @@ def get_papers_title(papers, titles=[]):
     return titles
 
 
-@finder.route("/search")
-def search():
-    page = request.args.get('page', 1, type=int)
-    pubs = Publication.query.order_by(
-        Publication.year.desc()).paginate(page=page, per_page=5)
-    return render_template('research.html', pubs=pubs)
-
-
 @finder.route("/search_teste", methods=['GET'])
 def search_teste():
     search = request.args.get('search', "", type=str)
     page = request.args.get('page', 1, type=int)
     search = "%{}%".format(search)
     publications = Publication.query.filter(
-        or_(Publication.title.like(search), Publication.authors.like(search))).paginate(per_page=7, page=page);
+        or_(Publication.title.like(search), Publication.authors.like(search))).paginate(per_page=7, page=page)
     publications = deserialize_papers(publications)
-    publications["search"]=search;
+    publications["search"] = search
     res = make_response(json.dumps(publications), 200)
-    return res;
+    return res
 
 
 def deserialize_papers(publications):
     if (publications):
         paper_author = []
         for publication in publications.items:
-            paper_author.append({"id": publication.pub_id, "name": publication.title, "authors": publication.authors})
+            paper_author.append(
+                {"id": publication.pub_id, "name": publication.title, "authors": publication.authors})
 
         pages_conf = {"has_next": publications.has_next, "has_prev": publications.has_prev,
                       "next_num": publications.next_num, "page": publications.page,
@@ -125,23 +189,8 @@ def deserialize_papers(publications):
                       "prev_num": publications.prev_num}
 
         paper_pages = {"papers": paper_author, "page_conf": pages_conf}
-        return paper_pages;
+        return paper_pages
 
-
-@finder.route("/details/<int:pub_id>")
-def details(pub_id):
-    pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
-    search_query = scholarly.search_pubs_query(pub.title)
-    paperData = next(search_query)
-    title = paperData.bib['title']
-    author = paperData.bib['author']
-    abstract = paperData.bib['abstract']
-    link = paperData.bib['url']
-    year = pub.year
-    venue = pub.venue
-    return render_template('detail.html', title=title, author=author,
-                           abstract=abstract, year=year, venue=venue,
-                           link=link)
 
 @finder.route("/details_teste/<int:pub_id>")
 def details_teste(pub_id):

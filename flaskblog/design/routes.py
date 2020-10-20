@@ -13,9 +13,10 @@ def index():
     explicitDesignCounter = Counter()
     treatmentCounter = Counter()
     for a_desing in desings:
-        designCounter.update([a_desing.design_description])
+        # designCounter.update([a_desing.design_description])
+        explicitDesignCounter.update([a_desing.design_normalized])
         if (a_desing.is_explicity_design == 1):
-            explicitDesignCounter.update([a_desing.design_description])
+            designCounter.update([a_desing.design_description])
         treatmentCounter.update([a_desing.treatment_quantity])
     all_design_chart = create_plot_bar(designCounter)
     explicited_chart = create_plot_bar(explicitDesignCounter)
@@ -57,7 +58,6 @@ def detailDesign():
         counter_authors.update(map(str.strip, pub.authors.split(';')))
 
     bar_venues = create_plot_bar(counter_venues)
-    print(bar_venues)
     bar_years = create_plot_bar(counter_years)
     return render_template('metadata.html', plot_venues=bar_venues, plot_years=bar_years,
                            most_common_authors=counter_authors.most_common(11))
@@ -76,7 +76,6 @@ def detailFactor():
         counter_authors.update(map(str.strip, pub.authors.split(';')))
 
     bar_venues = create_plot_bar(counter_venues)
-    print(bar_venues)
     bar_years = create_plot_bar(counter_years)
     return render_template('metadata.html', plot_venues=bar_venues, plot_years=bar_years,
                            most_common_authors=counter_authors.most_common(11))
