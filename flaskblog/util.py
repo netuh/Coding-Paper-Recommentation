@@ -44,7 +44,7 @@ def create_plot_bar(c):
     x = []
     y = []
     # for element in c.items():
-    for element in c.most_common():
+    for element in sorted(c.items()):
         if element[0] and element[1]:
             x.append(element[0])
             y.append(element[1])
