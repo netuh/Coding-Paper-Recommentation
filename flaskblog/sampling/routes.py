@@ -62,4 +62,6 @@ def sampling_main_teste():
     sampleChart = json.loads(create_plot_violin(dic_classification))
     recruting = json.loads(create_plot_pie(redrutingMethodCounter))
     charac_plot = json.loads(create_plot_bar(c))
+    recruting[0]['values'] = [round((value * 100.0) / sum(recruting[0]['values']), 2) for value in recruting[0]['values']]
+
     return render_template('sampling_pages/sampling_main_teste.html', sampleChart=sampleChart, recruiting=recruting[0], charac_plot=charac_plot[0])
