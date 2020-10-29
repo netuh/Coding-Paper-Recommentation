@@ -46,19 +46,19 @@ def index_teste():
     detailOtherCounter = Counter()
     for m in measurements:
         generalMeasurements.update([m.measurement_type])
-        if (m.measurement_type == 'SUBJECTIVE'):
-            instrumentSubjectiveCounter.update([m.measurement_instruments])
-        if (m.measurement_type == 'TIME'):
-            instrumentTimeCounter.update([m.measurement_instruments])
-        if (m.measurement_type == 'CODE'):
-            instrumentCodeCounter.update([m.measurement_instruments])
-        if (m.measurement_type == 'Others'):
-            detailOtherCounter.update([m.measurement_details])
+        measurement_instrument = m.measurement_instruments if m.measurement_instruments else "Nenhum"
+        if (m.measurement_type == 'subjective'):
+            instrumentSubjectiveCounter.update([measurement_instrument])
+        if (m.measurement_type == 'time'):
+            instrumentTimeCounter.update([measurement_instrument])
+        if (m.measurement_type == 'code'):
+            instrumentCodeCounter.update([measurement_instrument])
     generalChart = json.loads(create_plot_pie(generalMeasurements))
     instrumentSubChart = json.loads(create_plot_bar(instrumentSubjectiveCounter))
     instrumentTimeChart = json.loads(create_plot_bar(instrumentTimeCounter))
     instrumentCodeChart = json.loads(create_plot_bar(instrumentCodeCounter))
-    detailOtherChart = json.loads(create_plot_bar(detailOtherCounter))
+    generalChart[0]['values'] = [round((value * 100.0) / sum(generalChart[0]['values']), 2) for value in generalChart[0]['values']]
+
     return render_template('measurements/measurements_general_teste.html', generalChart=generalChart[0],
                            instrumentSubChart=instrumentSubChart[0], instrumentTimeChart=instrumentTimeChart[0],
-                           instrumentCodeChart=instrumentCodeChart[0], detailOtherChart=detailOtherChart[0])
+                           instrumentCodeChart=instrumentCodeChart[0])
