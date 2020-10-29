@@ -70,7 +70,6 @@ def index_teste():
     experiment_duration = json.loads(create_plot_violin(
         dic_duration, 'total of tasks'))
     type_counter = json.loads(create_plot_pie(type_counter))
-    print(type_counter)
     type_counter[0]['values'] = [round((value * 100.0)/sum(type_counter[0]['values']),2) for value in type_counter[0]['values']]
     return render_template('task_pages/tasks_teste.html', task_quantity=task_quantity[0],
                            type_counter=type_counter[0], experiment_duration=experiment_duration)
