@@ -30,9 +30,9 @@ def index_teste():
     explicitDesignCounter = Counter()
     treatmentCounter = Counter()
     for a_desing in desings:
-        designCounter.update([a_desing.design_description])
+        explicitDesignCounter.update([a_desing.design_normalized])
         if (a_desing.is_explicity_design == 1):
-            explicitDesignCounter.update([a_desing.design_description])
+            designCounter.update([a_desing.design_description])
         treatmentCounter.update([a_desing.treatment_quantity])
     all_design_chart = json.loads(create_plot_bar(designCounter))
     explicited_chart = json.loads(create_plot_bar(explicitDesignCounter))

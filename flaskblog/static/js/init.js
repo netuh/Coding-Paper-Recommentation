@@ -4,4 +4,6 @@
     $('#tabs-swipe-demo').tabs({ swipeable: true});
     $(".carousel").css({ "height": "100%"});
     $('.collapsible').collapsible();
+    $('select').formSelect();
+
   });

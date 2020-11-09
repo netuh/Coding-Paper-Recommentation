@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
-    <h1>Measurement Analysis </h1>
+    <h4>Measurement Analysis </h4>
     <div class="chart" id="Measurement Analysis">
         <script>
             var graphs = {{generalChart | safe}};
@@ -10,7 +10,7 @@
             Plotly.newPlot('Measurement Analysis',graphs,layout);
         </script>
     </div>
-    <h1>Instrument Analysis</h1>
+    <h4>Instrument Analysis</h4>
     <ul class="nav nav-tabs" id="metadataTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="instrument-sub-tab" data-toggle="tab" href="#instrument-sub" role="tab" aria-controls="instrument-sub" aria-selected="true">Instrument Subjective</a>
