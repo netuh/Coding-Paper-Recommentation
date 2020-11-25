@@ -28,8 +28,9 @@
 </ul>
     <nav class=" deep-purple lighten-1" role="navigation">
         <div class="nav-wrapper container">
+             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <a id="logo-container" href="https://www1.unicap.br/" class="brand-logo">
-            <img class="responsive-img unicap-img" src="{{ url_for('static',filename= 'picture/unicap.png')}}">
+            <img class="unicap-img" src="{{ url_for('static',filename= 'picture/unicap.png')}}">
             </a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{ url_for('main.home') }}">Home</a></li>
@@ -60,8 +61,6 @@
                 <li><a href="{{ url_for('finder.index') }}">Search Paper Reference</a></li>
                  <li><a href="{{ url_for('finder.select') }}">Search Paper Characteristics</a></li>
             </ul>
-
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
 
     </nav>
