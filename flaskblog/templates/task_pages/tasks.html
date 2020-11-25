@@ -1,58 +1,175 @@
 {% extends "layout.html" %}
 {% block content %}
-    <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
-    <h4>Design Analysis</h4>
-    <ul class="nav nav-tabs" id="metadataTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="task-quantity-tab" data-toggle="tab" href="#task-quantity" role="tab" aria-controls="task-quantity" aria-selected="true">Task Quantity</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="experiment-duration-tab" data-toggle="tab" href="#experiment-duration" role="tab" aria-controls="experiment-duration" aria-selected="false">Experiment Duration</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="task-type-tab" data-toggle="tab" href="#task-type" role="tab" aria-controls="task-type" aria-selected="false">Task Type</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="task-quantity" role="tabpanel" aria-labelledby="task-quantity-tab">
-        <h4>Task Quantity</h4>
-        <div class="chart" id="Task Quantity">
-            <script>
-                var graphs = {{task_quantity | safe}};
-                var layout = {
-                  };
-                Plotly.newPlot('Task Quantity',graphs,layout);
-            </script>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="experiment-duration" role="tabpanel" aria-labelledby="experiment-duration-tab">
-        <h4>Experiment Duration</h4>
-        <div class="chart" id="Experiment Duration">
-            <script>
-                var graphs = {{experiment_duration | safe}};
-                var layout = {
+<div class="container">
+    <div class="col s12">
+        <h4>Design Analysis</h4>
+        <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width tab-demo z-depth-1">
+            <li class="tab"><a href="#quantity-tab">Task Quantity</a></li>
+            <li class="tab"><a class="active" href="#experiment-tab">Experiment Duration</a></li>
+            <li class="tab"><a href="#type-tab">Task Type</a></li>
+        </ul>
 
-                  };
-                Plotly.newPlot('Experiment Duration',graphs,layout);
-            </script>
+        <div id="quantity-tab" class="col s12">
+              <div class="chart-container">
+                <canvas id="chart-task-quantity"></canvas>
+
+            </div>
+         <script>
+            const ctx = document.getElementById("chart-task-quantity").getContext("2d");
+              var taskQuantity = new Chart(ctx, {
+                type: 'boxplot',
+                data:   {
+                            labels: [""],
+                            datasets:[{
+                                label: "Task Quantity",
+                                data: [{{ task_quantity["y"] }}],
+                                backgroundColor: "rgba(126,87,194)",
+                                borderColor: "rgba(126,87,194)",
+                                borderWidth: 2,
+                                hoverBackgroundColor: "rgba(126,87,194)",
+                                hoverBorderColor: "rgba(126,87,194)"
+                            }]
+                        },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    tooltips: {
+                      callbacks: {
+                        footer: (tooltipItem, data) => {
+
+                          let i = {{ task_quantity|tojson }}
+                          return i.x0.toUpperCase()
+                        }
+                      }
+                    }
+                }
+
+            });
+
+        </script>
         </div>
-      </div>
-      <div class="tab-pane fade" id="task-type" role="tabpanel" aria-labelledby="task-type-tab">
-        <h4>Task Duration</h4>
-        <div class="chart" id="Task Duration">
-          <script>
-            var graphs = {{type_counter | safe}};
-            var layout = {
-                  xaxis: {
-                    autotick: false,
-                    ticks: "outside",
-                    tick0: 0,
-                    dtick: 1
-                  }
-              };
-            Plotly.newPlot('Task Duration',graphs,layout);
-          </script>
-      </div>
-      </div>
+        <div id="experiment-tab" class="col s12">
+             <div class="chart-container">
+                <canvas id="chart-experiment-duration"></canvas>
+            </div>
+         <script>
+             const ctx2 = document.getElementById("chart-experiment-duration").getContext("2d");
+              var taskQuantity = new Chart(ctx2, {
+                type: 'boxplot',
+                data:   {
+                            labels:[""] ,
+                            datasets:[{
+                                label: "total duration",
+                                data: [{{ experiment_duration[0]["y"] }}],
+                                backgroundColor: ["rgba(126,87,194)"],
+                                borderColor: ["rgba(126,87,194)"],
+                                borderWidth: 2,
+                                hoverBackgroundColor: ["rgba(126,87,194)"],
+                                hoverBorderColor: ["rgba(126,87,194)"]
+                            },
+                            {
+
+                                label: "duration by task",
+                                data: [{{ experiment_duration[1]["y"] }}],
+                                backgroundColor: "rgb(255, 160, 122)",
+                                borderColor: "rgb(255, 160, 122)",
+                                borderWidth: 2,
+                                hoverBackgroundColor: "rgb(255, 160, 122)",
+                                hoverBorderColor: "rgb(255, 160, 122)"
+
+                        }]
+                        },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+
+                            }
+                        }]
+                    },
+                    tooltips: {
+                      callbacks: {
+                        footer: (tooltipItem, data) => {
+
+                          let i = {{ experiment_duration|tojson }}
+                          return i[tooltipItem[0].datasetIndex].x0.toUpperCase()
+                        }
+                      }
+    }
+                }
+            });
+
+        </script>
+
+        </div>
+
+        <div id="type-tab" class="col s12">
+             <div class="chart-container">
+                <canvas id="chart-task-duration"></canvas>
+                 <script>
+                    const ctx3 = document.getElementById("chart-task-duration").getContext("2d");
+                      var taskQuantity = new Chart(ctx3, {
+                        type: 'pie',
+                        data:   {
+                                    labels: {{ type_counter["labels"]|safe }},
+                                    datasets:[{
+                                        label: "Task Duration",
+                                        data: {{ type_counter["values"]|safe }},
+                                        backgroundColor: [
+                                            "rgb(255, 99, 132)",
+						                    "rgb(255, 159, 64)",
+						                    "rgb(255, 205, 86)",
+						                    "rgb(75, 192, 192)",
+						                    "rgb(54, 162, 235)",
+						                    "rgb(153, 102, 255)",
+						                    "rgb(201,203,207)",
+                                            "rgb(121, 85, 72)",
+                                            "rgb(205, 220, 57)",
+                                            "rgb(0,0,0)",
+                                            "rgb(24, 255, 255)"
+						                ],
+
+                                        borderColor: [
+                                            "rgb(255, 99, 132)",
+						                    "rgb(255, 159, 64)",
+						                    "rgb(255, 205, 86)",
+						                    "rgb(75, 192, 192)",
+						                    "rgb(54, 162, 235)",
+						                    "rgb(153, 102, 255)",
+						                    "rgb(201, 203, 207)",
+                                            "rgb(121, 85, 72)",
+                                            "rgb(205, 220, 57)",
+                                            "rgb(0,0,0)",
+                                            "rgb(24, 255, 255)"
+						                ],
+                                        borderWidth: 2
+                                    }]
+                                },
+                        options: {
+                            legend:{
+                                position: "right"
+                            },
+                             tooltips: {
+                                  callbacks: {
+                                    label: (tooltipItem, data) => {
+                                      let i = tooltipItem.index;
+                                      return data.labels[i] + ': ' + data.datasets[0].data[i]+'%';
+                                    }
+                                  }
+    }
+                        }
+
+                    });
+
+                </script>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock content %}

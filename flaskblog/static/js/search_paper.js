@@ -2,7 +2,7 @@
 import {mount_results, mount_pagination} from "./mount_pagination.js";
 import {valueSearch} from "./init_autocomplete.js";
 
-async function search_paper(url=`${window.location.origin}/search_teste?search=${valueSearch}`){
+async function search_paper(url=`${window.location.origin}/search?search=${valueSearch}`){
     const result = await fetch(url,{
         method: "GET",
         credentials: "include",
@@ -16,7 +16,7 @@ async function search_paper(url=`${window.location.origin}/search_teste?search=$
     mount_results(date);
 
     if(date.papers.length > 0)
-        mount_pagination(date,`${window.location.origin}/search_teste`)
+        mount_pagination(date,`${window.location.origin}/search`)
 
      $("html, body").animate({ scrollTop: "0" });
 

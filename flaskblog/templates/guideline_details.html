@@ -1,34 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
-  <article class="media content-section">
-    <div class="media-body">
-        <h2 class="article-title">{{ title }}</h2>
-        <div class="article-metadata">
-          <small class="text-muted"><b>Authors</b>: {{ author }}</small>
-        </div>
-        <p class="article-content"><b>Abstract</b>: {{ abstract }}</p>
-        <a class="mr-2" href="{{ link }}" target="_blank">More Information</a>
-    </div>
-  </article>
-  <table data-toggle="table" data-sort-stable="true" data-sort-name="year"
-  data-sort-order="desc">
-      <thead>
-        <tr>
-          <th data-field="name" data-sortable="true">Article</th>
-          <th data-field="venue" data-sortable="true">Venue</th>
-          <th data-field="year" data-sortable="true">Year</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for ref in references %}
-          <tr>
-            <td>
-              <a href="{{ url_for('finder.details', pub_id=ref.pub_id) }}">{{ ref.title }}</a>
-            </td>
-            <td> {{ ref.venue }} </td>
-            <td> {{ ref.year }} </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="container">
+         <div class="row"></div>
+         <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content deep-purple-text text-lighten-1">
+                        <span class="card-title"><h3>{{ title }}</h3></span>
+                        <b>Authors</b>: {{ author }} <br>
+                        <div class="divider"></div> <br>
+                        <span><a href="{{ link }}" target="_blank">Go to article</a> <i class="card-title activator material-icons right">more_horiz</i></span>
+                    </div>
+                    <div class="card-reveal deep-purple-text text-lighten-1">
+                        <span class="card-title">Abstract<i class="material-icons right">close</i></span>
+                        <p>{{ abstract }}</p>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col s12">
+                    <table class="striped highlight responsive-table" >
+                        <thead>
+                             <tr>
+                                <th>Article</th>
+                                <th>Venue</th>
+                                <th>Year</th>
+                             </tr>
+                        </thead>
+                        <tbody>
+                            {% for ref in references %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('finder.details', pub_id=ref.pub_id) }}">{{ ref.title }}</a>
+                                    </td>
+                                    <td> {{ ref.venue }} </td>
+                                    <td> {{ ref.year }} </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+         </div>
 {% endblock content %}

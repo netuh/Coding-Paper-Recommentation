@@ -1,69 +1,113 @@
 {% extends "layout.html" %}
 {% block content %}
-    <a class="btn btn-primary" href="{{ url_for('data_vizualization.index') }}" role="button">Back</a>
-    <h4>Design Analysis</h4>
-    <ul class="nav nav-tabs" id="metadataTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="explicited-design-tab" data-toggle="tab" href="#explicited-design" role="tab" aria-controls="explicited-design" aria-selected="true">Explicited Design</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="all-design-tab" data-toggle="tab" href="#all-design" role="tab" aria-controls="all-design" aria-selected="false">All Designs</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="treatment-tab" data-toggle="tab" href="#treatment" role="tab" aria-controls="treatment" aria-selected="false">Treatment by Factor</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="explicited-design" role="tabpanel" aria-labelledby="explicited-design-tab">
-        <h4>Explicited Design</h4>
-        <div class="chart" id="Explicited Design">
-            <script>
-                var graphs = {{explicited_design | safe}};
-                var layout = {
-                      xaxis: {
-                        autotick: false,
-                        ticks: "outside",
-                        tick0: 0,
-                        dtick: 1
-                      }
-                  };
-                Plotly.newPlot('Explicited Design',graphs,layout);
-            </script>
+<div class="container">
+    <div class="col s12">
+        <h4>Design Analysis</h4>
+        <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width tab-demo z-depth-1">
+            <li class="tab"><a href="#explicited-tab">Explicited Design</a></li>
+            <li class="tab"><a class="active" href="#all-tab">All Designs</a></li>
+            <li class="tab"><a href="#factor-tab">Treatment by Factor</a></li>
+        </ul>
+
+        <div id="explicited-tab" class="col s12">
+              <div class="chart-container">
+                <canvas id="chart-explicited"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-explicited', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ explicited_design["x"]|safe }},
+                    datasets:[{
+                        label: "Explicited Design",
+                        data: {{ explicited_design["y"]|safe }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
         </div>
-      </div>
-      <div class="tab-pane fade" id="all-design" role="tabpanel" aria-labelledby="all-design-tab">
-        <h4>All Designs</h4>
-        <div class="chart" id="All Designs">
-            <script>
-                var graphs = {{all_design | safe}};
-                var layout = {
-                      xaxis: {
-                        autotick: false,
-                        ticks: "outside",
-                        tick0: 0,
-                        dtick: 1
-                      }
-                  };
-                Plotly.newPlot('All Designs',graphs,layout);
-            </script>
+        <div id="all-tab" class="col s12">
+            <div class="chart-container">
+                <canvas id="chart-all"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-all', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ all_design["x"]|safe }},
+                    datasets:[{
+                        label: "All Designs",
+                        data: {{ all_design["y"]|safe }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
         </div>
-      </div>
-      <div class="tab-pane fade" id="treatment" role="tabpanel" aria-labelledby="treatment-tab">
-        <h4>Treatment by Factor</h4>
-        <div class="chart" id="Treatment by Factor">
-          <script>
-            var graphs = {{treatment | safe}};
-            var layout = {
-                  xaxis: {
-                    autotick: false,
-                    ticks: "outside",
-                    tick0: 0,
-                    dtick: 1
-                  }
-              };
-            Plotly.newPlot('Treatment by Factor',graphs,layout);
-          </script>
-      </div>
-      </div>
+        <div id="factor-tab" class="col s12">
+             <div class="chart-container">
+                <canvas id="chart-factor"></canvas>
+
+            </div>
+         <script>
+         Chart.Bar('chart-factor', {
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            },
+            data: {
+                    labels:{{ treatment["x"]|safe  }},
+                    datasets:[{
+                        label: "Treatment by Factor",
+                        data: {{ treatment["y"]|safe  }},
+                        backgroundColor: "rgba(126,87,194)",
+                        borderColor: "rgba(126,87,194)",
+                        borderWidth: 2,
+                        hoverBackgroundColor: "rgba(126,87,194)",
+                        hoverBorderColor: "rgba(126,87,194)"
+                    }]
+
+            }
+         });
+
+        </script>
+        </div>
     </div>
+</div>
 {% endblock content %}
