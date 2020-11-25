@@ -1,5 +1,4 @@
-from flask import render_template, request, Blueprint
-from flaskblog.models import Publication
+from flask import render_template, Blueprint
 
 main = Blueprint('main', __name__)
 
@@ -7,13 +6,6 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/home")
 def home():
-    return render_template('home.html', title='Home')
+    return render_template('home.html', title='Coding Paper Recommendation')
 
 
-@main.route("/about")
-def about():
-    return render_template('about.html', title='About')
-
-@main.route("/teste")
-def teste():
-    return render_template('home_materialized.html', title= 'Coding Paper Recommendation')

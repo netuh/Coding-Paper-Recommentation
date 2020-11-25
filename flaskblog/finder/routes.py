@@ -9,47 +9,8 @@ from sqlalchemy import or_, and_, func, literal
 finder = Blueprint('finder', __name__)
 
 
-@finder.route("/select", methods=['GET', 'POST'])
+@finder.route("/select")
 def select():
-    form = SelectArticleForm()
-
-    design = ExperimentDesign.query.all()
-    availableDesign = []
-    for s in design:
-        tupleWord = tuple((s.design_normalized, s.design_normalized))
-        if (not tupleWord in availableDesign):
-            availableDesign.append(tupleWord)
-    form.designs.choices = availableDesign
-
-    tasks = Task.query.all()
-    taskType = []
-    for s in tasks:
-        for word in s.task_type.split(';'):
-            word = word.replace(" ", "")
-            tupleWord = tuple((word, word))
-            if (not tupleWord in taskType):
-                taskType.append(tupleWord)
-    form.tasks.choices = taskType
-
-    measurement = Measurement.query.all()
-    availableMeasurement = []
-    for s in measurement:
-        tupleWord = tuple((s.measurement_type, s.measurement_type))
-        if (not tupleWord in availableMeasurement):
-            availableMeasurement.append(tupleWord)
-    form.measurements.choices = availableMeasurement
-
-    if form.validate_on_submit():
-        session['tasks'] = form.tasks.data
-        session['designs'] = form.designs.data
-        session['measurements'] = form.measurements.data
-        session['sample'] = form.sample.data.lower()
-        return redirect(url_for('finder.list_articles', page=1))
-    return render_template('finder/select.html', form=form)
-
-
-@finder.route("/select_teste")
-def select_teste():
     choices = {}
 
     design = ExperimentDesign.query.all()
@@ -77,37 +38,11 @@ def select_teste():
     choices["measurements"] = availableMeasurement
 
     choices["samples"] = ["Professional", "Student", "All"]
-    return render_template('finder/select_characteristics_teste.html', choices=choices)
+    return render_template('finder/select_characteristics.html', choices=choices)
 
 
-@finder.route("/list_articles")
-def list_articles():
-    design = session['designs']
-    tasks = session['tasks']
-    measurements = session['measurements']
-    sample = session['sample']
-    print(sample)
-
-    query_result = db.session.query(
-        Publication
-    ).join(
-        Publication.experiments
-    ).join(
-        Experiment.design
-    ).filter(ExperimentDesign.design_normalized == design)
-    studies = query_result.all()
-    if (measurements and len(measurements) > 0):
-        studies = selectMeasurements(measurements, studies)
-    if (tasks and len(tasks) > 0):
-        studies = selectTask(tasks, studies)
-    if (sample.lower() != 'all'):
-        print(sample)
-        studies = selectSample(sample, studies)
-    return render_template('research2.html', pubs=studies)
-
-
-@finder.route("/search_characteristics_teste", methods=['POST'])
-def search_characteristics_teste():
+@finder.route("/search_characteristics", methods=['POST'])
+def search_characteristics():
     search_characteristics_form = request.get_json()
 
     page = search_characteristics_form['page'] if 'page' in search_characteristics_form else 1
@@ -142,30 +77,6 @@ def search_characteristics_teste():
 
     res = make_response(json.dumps(studies), 200)
     return res
-
-
-@finder.route("/search")
-def search():
-    page = request.args.get('page', 1, type=int)
-    pubs = Publication.query.order_by(
-        Publication.year.desc()).paginate(page=page, per_page=5)
-    return render_template('research.html', pubs=pubs)
-
-
-@finder.route("/details/<int:pub_id>")
-def details(pub_id):
-    pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
-    search_query = scholarly.search_pubs_query(pub.title)
-    paperData = next(search_query)
-    title = paperData.bib['title']
-    author = paperData.bib['author']
-    abstract = paperData.bib['abstract']
-    link = paperData.bib['url']
-    year = pub.year
-    venue = pub.venue
-    return render_template('detail.html', title=title, author=author,
-                           abstract=abstract, year=year, venue=venue,
-                           link=link)
 
 
 def selectMeasurements(measurements, studies):
@@ -209,15 +120,15 @@ def selectSample(sample, studies):
     return selected
 
 
-@finder.route("/finder/select_teste")
-def index_teste():
+@finder.route("/finder/select")
+def index():
     papers = Publication.query.all()
     authors = get_authors_papers(papers)
     titles = get_papers_title(papers)
     dict_authors_titles = dict.fromkeys(titles + authors)
     dict_authors_titles = json.dumps(dict_authors_titles)
 
-    return render_template('finder/select_teste.html', dict_authors_titles=dict_authors_titles, )
+    return render_template('finder/select.html', dict_authors_titles=dict_authors_titles, )
 
 
 def get_authors_papers(papers, authors=[]):
@@ -235,8 +146,8 @@ def get_papers_title(papers, titles=[]):
     return titles
 
 
-@finder.route("/search_teste", methods=['GET'])
-def search_teste():
+@finder.route("/search", methods=['GET'])
+def search():
     search = request.args.get('search', "", type=str)
     page = request.args.get('page', 1, type=int)
     search = "%{}%".format(search)
@@ -264,8 +175,8 @@ def deserialize_papers(publications):
         return paper_pages
 
 
-@finder.route("/details_teste/<int:pub_id>")
-def details_teste(pub_id):
+@finder.route("/details/<int:pub_id>")
+def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
     search_query = scholarly.search_pubs_query(pub.title)
     paperData = next(search_query)
@@ -275,6 +186,6 @@ def details_teste(pub_id):
     link = paperData.bib['url']
     year = pub.year
     venue = pub.venue
-    return render_template('detail_teste.html', title=title, author=author,
+    return render_template('detail.html', title=title, author=author,
                            abstract=abstract, year=year, venue=venue,
                            link=link)

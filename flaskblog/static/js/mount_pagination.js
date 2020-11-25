@@ -11,7 +11,7 @@ export function mount_results(date){
                             <p>${publication.authors}</p>
                     </div>
                     <div class="card-action">
-                        <a href="${window.location.origin}/details_teste/${publication.id}">More Info...</a>
+                        <a href="${window.location.origin}/details/${publication.id}">More Info...</a>
                     </div>
                  </div>
             </div>

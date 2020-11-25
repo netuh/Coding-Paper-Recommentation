@@ -1,7 +1,7 @@
 import {mount_pagination, mount_results} from "./mount_pagination.js";
 import {searchCharacteristicForm} from "./init_event_search_characteristics.js";
 
-async function search_paper_characteristic(url=`${window.location.origin}/search_characteristics_teste`){
+async function search_paper_characteristic(url=`${window.location.origin}/search_characteristics`){
     const result = await fetch(url,{
         method: "POST",
         body:JSON.stringify(searchCharacteristicForm),
@@ -16,7 +16,7 @@ async function search_paper_characteristic(url=`${window.location.origin}/search
     mount_results(date);
 
     if(date.papers.length > 0)
-        mount_pagination(date,`${window.location.origin}/search_characteristics_teste`)
+        mount_pagination(date,`${window.location.origin}/search_characteristics`)
 
     $("html, body").animate({ scrollTop: "0" });
 
