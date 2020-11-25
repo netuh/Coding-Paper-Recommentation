@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    <title>{{ title }}</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{{ url_for('static',filename= 'css/materialize.css') }}" rel="stylesheet" media="screen,projection">
+    <link href="{{ url_for('static',filename= 'css/app.css') }}" rel="stylesheet" media="screen,projection">
+    <link href="{{ url_for('static',filename= 'css/Chart.min.css') }}" rel="stylesheet" media="screen,projection">
+    <script src="{{ url_for('static',filename= 'js/Chart.min.js') }}"></script>
+    <script src="{{ url_for('static',filename= 'js/ChartBoxPlot.min.js') }}"></script>
+
+</head>
+
+<body>
+<ul id="data-visualization" class="dropdown-content deep-purple lighten-1">
+  <li><a class="white-text" href="{{ url_for('data_vizualization.metadata') }}">Paper Metadata</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="{{ url_for('design.index') }}">Design Analysis</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="{{ url_for('task.index') }}">Task Analysis</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="{{ url_for('sampling.sampling_main') }}">Sampling Analysis</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="{{ url_for('measurements.index') }}">Measuriment Analysis</a></li>
+  <li class="divider"></li>
+  <li><a class="white-text" href="{{ url_for('statistics.index') }}">Statistics</a></li>
+</ul>
+    <nav class=" deep-purple lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="https://www1.unicap.br/" class="brand-logo">
+            <img class="responsive-img unicap-img" src="{{ url_for('static',filename= 'picture/unicap.png')}}">
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li><a href="{{ url_for('guidelines.all') }}">Guidelines</a></li>
+                 <li><a class="data-vizualization-trigger" href="#!" data-target="data-visualization">Data Vizualization<i class="material-icons right">arrow_drop_down</i></a></li>
+                <li><a href="{{ url_for('finder.index') }}">Search Paper Reference</a></li>
+                <li><a href="{{ url_for('finder.select') }}">Search Paper Characteristics</a></li>
+            </ul>
+
+            <ul ID="nav-mobile" class="sidenav">
+                <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                <li><a href="{{ url_for('guidelines.all') }}">Guidelines</a></li>
+                <ul class="collapsible expandable">
+                    <li>
+                        <a class="collapsible-header">Data Vizualization</a>
+                        <div class="collapsible-body">
+                            <ul>
+                              <li><a href="{{ url_for('data_vizualization.metadata') }}">Paper Metadata</a></li>
+                              <li><a href="{{ url_for('design.index') }}">Design Analysis</a></li>
+                              <li><a href="{{ url_for('task.index') }}">Task Analysis</a></li>
+                              <li><a href="{{ url_for('sampling.sampling_main') }}">Sampling Analysis</a></li>
+                              <li><a href="{{ url_for('measurements.index') }}">Measuriment Analysis</a></li>
+                              <li><a href="{{ url_for('statistics.index') }}">Statistics</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <li><a href="{{ url_for('finder.index') }}">Search Paper Reference</a></li>
+                 <li><a href="{{ url_for('finder.select') }}">Search Paper Characteristics</a></li>
+            </ul>
+
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <footer class="page-footer deep-purple lighten-1">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Coding Paper Recommentation Bio</h5>
+          <p class="grey-text text-lighten-4">This is a project focused on the academic area, in order to help people find articles from code experiments</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Copyright 2020 - Universidade Católica de Pernambuco
+      </div>
+    </div>
+  </footer>
+<!--  Scripts-->
+  <script src="{{ url_for('static',filename= 'js/jquery-3.5.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename= 'js/materialize.js') }}"></script>
+  <script src="{{ url_for('static',filename= 'js/init.js') }}"></script>
+  {% block scripts %} {% endblock %}
+</body>
+</html>
