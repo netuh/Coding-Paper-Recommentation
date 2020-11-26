@@ -40,14 +40,20 @@ def create_plot_violin(dic_data, message='total'):
     return graphJSON
 
 
-def create_plot_bar(c):
+def create_plot_bar(c, byKeys=True):
     x = []
     y = []
     # for element in c.items():
-    for element in sorted(c.items()):
-        if element[0] and element[1]:
-            x.append(element[0])
-            y.append(element[1])
+    if (byKeys):
+        for element in sorted(c.items()):
+            if element[0] and element[1]:
+                x.append(element[0])
+                y.append(element[1])
+    else:
+        for element in c.most_common():
+            if element[0] and element[1]:
+                x.append(element[0])
+                y.append(element[1])
     df = pd.DataFrame({'x': x, 'y': y})  # creating a sample dataframe
     data = [
         go.Bar(

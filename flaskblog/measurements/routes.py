@@ -27,10 +27,11 @@ def index():
         if (m.measurement_type == 'code'):
             instrumentCodeCounter.update([measurement_instrument])
     generalChart = json.loads(create_plot_pie(generalMeasurements))
+    #generalChart[0]['values'] = [round((value * 100.0) / sum(generalChart[0]['values']), 2) for value in generalChart[0]['values']]
     instrumentSubChart = json.loads(create_plot_bar(instrumentSubjectiveCounter))
     instrumentTimeChart = json.loads(create_plot_bar(instrumentTimeCounter))
     instrumentCodeChart = json.loads(create_plot_bar(instrumentCodeCounter))
-    generalChart[0]['values'] = [round((value * 100.0) / sum(generalChart[0]['values']), 2) for value in generalChart[0]['values']]
+    
 
     return render_template('measurements/measurements_general.html', generalChart=generalChart[0],
                            instrumentSubChart=instrumentSubChart[0], instrumentTimeChart=instrumentTimeChart[0],
