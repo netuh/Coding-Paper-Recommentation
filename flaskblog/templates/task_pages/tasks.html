@@ -4,8 +4,7 @@
     <div class="col s12">
         <h4>Design Analysis</h4>
         <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width tab-demo z-depth-1">
-            <li class="tab"><a href="#quantity-tab">Task Quantity</a></li>
-            <li class="tab"><a class="active" href="#experiment-tab">Experiment Duration</a></li>
+            <li class="tab"><a class="active" href="#quantity-tab">Task Quantity</a></li>
             <li class="tab"><a href="#type-tab">Task Type</a></li>
         </ul>
 
@@ -53,73 +52,17 @@
 
         </script>
         </div>
-        <div id="experiment-tab" class="col s12">
-             <div class="chart-container">
-                <canvas id="chart-experiment-duration"></canvas>
-            </div>
-         <script>
-             const ctx2 = document.getElementById("chart-experiment-duration").getContext("2d");
-              var taskQuantity = new Chart(ctx2, {
-                type: 'boxplot',
-                data:   {
-                            labels:[""] ,
-                            datasets:[{
-                                label: "total duration",
-                                data: [{{ experiment_duration[0]["y"] }}],
-                                backgroundColor: ["rgba(126,87,194)"],
-                                borderColor: ["rgba(126,87,194)"],
-                                borderWidth: 2,
-                                hoverBackgroundColor: ["rgba(126,87,194)"],
-                                hoverBorderColor: ["rgba(126,87,194)"]
-                            },
-                            {
-
-                                label: "duration by task",
-                                data: [{{ experiment_duration[1]["y"] }}],
-                                backgroundColor: "rgb(255, 160, 122)",
-                                borderColor: "rgb(255, 160, 122)",
-                                borderWidth: 2,
-                                hoverBackgroundColor: "rgb(255, 160, 122)",
-                                hoverBorderColor: "rgb(255, 160, 122)"
-
-                        }]
-                        },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-
-                            }
-                        }]
-                    },
-                    tooltips: {
-                      callbacks: {
-                        footer: (tooltipItem, data) => {
-
-                          let i = {{ experiment_duration|tojson }}
-                          return i[tooltipItem[0].datasetIndex].x0.toUpperCase()
-                        }
-                      }
-    }
-                }
-            });
-
-        </script>
-
-        </div>
-
         <div id="type-tab" class="col s12">
              <div class="chart-container">
                 <canvas id="chart-task-duration"></canvas>
                  <script>
                     const ctx3 = document.getElementById("chart-task-duration").getContext("2d");
                       var taskQuantity = new Chart(ctx3, {
-                        type: 'pie',
+                        type: 'bar',
                         data:   {
                                     labels: {{ type_counter["labels"]|safe }},
                                     datasets:[{
-                                        label: "Task Duration",
+                                        label: "Task Type",
                                         data: {{ type_counter["values"]|safe }},
                                         backgroundColor: [
                                             "rgb(255, 99, 132)",
@@ -152,14 +95,11 @@
                                     }]
                                 },
                         options: {
-                            legend:{
-                                position: "right"
-                            },
                              tooltips: {
                                   callbacks: {
                                     label: (tooltipItem, data) => {
                                       let i = tooltipItem.index;
-                                      return data.labels[i] + ': ' + data.datasets[0].data[i]+'%';
+                                      return data.labels[i] + ': ' + data.datasets[0].data[i];
                                     }
                                   }
     }
