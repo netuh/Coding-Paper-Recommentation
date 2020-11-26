@@ -2871,7 +2871,7 @@ ul.staggered-list li {
   }
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (max-width: 1480px) {
   .hide-on-med-and-down {
     display: none !important;
   }
@@ -3440,9 +3440,9 @@ table span.badge {
   }
 }
 
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1480px) {
   .container {
-    width: 70%;
+    width: 85%;
   }
 }
 
@@ -4309,7 +4309,7 @@ nav .nav-wrapper {
   height: 100%;
 }
 
-@media only screen and (min-width: 993px) {
+@media only screen and (min-width: 1480px) {
   nav a.sidenav-trigger {
     display: none;
   }
@@ -4342,7 +4342,7 @@ nav .brand-logo.center {
           transform: translateX(-50%);
 }
 
-@media only screen and (max-width: 992px) {
+@media only screen and (min-width: 601px) and (max-width: 1480px) {
   nav .brand-logo {
     left: 50%;
     -webkit-transform: translateX(-50%);
