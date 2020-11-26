@@ -4,8 +4,7 @@
     <div class="col s12">
         <h4>Task Analysis</h4>
         <ul id="tabs-swipe-demo" class="tabs tabs-fixed-width tab-demo z-depth-1">
-            <li class="tab"><a href="#quantity-tab">Task Quantity</a></li>
-            <li class="tab"><a class="active" href="#experiment-tab">Experiment Duration</a></li>
+            <li class="tab"><a class="active" href="#quantity-tab">Task Quantity</a></li>
             <li class="tab"><a href="#type-tab">Task Type</a></li>
         </ul>
 
@@ -52,6 +51,7 @@
 
         </script>
         </div>
+
         <div id="experiment-tab" class="col s12">
                 <canvas id="chart-experiment-duration"></canvas>
          <script>
@@ -113,11 +113,11 @@
                  <script>
                     const ctx3 = document.getElementById("chart-task-duration").getContext("2d");
                       var taskQuantity = new Chart(ctx3, {
-                        type: 'pie',
+                        type: 'bar',
                         data:   {
                                     labels: {{ type_counter["labels"]|safe }},
                                     datasets:[{
-                                        label: "Task Duration",
+                                        label: "Task Type",
                                         data: {{ type_counter["values"]|safe }},
                                         backgroundColor: [
                                             "rgb(255, 99, 132)",
@@ -150,16 +150,18 @@
                                     }]
                                 },
                         options: {
+
                             legend:{
                                 position: "bottom"
                             },
                             responsive: true, // Instruct chart js to respond nicely.
       maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+
                              tooltips: {
                                   callbacks: {
                                     label: (tooltipItem, data) => {
                                       let i = tooltipItem.index;
-                                      return data.labels[i] + ': ' + data.datasets[0].data[i]+'%';
+                                      return data.labels[i] + ': ' + data.datasets[0].data[i];
                                     }
                                   }
     }

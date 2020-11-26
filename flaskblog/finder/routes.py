@@ -14,7 +14,7 @@ def select():
     choices = {}
 
     design = ExperimentDesign.query.all()
-    availableDesign = []
+    availableDesign = ['All']
     for s in design:
         if not s.design_normalized in availableDesign:
             availableDesign.append(s.design_normalized)
@@ -37,7 +37,7 @@ def select():
             availableMeasurement.append(s.measurement_type)
     choices["measurements"] = availableMeasurement
 
-    choices["samples"] = ["Professional", "Student", "All"]
+    choices["samples"] = ["All", "Professional", "Student"]
     return render_template('finder/select_characteristics.html', choices=choices)
 
 
@@ -53,9 +53,9 @@ def search_characteristics():
         Publication.experiments
     ).join(
         Experiment.design
-    ).join(
-
-    ).filter(ExperimentDesign.design_normalized == search_characteristics_form['design'])
+    )
+    if (search_characteristics_form['design'] != 'All'):
+        query_result = query_result.filter(ExperimentDesign.design_normalized == search_characteristics_form['design'])
 
     studies = query_result.all()
 
