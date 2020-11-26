@@ -4,7 +4,7 @@
     <div class="col s12">
          <h4>Measurement Analysis</h4>
         <div id="measurement-tab" class="col s12">
-                <canvas id="chart-measurement-analysis"></canvas>
+                <canvas id="chart-measurement-analysis" height="630px"></canvas>
                  <script>
                     const ctx = document.getElementById("chart-measurement-analysis").getContext("2d");
                       var taskQuantity = new Chart(ctx, {
@@ -12,38 +12,8 @@
                         data:   {
                                     labels: {{ generalChart["labels"]|safe }},
                                     datasets:[{
-                                        label: "Task Duration",
                                         data: {{ generalChart["values"]|safe }},
                                         backgroundColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-
-                                        borderColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-                                        borderWidth: 2,
-                                        hoverBackgroundColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-                                        hoverBorderColor: [
                                             "rgb(255, 99, 132)",
 						                    "rgb(255, 159, 64)",
 						                    "rgb(255, 205, 86)",
@@ -169,7 +139,7 @@
                                 }
                             }]
                         },
-                        responsive: true, // Instruct chart js to respond nicely.
+                         responsive: true, // Instruct chart js to respond nicely.
                         maintainAspectRatio: false
                     },
                     data: {
