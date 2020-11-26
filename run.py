@@ -130,7 +130,7 @@ def createPaper1():
     addCharacteristic(newCharac='Linux experience', sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 0, 'Shapiro–Wilk test; Student’s t-test; Mann–Whitney U test', 2)
+    createStatistics(e, 0, 'Shapiro-Wilk test; Student’s t-test; Mann-Whitney test', 2)
 
 
 def createPaper2():
@@ -168,7 +168,7 @@ def createPaper3():
     addMeasuriment(experiment=e, newMeasure='Others',
                    details='Number Of Errors')
     addMeasuriment(experiment=e, newMeasure='Others', details='grade')
-    createStatistics(e, 0, 'Wilcoxon rank-sum test')
+    createStatistics(e, 0, 'Wilcoxon Signed Rank Test')
 
 
 def createPaper4():
@@ -185,7 +185,7 @@ def createPaper4():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
-    createStatistics(e, 1, 'Mann–Whitney–Willcoxon test; Shapiro–Wilk tests; exact Fisher test; post-hoc power analyses; Cliff’s δ effect size measure')
+    createStatistics(e, 1, 'Mann-Whitney test; Wilcoxon Signed Rank Test; Shapiro-Wilk test; Fisher`s exact test; Cliff’s δ effect')
 
 
 def createPaper5():
@@ -204,7 +204,7 @@ def createPaper5():
     addProfile(newProfile='GradStudent', newQuantity=1, sample=s)
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
-    createStatistics(e, 0, 'Kruskal–Wallis rank-sum tests; Mann–Whitney U test')
+    createStatistics(e, 0, 'Kruskal-Wallis test; Mann-Whitney test')
 
 
 def createPaper6():
@@ -227,7 +227,7 @@ def createPaper6():
     addCharacteristic(newCharac='Programming experience', sample=s)
     addCharacteristic(newCharac='OO experience', sample=s)
     addCharacteristic(newCharac='Industry experience', sample=s)
-    createStatistics(e, 1, 'Kolmogorov–Smirnov test; Shapiro–Wilk test; Mann–Whitney U test; Pearson product-moment correlation coefficient r; Cohen’s d; Wilcoxon W; Wilcoxon Z; Wilcoxon Exact')
+    createStatistics(e, 1, 'Kolmogorov-Smirnov test; Shapiro-Wilk test; Mann-Whitney test; Pearson P test; Cohen’s d; Wilcoxon Signed Rank Test')
 
 
 def createPaper7():
@@ -257,7 +257,7 @@ def createPaper9():
                         explicity=0, treatmentQuantity=1, experiment=e, normalizedDesing='Independent groups')
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e)
     addMeasuriment(experiment=e, newMeasure='CODE')
-    createStatistics(e, 1, 'ANOVA; Barlett K-squared test')
+    createStatistics(e, 1, 'ANOVA; Bartlett’s test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Professionals', newQuantity=30, sample=s)
@@ -277,7 +277,7 @@ def createPaper10():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='form')
     addMeasuriment(experiment=e, newMeasure='CODE', details='test cases')
-    createStatistics(e, 1, 'Mann-Whitney U-test; Vargha and Delaney')
+    createStatistics(e, 1, 'Mann-Whitney test; Vargha and Delaney')
 
     s = createSampling('part of Course', e)
     addProfile(newProfile='Gradstudent', newQuantity=58, sample=s)
@@ -296,7 +296,7 @@ def createPaper12():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
-    createStatistics(e, 0, 'Mann–Whitney test')
+    createStatistics(e, 0, 'Mann-Whitney test')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Gradstudent', newQuantity=2, sample=s)
@@ -313,7 +313,7 @@ def createPaper12():
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e2, newMeasure='TIME')
-    createStatistics(e2, 0, 'Mann-Whitney')
+    createStatistics(e2, 0, 'Mann-Whitney test')
 
     s2 = createSampling('Not Clear', e2)
     addProfile(newProfile='Gradstudent', newQuantity=2, sample=s2)
@@ -335,8 +335,8 @@ def createPaper14():
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='paper form')
 
     createStatistics(
-        e, 1, 'Kolmogorov–Smirnov; Shapiro–Wilk; Mahalanobis distance;' +
-        ' Levene’s test of homogeneity; Test of Equality of Covariance Matrices; MANCOVA')
+        e, 1, 'Kolmogorov-Smirnov test; Shapiro-Wilk test; Mahalanobis distance;' +
+        ' Levene test; Test of Equality of Covariance Matrices; MANCOVA')
 
     s = createSampling('Part of Course', e)
     addCharacteristic(newCharac='programming experience', sample=s)
@@ -361,7 +361,7 @@ def createPaper15():
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 0, 'MANOVA; Wilcoxon rank sum test; ')
+    createStatistics(e, 0, 'MANOVA; Wilcoxon Signed Rank Test')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=13, sample=s)
@@ -380,7 +380,7 @@ def createPaper16():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
-    createStatistics(e, 1, 'Mann-Whitney test; cliff’s effect size')
+    createStatistics(e, 1, 'Mann-Whitney test; Cliff’s δ effect')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='GradStudent', newQuantity=49, sample=s)
@@ -449,7 +449,7 @@ def createPaper19():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
 
-    createStatistics(e, 1, 'Mann-Whitney U test; Shapiro test, Cliff’s δ effect')
+    createStatistics(e, 1, 'Mann-Whitney test; Shapiro-Wilk test; Cliff’s δ effect')
 
     s = createSampling('Extra Grade', e)
     addProfile(newProfile='Undergradstudent', newQuantity=55, sample=s)
@@ -462,7 +462,7 @@ def createPaper19():
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e2)
     addTask(newTaskType='MAINTENANCE', newQuantity=1, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE')
-    createStatistics(e2, 1, 'Mann-Whitney; Shapiro test')
+    createStatistics(e2, 1, 'Mann-Whitney test; Shapiro-Wilk test')
 
     s2 = createSampling('Extra Grade', e2)
     addProfile(newProfile='Undergradstudent', newQuantity=42, sample=s2)
@@ -486,7 +486,7 @@ def createPaper20():
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='tool')
 
-    createStatistics(e, 1, 'wilcoxon test, Bonferroni p-value correction; Cohen’s d')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test; Bonferroni p-value correction; Cohen’s d')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='GradStudent', newQuantity=3, sample=s)
@@ -507,7 +507,7 @@ def createPaper21():
 
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Mann-Whitney U test')
+    createStatistics(e, 0, 'Mann-Whitney test')
 
     s = createSampling('Not Clear', e)
     addProfile(newProfile='Undergradstudent', newQuantity=18, sample=s)
@@ -530,7 +530,7 @@ def createPaper22():
     addMeasuriment(experiment=e, newMeasure='Others',
                    instrument='Brain Image')
 
-    createStatistics(e, 1, 'Wilcoxon Signed-Rank Test; Cliff`s Delta (d) Effect Size')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test; Cliff’s δ effect')
 
     s = createSampling('Reward', e)
     addProfile(newProfile='Professionals', newQuantity=15, sample=s)
@@ -551,7 +551,7 @@ def createPaper23():
                    instrument='form')
     addMeasuriment(experiment=e, newMeasure='CODE')
 
-    createStatistics(e, 0, 'Kolmogorov-Smirnov; Levene test; Student’s t-test')
+    createStatistics(e, 0, 'Kolmogorov-Smirnov test; Levene test; Student’s t-test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=26, sample=s)
@@ -575,7 +575,7 @@ def createPaper24():
                    instrument='Experimenter')
 
     createStatistics(
-        e, 1, 'Shapiro-Wilk test; G*Power 3;  ANOVA')
+        e, 1, 'Shapiro-Wilk test; G*Power 3; ANOVA')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=5, sample=s)
@@ -596,7 +596,7 @@ def createPaper25():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE',
                    instrument='form')
 
-    createStatistics(e, 1, 'Wilk-Shapiro test; Mann-Whitney test')
+    createStatistics(e, 1, 'Shapiro-Wilk test; Mann-Whitney test')
 
     s = createSampling('Voluntiers', e)
     addProfile(newProfile='Gradstudent', newQuantity=16, sample=s)
@@ -632,7 +632,7 @@ def createPaper26():
     addMeasuriment(experiment=e, newMeasure='TIME',
                    instrument='tool')
 
-    createStatistics(e, 1, 'Shapiro-Wilk test; post-hoc power analysis; t-test')
+    createStatistics(e, 1, 'Shapiro-Wilk test; t-test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Programming experience', sample=s)
@@ -655,7 +655,7 @@ def createPaper27():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 1, 'Lilliefors test; Mann-Whitney; ANCOVA')
+    createStatistics(e, 1, 'Lilliefors test; Mann-Whitney test; ANCOVA')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='OO experience', sample=s)
@@ -681,7 +681,7 @@ def createPaper28():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Chi-squared Proportion Tests')
+    createStatistics(e, 0, 'Chi-squared Tests')
 
     s = createSampling('Voluntiers', e)
 
@@ -727,7 +727,7 @@ def createPaper30():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 1, 'Wilcoxon Rank Sum test')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Industry experience', sample=s)
@@ -794,7 +794,7 @@ def createPaper34():
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 1, 'Shapiro-Wilk Test; Linear Mixed Model Analysis')
+    createStatistics(e, 1, 'Shapiro-Wilk test; Linear Mixed Model Analysis')
 
     s = createSampling('Extra Grade', e)
     addProfile(newProfile='Undergradstudent', newQuantity=30, sample=s)
@@ -816,7 +816,7 @@ def createPaper35():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='tool')
 
     createStatistics(
-        e, 1, 't-test; Wilcoxon signed rank test, Welch t-test; correlation coefficient')
+        e, 1, 't-test; Wilcoxon Signed Rank Test; Welch t-test; correlation coefficient')
 
     s = createSampling('Reward', e)
     addCharacteristic(newCharac='gender', sample=s)
@@ -895,7 +895,7 @@ def createPaper39():
                    instrument='form')
 
     createStatistics(
-        e, 1, 'Fishers exact test; x2 test; Mann-Whitney; ANOVA; repeated measures permutation test')
+        e, 1, 'Fisher`s exact test; x2 test; Mann-Whitney test; ANOVA; repeated measures permutation test')
 
     s = createSampling('Not Clear', e)
 
@@ -919,7 +919,7 @@ def createPaper40():
                    instrument='paper form')
 
     createStatistics(
-        e, 0, 'Independent-samples t-tests with unequal variances; Mann-Whitney U test')
+        e, 0, 't-test; Mann-Whitney test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Web programming experience', sample=s)
@@ -939,7 +939,7 @@ def createPaper40():
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE',
                    instrument='paper form')
     createStatistics(
-        e2, 0, 'Independent-samples t-tests with unequal variances')
+        e2, 0, 't-test')
 
     s2 = createSampling('Not Clear', e2)
     addProfile(newProfile='Professionals', newQuantity=20, sample=s2)
@@ -960,7 +960,7 @@ def createPaper41():
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
 
     createStatistics(
-        e, 0, 'Bartlett’s test of sphericity; MANOVA')
+        e, 0, 'Bartlett’s test; MANOVA')
 
     s = createSampling('Reward', e)
 
@@ -1059,7 +1059,7 @@ def createPaper46():
                    instrument='tool')
 
     createStatistics(
-        e, 1, 'Kruskal-Wallis test; Cliff`s Delta d')
+        e, 1, 'Kruskal-Wallis test; Cliff’s δ effect')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='gender', sample=s)
@@ -1089,7 +1089,7 @@ def createPaper47():
                    instrument='tool')
 
     createStatistics(
-        e, 1, 't-test; Spearman rho; Fisher test')
+        e, 1, 't-test; Spearman rho; Fisher`s exact test')
 
     s = createSampling('Voluntiers', e)
     #addCharacteristic(newCharac='gender', sample=s)
@@ -1114,7 +1114,7 @@ def createPaper48():
                    instrument='Experimenter')
 
     createStatistics(
-        e, 0, 'Kolmogorov-Smirnov; Levene test; Student’s t-test')
+        e, 0, 'Kolmogorov-Smirnov test; Levene test; Student’s t-test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Java Experience', sample=s)
@@ -1140,7 +1140,7 @@ def createPaper49():
     addMeasuriment(experiment=e, newMeasure='CODE')
 
     createStatistics(
-        e, 0, 'Wilcoxon; t-test')
+        e, 0, 'Wilcoxon Signed Rank Test; t-test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1165,7 +1165,7 @@ def createPaper50():
     addMeasuriment(experiment=e, newMeasure='CODE')
 
     createStatistics(
-        e, 0, 'non-directional one-sample sign test; Kruskal-Wallis; Cliff`s d')
+        e, 0, 'non-directional one-sample sign test; Kruskal-Wallis test; Cliff’s δ effect')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Professional Experience', sample=s)
@@ -1191,7 +1191,7 @@ def createPaper51():
     addMeasuriment(experiment=e, newMeasure='TIME')
 
     createStatistics(
-        e, 0, 't-test; qui-square test')
+        e, 0, 't-test; chi-squared tests')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='Professional Experience', sample=s)s
@@ -1208,7 +1208,7 @@ def createPaper51():
     addMeasuriment(experiment=e2, newMeasure='TIME')
     addMeasuriment(experiment=e2, newMeasure='CODE')
     createStatistics(
-        e2, 0, 't-test; qui-square test')
+        e2, 0, 't-test; chi-squared tests')
 
     s2 = createSampling('Not Clear', e2)
     addProfile(newProfile='Gradstudent', newQuantity=2, sample=s2)
@@ -1229,7 +1229,7 @@ def createPaper52():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Mann-Whitney')
+    createStatistics(e, 0, 'Mann-Whitney test')
 
     s = createSampling('Paid', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1254,7 +1254,7 @@ def createPaper53():
     addMeasuriment(experiment=e, newMeasure='CODE')
 
     createStatistics(
-        e, 1, 'x2-statistic; Barnard’s Exact Test; Fisher’s Exact Test')
+        e, 1, 'x2 test; Barnard’s Exact Test; Fisher`s exact test')
 
     s = createSampling('Part of Course', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1327,7 +1327,7 @@ def createPaper58():
     addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'tool')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE' , instrument = 'screen recorder')
 
-    createStatistics(e, 0, 'ANOVA; Bartlett; Box Cox; Tukey tests')
+    createStatistics(e, 0, 'ANOVA; Bartlett’s test; Box Cox; Tukey tests')
 
     s = createSampling('Voluntiers', e)
     #addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1345,7 +1345,7 @@ def createPaper58():
     addMeasuriment(experiment=e2, newMeasure='TIME' , instrument = 'tool')
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE' , instrument = 'screen recorder')
     createStatistics(
-        e2, 0, 'ANOVA; Bartlett; Box Cox; Tukey tests')
+        e2, 0, 'ANOVA; Bartlett’s test; Box Cox; Tukey tests')
 
     s2 = createSampling('Voluntiers', e2)
     addProfile(newProfile='Undergradstudent', newQuantity=14, sample=s2)
@@ -1365,7 +1365,7 @@ def createPaper59():
 
     addMeasuriment(experiment=e, newMeasure='CODE' , instrument = 'tool')
 
-    createStatistics(e, 0, 'Kolmogorov-Smirnov')
+    createStatistics(e, 0, 'Kolmogorov-Smirnov test')
 
     s = createSampling('Part of Course', e)
     addCharacteristic(newCharac='nationality', sample=s)
@@ -1382,7 +1382,7 @@ def createPaper59():
     addTask(newTaskType='CONSTRUCTION', newQuantity=3, experiment=e2)
     addMeasuriment(experiment=e2, newMeasure='CODE' , instrument = 'tool')
     createStatistics(
-        e2, 0, 'Kolmogorov-Smirnov')
+        e2, 0, 'Kolmogorov-Smirnov test')
 
     s2 = createSampling('Voluntiers', e2)
     addCharacteristic(newCharac='nationality', sample=s2)
@@ -1428,7 +1428,7 @@ def createPaper61():
 
     addMeasuriment(experiment=e, newMeasure='TIME' , instrument = 'tool')
 
-    createStatistics(e, 0, 'Shapiro-Wilk; Mann-Whitney')
+    createStatistics(e, 0, 'Shapiro-Wilk test; Mann-Whitney test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1478,7 +1478,7 @@ def createPaper63():
     addMeasuriment(experiment=e, newMeasure='TIME')
     addMeasuriment(experiment=e, newMeasure='Others' , details='test coverage')
 
-    createStatistics(e, 0, 'Shapiro-Wilk; Wilcoxon/Mann-Whitney')
+    createStatistics(e, 0, 'Shapiro-Wilk test; Wilcoxon Signed Rank Test; Mann-Whitney test')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='gender', sample=s)
@@ -1495,7 +1495,7 @@ def createPaper63():
     addMeasuriment(experiment=e2, newMeasure='TIME')
     addMeasuriment(experiment=e2, newMeasure='Others' , details='test coverage')
     createStatistics(
-        e2, 0, 'Shapiro-Wilk; Wilcoxon/Mann-Whitney')
+        e2, 0, 'Shapiro-Wilk test; Wilcoxon Signed Rank Test; Mann-Whitney test')
 
     s2 = createSampling('Not Clear', e2)
 
@@ -1511,7 +1511,7 @@ def createPaper63():
     addMeasuriment(experiment=e3, newMeasure='TIME')
     addMeasuriment(experiment=e3, newMeasure='Others' , details='test coverage')
     createStatistics(
-        e3, 0, 'Shapiro-Wilk; Wilcoxon/Mann-Whitney')
+        e3, 0, 'Shapiro-Wilk test; Wilcoxon Signed Rank Test; Mann-Whitney test')
 
     s3 = createSampling('Not Clear', e3)
     addCharacteristic(newCharac='Professional Experience', sample=s3)
@@ -1532,7 +1532,7 @@ def createPaper64():
     addMeasuriment(experiment=e, newMeasure='TIME')
     addMeasuriment(experiment=e, newMeasure='Others' , instrument = 'number of switches')
 
-    createStatistics(e, 1, 'Shapiro–Wilk; T–Test; ANOVA; Levene Test')
+    createStatistics(e, 1, 'Shapiro-Wilk test; T-Test; ANOVA; Levene Test')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='gender', sample=s)
@@ -1553,7 +1553,7 @@ def createPaper65():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form', details='TAM, self-estimation and diaries')
 
-    createStatistics(e, 0, 'Wilcoxon; Cronbach’s Alpha reliability level')
+    createStatistics(e, 0, 'Wilcoxon Signed Rank Test; Cronbach’s Alpha reliability level')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='programming experience', sample=s)
@@ -1571,7 +1571,7 @@ def createPaper65():
     addMeasuriment(experiment=e2, newMeasure='SUBJECTIVE', instrument='form', details='TAM, self-estimation and diaries')
 
     createStatistics(
-        e2, 0, 'Wilcoxon; Cronbach’s Alpha reliability level')
+        e2, 0, 'Wilcoxon Signed Rank Test; Cronbach’s Alpha reliability level')
 
     s2 = createSampling('Not Clear', e2)
     addCharacteristic(newCharac='programming experience', sample=s2)
@@ -1593,7 +1593,7 @@ def createPaper66():
     addMeasuriment(experiment=e, newMeasure='TIME')
     addMeasuriment(experiment=e, newMeasure='CODE')
 
-    createStatistics(e, 1, 'Wilcoxon')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Java Experience', sample=s)
@@ -1615,7 +1615,7 @@ def createPaper67():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='tool')
 
-    createStatistics(e, 1, 'Remove outliers; Wilcoxon; ANOVA')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test; ANOVA')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1640,7 +1640,7 @@ def createPaper68():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
     addMeasuriment(experiment=e, newMeasure='Others', instrument='repository', details='resolve conflicts')
 
-    createStatistics(e, 1, 'X2 test')
+    createStatistics(e, 1, 'x2 test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Eclipse Experience', sample=s)
@@ -1663,7 +1663,7 @@ def createPaper69():
 
     addMeasuriment(experiment=e, newMeasure='CODE')
 
-    createStatistics(e, 0, 'ANOVA; Pearson P test; Shapiro-Wilk normality test')
+    createStatistics(e, 0, 'ANOVA; Pearson P test; Shapiro-Wilk test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Test Experience', sample=s)
@@ -1744,7 +1744,7 @@ def createPaper72():
 
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Kolmogorov-Smirnov; Shapiro-Wilk; Mann-Whitney test')
+    createStatistics(e, 0, 'Kolmogorov-Smirnov test; Shapiro-Wilk test; Mann-Whitney test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Jog Description', sample=s)
@@ -1767,7 +1767,7 @@ def createPaper73():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 't-test; Kolmogorov-Smirnov; Exact Bootstrap')
+    createStatistics(e, 0, 't-test; Kolmogorov-Smirnov test; Exact Bootstrap')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Java Experience', sample=s)
@@ -1790,7 +1790,7 @@ def createPaper74():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 1, 'Wilcoxon; Holm’s correction procedure; Baker')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test; Holm’s correction procedure; Baker')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Java Experience', sample=s)
@@ -1810,7 +1810,7 @@ def createPaper74():
     addMeasuriment(experiment=e2, newMeasure='TIME')
 
     createStatistics(
-        e2, 1, 'Wilcoxon; Holm’s correction procedure; Baker')
+        e2, 1, 'Wilcoxon Signed Rank Test; Holm’s correction procedure; Baker')
 
     s2 = createSampling('Not Clear', e2)
     addCharacteristic(newCharac='Java Experience', sample=s2)
@@ -1833,7 +1833,7 @@ def createPaper75():
 
     addMeasuriment(experiment=e, newMeasure='CODE', details= 'Test Coverage')
 
-    createStatistics(e, 1, 'MANCOVA; Kolmogorov-Smirnov; Shapiro-Wilk; square root transformation, Levene’s test; Pillai’s trace; Wilk’s lambda; Hotelling’s trace; Roy’s largest root')
+    createStatistics(e, 1, 'MANCOVA; Kolmogorov-Smirnov test; Shapiro-Wilk test; square root transformation; Levene test; Pillai’s trace; Wilk’s lambda; Hotelling’s trace; Roy’s largest root')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1855,7 +1855,7 @@ def createPaper76():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='tool')
 
-    createStatistics(e, 0, 'Anova; Box Cox; Bartlett; Tukey')
+    createStatistics(e, 0, 'ANOVA; Box Cox; Bartlett’s test; Tukey tests')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1953,7 +1953,7 @@ def createPaper80():
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='email')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 1, 'Shapiro-Wilk; Mann-Whitney; T-test')
+    createStatistics(e, 1, 'Shapiro-Wilk test; Mann-Whitney test; T-test')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='credit', sample=s)
@@ -1976,7 +1976,7 @@ def createPaper81():
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='form')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 0, 'Shapiro-Wilk; Wilcoxon; two-way permutation test')
+    createStatistics(e, 0, 'Shapiro-Wilk test; Wilcoxon Signed Rank Test; two-way permutation test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming Experience', sample=s)
@@ -1999,7 +1999,7 @@ def createPaper82():
 
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
 
-    createStatistics(e, 0, 'Pearson correlation coefficient')
+    createStatistics(e, 0, 'Pearson P test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='personality', sample=s)
@@ -2026,7 +2026,7 @@ def createPaper83():
     addMeasuriment(experiment=e, newMeasure='Others',
                    instrument='eye traker')
 
-    createStatistics(e, 0, 't-test; Chi-squared')
+    createStatistics(e, 0, 't-test; Chi-squared Tests')
 
     s = createSampling('Extra Grade', e)
     #addCharacteristic(newCharac='Eclispe experience', sample=s)
@@ -2049,7 +2049,7 @@ def createPaper84():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 0, 'Wilcoxon; Mann-Whitney; Holm’s correction; ANOVA')
+    createStatistics(e, 0, 'Wilcoxon Signed Rank Test; Mann-Whitney test; Holm’s correction; ANOVA')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming experience', sample=s)
@@ -2074,7 +2074,7 @@ def createPaper85():
     addMeasuriment(experiment=e, newMeasure='CODE')
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 1, 'Shapiro-Wilk; Wilcoxon; ANOVA')
+    createStatistics(e, 1, 'Shapiro-Wilk test; Wilcoxon Signed Rank Test; ANOVA')
 
     s = createSampling('Part of Course', e)
     addCharacteristic(newCharac='Programming experience', sample=s)
@@ -2096,7 +2096,7 @@ def createPaper86():
 
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE', instrument='form')
 
-    createStatistics(e, 0, 'ANOVA; t-tests; x2')
+    createStatistics(e, 0, 'ANOVA; t-test; x2 test')
 
     s = createSampling('Not Clear', e)
     addCharacteristic(newCharac='Programming experience', sample=s)
@@ -2122,7 +2122,7 @@ def createPaper87():
     addMeasuriment(experiment=e, newMeasure='SUBJECTIVE')
     addMeasuriment(experiment=e, newMeasure='TIME')
 
-    createStatistics(e, 0, 'Shapiro–Wilk; F-test; T-test; Mann-Whitney')
+    createStatistics(e, 0, 'Shapiro-Wilk test; F-test; T-test; Mann-Whitney test')
 
     s = createSampling('Voluntiers', e)
     addCharacteristic(newCharac='Java experience', sample=s)
@@ -2140,7 +2140,7 @@ def createPaper87():
     addMeasuriment(experiment=e2, newMeasure='TIME')
 
     createStatistics(
-        e2, 1, 'Fisher; Mann-Whitney')
+        e2, 1, 'Fisher`s exact test; Mann-Whitney test')
 
     s2 = createSampling('Voluntiers', e2)
     addCharacteristic(newCharac='Java Experience', sample=s2)
@@ -2161,7 +2161,7 @@ def createPaper88():
 
     addMeasuriment(experiment=e, newMeasure='Others', details='MRI scanner data')
 
-    createStatistics(e, 1, 'Wilcoxon')
+    createStatistics(e, 1, 'Wilcoxon Signed Rank Test')
 
     s = createSampling('Reward', e)
     addCharacteristic(newCharac='Java experience', sample=s)
@@ -2205,7 +2205,7 @@ def createPaper90():
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='screen recorder')
 
-    createStatistics(e, 1, 'Shapiro-Wilk; ANOVA; MANOVA; Bonferroni adjustment')
+    createStatistics(e, 1, 'Shapiro-Wilk test; ANOVA; MANOVA; Bonferroni p-value correction')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='Professional experience', sample=s)
@@ -2227,7 +2227,7 @@ def createPaper91():
     addMeasuriment(experiment=e, newMeasure='CODE', instrument='repository')
     addMeasuriment(experiment=e, newMeasure='TIME', instrument='screen recorder')
 
-    createStatistics(e, 1, 'Shapiro-Wilk; ANOVA; MANOVA; Bonferroni adjustment')
+    createStatistics(e, 1, 'Shapiro-Wilk test; ANOVA; MANOVA; Bonferroni p-value correction')
 
     s = createSampling('Not Clear', e)
     #addCharacteristic(newCharac='Professional experience', sample=s)
