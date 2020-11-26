@@ -11,7 +11,6 @@ data_vizualization = Blueprint('data_vizualization', __name__)
 def metadata():
     counter_venues = Counter()
     counter_years = Counter()
-    counter_institutions = Counter()
     counter_authors = Counter()
     publications = Publication.query.all()
     for pub in publications:
@@ -23,4 +22,4 @@ def metadata():
     bar_years = json.loads(create_plot_bar(counter_years))
 
     return render_template('metadata.html', plot_venues=bar_venues[0], plot_years=bar_years[0],
-                           most_common_authors=counter_authors.most_common(11))
+                           most_common_authors=counter_authors.most_common(20))

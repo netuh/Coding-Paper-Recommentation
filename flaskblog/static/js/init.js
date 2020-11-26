@@ -5,5 +5,6 @@
     $(".carousel").css({ "height": "100%"});
     $('.collapsible').collapsible();
     $('select').formSelect();
+    $('.overflow').css({"overflow-y": "auto"})
 
   });
