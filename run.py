@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flaskblog.models import *
 from flaskblog import create_app
 from flaskblog import db
