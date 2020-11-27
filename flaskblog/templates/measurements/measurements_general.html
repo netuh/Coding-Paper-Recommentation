@@ -4,49 +4,16 @@
     <div class="col s12">
          <h4>Measurement Analysis</h4>
         <div id="measurement-tab" class="col s12">
-             <div class="chart-container">
-                <canvas id="chart-measurement-analysis"></canvas>
-
-             </div>
+                <canvas id="chart-measurement-analysis" height="630px"></canvas>
                  <script>
                     const ctx = document.getElementById("chart-measurement-analysis").getContext("2d");
                       var taskQuantity = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'pie',
                         data:   {
                                     labels: {{ generalChart["labels"]|safe }},
                                     datasets:[{
-                                        label: "Measurement Types",
                                         data: {{ generalChart["values"]|safe }},
                                         backgroundColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-
-                                        borderColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-                                        borderWidth: 2,
-                                        hoverBackgroundColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201, 203, 207)"
-						                ],
-                                        hoverBorderColor: [
                                             "rgb(255, 99, 132)",
 						                    "rgb(255, 159, 64)",
 						                    "rgb(255, 205, 86)",
@@ -58,11 +25,16 @@
                                     }]
                                 },
                         options: {
+                            legend:{
+                                position: "bottom"
+                            },
+                             responsive: true, // Instruct chart js to respond nicely.
+                             maintainAspectRatio: false,
                              tooltips: {
                                   callbacks: {
                                     label: (tooltipItem, data) => {
                                       let i = tooltipItem.index;
-                                      return data.labels[i] + ': ' + data.datasets[0].data[i];
+                                      return data.labels[i] + ': ' + data.datasets[0].data[i]+'%';
                                     }
                                   }
     }
@@ -89,10 +61,7 @@
         </ul>
 
         <div id="instrument-subjective-tab" class="col s12">
-              <div class="chart-container">
                 <canvas id="chart-instrument-subjective"></canvas>
-
-            </div>
          <script>
          Chart.Bar('chart-instrument-subjective', {
             options: {
@@ -102,7 +71,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false
             },
             data: {
                     labels:{{ instrumentSubChart["x"]|safe }},
@@ -122,9 +93,7 @@
         </script>
         </div>
         <div id="instrument-time-tab" class="col s12">
-             <div class="chart-container">
                 <canvas id="chart-instrument-time"></canvas>
-            </div>
         <script>
          Chart.Bar('chart-instrument-time', {
             options: {
@@ -134,7 +103,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false
             },
             data: {
                     labels:{{ instrumentTimeChart["x"]|safe }},
@@ -156,10 +127,8 @@
         </div>
 
         <div id="instrument-code-tab" class="col s12">
-             <div class="chart-container">
                 <canvas id="chart-instrument-code"></canvas>
 
-             </div>
                <script>
                  Chart.Bar('chart-instrument-code', {
                     options: {
@@ -169,7 +138,9 @@
                                     beginAtZero: true
                                 }
                             }]
-                        }
+                        },
+                         responsive: true, // Instruct chart js to respond nicely.
+                        maintainAspectRatio: false
                     },
                     data: {
                             labels:{{ instrumentCodeChart["x"]|safe }},

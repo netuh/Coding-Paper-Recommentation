@@ -10,10 +10,7 @@
         </ul>
 
         <div id="explicited-tab" class="col s12">
-              <div class="chart-container">
                 <canvas id="chart-explicited"></canvas>
-
-            </div>
          <script>
          Chart.Bar('chart-explicited', {
             options: {
@@ -23,7 +20,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
             },
             data: {
                     labels:{{ explicited_design["x"]|safe }},
@@ -43,10 +42,7 @@
         </script>
         </div>
         <div id="all-tab" class="col s12">
-            <div class="chart-container">
-                <canvas id="chart-all"></canvas>
-
-            </div>
+                <canvas id="chart-all" height="1000"></canvas>
          <script>
          Chart.Bar('chart-all', {
             options: {
@@ -55,8 +51,17 @@
                         ticks: {
                             beginAtZero: true
                         }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
             },
             data: {
                     labels:{{ all_design["x"]|safe }},
@@ -76,10 +81,8 @@
         </script>
         </div>
         <div id="factor-tab" class="col s12">
-             <div class="chart-container">
                 <canvas id="chart-factor"></canvas>
 
-            </div>
          <script>
          Chart.Bar('chart-factor', {
             options: {
@@ -89,7 +92,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                 responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
             },
             data: {
                     labels:{{ treatment["x"]|safe  }},

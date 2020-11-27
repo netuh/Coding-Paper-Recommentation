@@ -9,8 +9,8 @@
             <li class="tab"><a href="#venue-tab">Publication Venue Chart</a></li>
         </ul>
 
-        <div id="author-tab" class="col s12">
-             <table class="striped highlight responsive-table" >
+        <div id="author-tab" class="col s12 overflow">
+             <table class="striped highlight" >
           <thead>
             <tr>
               <th>#</th>
@@ -30,10 +30,7 @@
         </table>
         </div>
         <div id="year-tab" class="col s12">
-            <div class="chart-container">
                 <canvas id="chart-year"></canvas>
-
-            </div>
          <script>
          Chart.Bar('chart-year', {
             options: {
@@ -43,7 +40,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false
             },
             data: {
                     labels:{{ plot_years["x"] }},
@@ -63,10 +62,7 @@
         </script>
         </div>
         <div id="venue-tab" class="col s12">
-             <div class="chart-container">
                 <canvas id="chart-venue"></canvas>
-
-            </div>
          <script>
          Chart.Bar('chart-venue', {
             options: {
@@ -76,7 +72,9 @@
                             beginAtZero: true
                         }
                     }]
-                }
+                },
+                responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false
             },
             data: {
                     labels:{{ plot_venues["x"]|safe  }},

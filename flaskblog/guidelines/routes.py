@@ -4,11 +4,16 @@ from flaskblog.models import Guideline
 import scholarly
 guidelines = Blueprint('guidelines', __name__)
 
+def sort_guidelines_qtd(guideline):
+    tamanho = len(guideline.referenced_by)
+    return tamanho
+
 
 
 @guidelines.route("/guidelines")
 def all():
     guidelines = Guideline.query.all()
+    guidelines.sort(reverse=True,key=sort_guidelines_qtd)
     return render_template('guidelines.html', guidelines=guidelines)
 
 

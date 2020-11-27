@@ -4,10 +4,7 @@
     <div class="col s12">
          <h4>Statistics Analysis</h4>
         <div id="statistics-tab" class="col s12">
-             <div class="chart-container">
-                <canvas id="chart-statistics-analysis"></canvas>
-
-             </div>
+                <canvas id="chart-statistics-analysis" height="630px"></canvas>
         <script>
              Chart.Bar('chart-statistics-analysis', {
                 options: {
@@ -16,8 +13,17 @@
                             ticks: {
                                 beginAtZero: true
                             }
-                        }]
-                    }
+                        }],
+                        xAxes: [{
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 90
+                        }
+                    }]
+                    },
+                     responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false
                 },
                 data: {
                         labels:{{ statisticChart["x"]|safe }},
@@ -44,7 +50,7 @@
         <h4>Power Analysis</h4>
         <div id="power-tab" class="col s12">
               <div class="chart-container">
-                <canvas id="chart-power-analysis"></canvas>
+                <canvas id="chart-power-analysis" height="630px"></canvas>
 
             </div>
              <script>
@@ -56,7 +62,9 @@
                                 beginAtZero: true
                             }
                         }]
-                    }
+                    },
+                     responsive: true, // Instruct chart js to respond nicely.
+      maintainAspectRatio: false
                 },
                 data: {
                         labels:{{ powerChart["x"]|safe }},
