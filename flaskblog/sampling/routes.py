@@ -23,7 +23,6 @@ def sampling_main():
     c = Counter()
     for a_profile in samples:
         classification, quantity = a_profile.sample_classification()
-        print(classification)
         dic_classification[classification].append(quantity)
         dic_classification['total'].append(quantity)
         for a_charac in a_profile.characteristics:

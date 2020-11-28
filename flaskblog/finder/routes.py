@@ -1,8 +1,6 @@
 from flask import render_template, request, Blueprint, redirect, url_for, session, jsonify, make_response
-from flaskblog.finder.forms import SelectArticleForm
 from flaskblog.models import *
 from flaskblog import db
-import scholarly
 import json
 from sqlalchemy import or_, and_, func, literal
 
@@ -64,7 +62,6 @@ def search_characteristics():
     if search_characteristics_form['task']:
         studies = selectTask(search_characteristics_form['task'], studies)
     if search_characteristics_form['sample'] and search_characteristics_form['sample'].lower() != 'all':
-        print(search_characteristics_form['sample'])
         studies = selectSample(search_characteristics_form['sample'], studies)
 
     studies = [publication.pub_id for publication in studies]
@@ -110,10 +107,8 @@ def selectSample(sample, studies):
     for aPub in studies:
         add = False
         for aExp in aPub.experiments:
-            print(aExp.sample.exp_id)
             for aSample in aExp.sample.profiles:
                 if (sample.lower() in aSample.profile.lower()):
-                    print(aSample.profile.lower())
                     add = True
         if (add):
             selected.append(aPub)
@@ -178,12 +173,11 @@ def deserialize_papers(publications):
 @finder.route("/details/<int:pub_id>")
 def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
-    search_query = scholarly.search_pubs_query(pub.title)
-    paperData = next(search_query)
-    title = paperData.bib['title']
-    author = paperData.bib['author']
-    abstract = paperData.bib['abstract']
-    link = paperData.bib['url']
+    paperData = google_scholar_grap("{0} {1}".format(pub.title, pub.authors))
+    title = paperData['title']
+    author = paperData['authors']
+    abstract = paperData['abstract']
+    link = paperData['url']
     year = pub.year
     venue = pub.venue
     return render_template('detail.html', title=title, author=author,

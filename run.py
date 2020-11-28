@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flaskblog.models import *
 from flaskblog import create_app
 from flaskblog import db
@@ -2320,4 +2322,4 @@ def before_first_request_func():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(debug=True)

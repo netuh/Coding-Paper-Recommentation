@@ -52,104 +52,32 @@
         </script>
         </div>
 
-        <div id="experiment-tab" class="col s12">
-                <canvas id="chart-experiment-duration"></canvas>
-         <script>
-             const ctx2 = document.getElementById("chart-experiment-duration").getContext("2d");
-              var taskQuantity = new Chart(ctx2, {
-                type: 'boxplot',
-                data:   {
-                            labels:[""] ,
-                            datasets:[{
-                                label: "total duration",
-                                data: [{{ experiment_duration[0]["y"] }}],
-                                backgroundColor: ["rgba(126,87,194)"],
-                                borderColor: ["rgba(126,87,194)"],
-                                borderWidth: 2,
-                                hoverBackgroundColor: ["rgba(126,87,194)"],
-                                hoverBorderColor: ["rgba(126,87,194)"]
-                            },
-                            {
-
-                                label: "duration by task",
-                                data: [{{ experiment_duration[1]["y"] }}],
-                                backgroundColor: "rgb(255, 160, 122)",
-                                borderColor: "rgb(255, 160, 122)",
-                                borderWidth: 2,
-                                hoverBackgroundColor: "rgb(255, 160, 122)",
-                                hoverBorderColor: "rgb(255, 160, 122)"
-
-                        }]
-                        },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-
-                            }
-                        }]
-                    },
-                    responsive: true, // Instruct chart js to respond nicely.
-      maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
-                    tooltips: {
-                      callbacks: {
-                        footer: (tooltipItem, data) => {
-
-                          let i = {{ experiment_duration|tojson }}
-                          return i[tooltipItem[0].datasetIndex].x0.toUpperCase()
-                        }
-                      }
-    }
-                }
-            });
-
-        </script>
-
-        </div>
-
         <div id="type-tab" class="col s12">
                 <canvas id="chart-task-duration"></canvas>
                  <script>
-                    const ctx3 = document.getElementById("chart-task-duration").getContext("2d");
-                      var taskQuantity = new Chart(ctx3, {
-                        type: 'bar',
+                  Chart.Bar('chart-task-duration',{
                         data:   {
                                     labels: {{ type_counter["labels"]|safe }},
                                     datasets:[{
-                                        label: "Task Type",
+                                        label:"Task Type",
                                         data: {{ type_counter["values"]|safe }},
-                                        backgroundColor: [
-                                            "rgb(255, 99, 132)",
-						                    "rgb(255, 159, 64)",
-						                    "rgb(255, 205, 86)",
-						                    "rgb(75, 192, 192)",
-						                    "rgb(54, 162, 235)",
-						                    "rgb(153, 102, 255)",
-						                    "rgb(201,203,207)",
-                                            "rgb(121, 85, 72)",
-                                            "rgb(205, 220, 57)",
-                                            "rgb(0,0,0)",
-                                            "rgb(24, 255, 255)"
-						                ]
+                                        backgroundColor: "rgba(126,87,194)",
+                                        borderColor: "rgba(126,87,194)",
+                                        borderWidth: 2,
+                                        hoverBackgroundColor: "rgba(126,87,194)",
+                                        hoverBorderColor: "rgba(126,87,194)"
                                     }]
                                 },
-                        options: {
-
-                            legend:{
-                                position: "bottom"
-                            },
-                            responsive: true, // Instruct chart js to respond nicely.
-      maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
-
-                             tooltips: {
-                                  callbacks: {
-                                    label: (tooltipItem, data) => {
-                                      let i = tooltipItem.index;
-                                      return data.labels[i] + ': ' + data.datasets[0].data[i];
-                                    }
-                                  }
-    }
+                       options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        },
+                        responsive: true, // Instruct chart js to respond nicely.
+                        maintainAspectRatio: false // Add to prevent default behaviour of full-width/height
                         }
 
                     });
