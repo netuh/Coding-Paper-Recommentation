@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template
 from flaskblog.models import Guideline
+from fp.fp import FreeProxy
 
-import scholarly
+from scholarly import scholarly
 guidelines = Blueprint('guidelines', __name__)
 
 def sort_guidelines_qtd(guideline):
@@ -20,7 +21,9 @@ def all():
 @guidelines.route("/guideline/<int:guide_id>/")
 def guide(guide_id):
     g = Guideline.query.get_or_404(guide_id)
-    search_query = scholarly.search_pubs_query(g.title)
+    proxy = FreeProxy(rand=True, timeout=1, country_id=['US', 'CA']).get()
+    scholarly.use_proxy(http=proxy, https=proxy)
+    search_query = scholarly.search_pubs(g.title)
     paperData = next(search_query)
     title = paperData.bib['title']
     author = paperData.bib['author']

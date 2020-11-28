@@ -2,8 +2,9 @@ from flask import render_template, request, Blueprint, redirect, url_for, sessio
 from flaskblog.finder.forms import SelectArticleForm
 from flaskblog.models import *
 from flaskblog import db
-import scholarly
+from scholarly import scholarly
 import json
+from fp.fp import FreeProxy
 from sqlalchemy import or_, and_, func, literal
 
 finder = Blueprint('finder', __name__)
@@ -178,7 +179,9 @@ def deserialize_papers(publications):
 @finder.route("/details/<int:pub_id>")
 def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
-    search_query = scholarly.search_pubs_query(pub.title)
+    proxy = FreeProxy(rand=True, timeout=1, country_id=['US', 'CA']).get()
+    scholarly.use_proxy(http=proxy, https=proxy)
+    search_query = scholarly.search_pubs(pub.title)
     paperData = next(search_query)
     title = paperData.bib['title']
     author = paperData.bib['author']
