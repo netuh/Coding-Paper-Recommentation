@@ -2322,4 +2322,4 @@ def before_first_request_func():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

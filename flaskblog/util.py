@@ -4,8 +4,13 @@ import plotly.graph_objs as go
 import pandas as pd
 import json
 
+from bs4 import BeautifulSoup
+import requests
+
 colors = ['lightseagreen', 'lightsalmon', 'lightsteelblue',
           'lightcoral', 'lightgoldenrodyellow', 'lime']
+URL = "http://api.scraperapi.com/"
+AUTH_KEY = "8fccbfbc3c3d3d708cb9691af4099a2a"
 
 
 def create_plot_pie(c):
@@ -65,3 +70,30 @@ def create_plot_bar(c, byKeys=True):
     ]
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
     return graphJSON
+
+
+def google_scholar_grap(search):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
+    url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
+    params = {'api_key': AUTH_KEY, 'url': url}
+    response = requests.get(url=URL, headers=headers, params=params)
+    soup = BeautifulSoup(response.content,
+                         'lxml')
+    item = soup.select('[data-lid]')[0]
+    result = {"title": item.select('h3')[0].get_text(),
+              "authors": select_authors(item.select('.gs_a')[0]),
+              "abstract": item.select('.gs_rs')[0].get_text(),
+              "url": item.select('h3 a')[0]['href']}
+    return result
+
+
+def select_authors(element_authors):
+    authors = ""
+    for item in element_authors.select('a'):
+        if not authors:
+            authors = item.get_text()
+        else:
+            authors = "{0}, {1}".format(authors, item.get_text())
+
+    return authors
