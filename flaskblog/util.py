@@ -80,6 +80,7 @@ def google_scholar_grap(search):
     response = requests.get(url=URL, headers=headers, params=params)
     soup = BeautifulSoup(response.content,
                          'lxml')
+    print("HTML TEXT RETURN: {0}".format(soup))
     item = soup.select('[data-lid]')[0]
     result = {"title": item.select('h3')[0].get_text(),
               "authors": select_authors(item.select('.gs_a')[0]),
