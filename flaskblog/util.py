@@ -1,3 +1,6 @@
+import random
+import time
+
 import plotly
 import plotly.graph_objs as go
 
@@ -5,12 +8,13 @@ import pandas as pd
 import json
 
 from bs4 import BeautifulSoup
+from scraper_api import ScraperAPIClient
 import requests
 
 colors = ['lightseagreen', 'lightsalmon', 'lightsteelblue',
           'lightcoral', 'lightgoldenrodyellow', 'lime']
 URL = "http://api.scraperapi.com/"
-AUTH_KEY = "8fccbfbc3c3d3d708cb9691af4099a2a"
+API_KEY = "8fccbfbc3c3d3d708cb9691af4099a2a"
 
 
 def create_plot_pie(c):
@@ -73,13 +77,7 @@ def create_plot_bar(c, byKeys=True):
 
 
 def google_scholar_grap(search):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
-    url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
-    params = {'api_key': AUTH_KEY, 'url': url}
-    response = requests.get(url=URL, headers=headers, params=params)
-    soup = BeautifulSoup(response.content,
-                         'lxml')
+    soup = get_papers_google(search)
     item = soup.select('[data-lid]')[0]
     result = {"title": item.select('h3')[0].get_text(),
               "authors": select_authors(item.select('.gs_a')[0]),
@@ -97,3 +95,24 @@ def select_authors(element_authors):
             authors = "{0}, {1}".format(authors, item.get_text())
 
     return authors
+
+
+def get_papers_google(search):
+    w = random.uniform(1, 2)
+    time.sleep(w)
+    proxies = {
+        "http": "http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001",
+        "https": "http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001"
+    }
+    url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
+    response = requests.get(url=url, proxies=proxies, verify=False)
+    print(response)
+    soup = BeautifulSoup(response.text,
+                         'lxml')
+   # while (response.status_code == 200 or response.status_code == 500) and not soup.select('[data-lid]'):
+   #     response = client.get(url=url)
+   #     print(response)
+    #    soup = BeautifulSoup(response.text,
+    #                         'lxml')
+
+    return soup
