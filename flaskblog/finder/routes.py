@@ -3,6 +3,7 @@ from flaskblog.models import *
 from flaskblog import db
 import json
 from sqlalchemy import or_, and_, func, literal
+from scholarly import scholarly, ProxyGenerator
 
 finder = Blueprint('finder', __name__)
 
@@ -173,11 +174,16 @@ def deserialize_papers(publications):
 @finder.route("/details/<int:pub_id>")
 def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
-    paperData = google_scholar_grap("{0} {1}".format(pub.title, pub.authors))
-    title = paperData['title']
-    author = paperData['authors']
-    abstract = paperData['abstract']
-    link = paperData['url']
+    pg = ProxyGenerator()
+    pg.SingleProxy(http="http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001",
+                   https="http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001")
+    scholarly.use_proxy(pg)
+    paperData = scholarly.search_single_pub("{0} {1}".format(pub.title, pub.authors))
+    # paperData = google_scholar_grap("{0} {1}".format(pub.title, pub.authors))
+    title = paperData.bib['title']
+    author = paperData.bib['author']
+    abstract = paperData.bib['abstract']
+    link = paperData.bib['url']
     year = pub.year
     venue = pub.venue
     return render_template('detail.html', title=title, author=author,
