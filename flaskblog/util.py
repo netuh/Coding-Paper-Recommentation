@@ -97,7 +97,7 @@ def select_authors(element_authors):
 def get_papers_google(search):
     client = ScraperAPIClient(API_KEY)
     url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
-    response = client.get(url=url).text
+    response = client.get(url=url, retry=5).text
     soup = BeautifulSoup(response,
                          'lxml')
 
