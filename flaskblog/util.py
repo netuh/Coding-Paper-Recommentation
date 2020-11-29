@@ -5,12 +5,13 @@ import pandas as pd
 import json
 
 from bs4 import BeautifulSoup
+from scraper_api import ScraperAPIClient
 import requests
 
 colors = ['lightseagreen', 'lightsalmon', 'lightsteelblue',
           'lightcoral', 'lightgoldenrodyellow', 'lime']
 URL = "http://api.scraperapi.com/"
-AUTH_KEY = "8fccbfbc3c3d3d708cb9691af4099a2a"
+API_KEY = "8fccbfbc3c3d3d708cb9691af4099a2a"
 
 
 def create_plot_pie(c):
@@ -94,18 +95,10 @@ def select_authors(element_authors):
 
 
 def get_papers_google(search):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
+    client = ScraperAPIClient(API_KEY)
     url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
-    params = {'api_key': AUTH_KEY, 'url': url}
-    response = requests.get(url=URL, headers=headers, params=params)
-    soup = BeautifulSoup(response.content,
+    response = client.get(url=url).text
+    soup = BeautifulSoup(response,
                          'lxml')
-    cont = 1;
-    while cont <= 4 and not soup.select('[data-lid]'):
-        response = requests.get(url=URL, headers=headers, params=params)
-        soup = BeautifulSoup(response.content,
-                             'lxml')
-        cont += 1
 
     return soup
