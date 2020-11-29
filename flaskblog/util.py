@@ -101,7 +101,7 @@ def get_papers_google(search):
     print(response)
     soup = BeautifulSoup(response.text,
                          'lxml')
-    while response.status_code == 200 and not soup.select('[data-lid]'):
+    while response.status_code == 500 and not soup.select('[data-lid]'):
         response = client.get(url=url, retry=5)
         print(response)
         soup = BeautifulSoup(response.text,
