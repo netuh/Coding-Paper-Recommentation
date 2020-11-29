@@ -73,14 +73,7 @@ def create_plot_bar(c, byKeys=True):
 
 
 def google_scholar_grap(search):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
-    url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
-    params = {'api_key': AUTH_KEY, 'url': url}
-    response = requests.get(url=URL, headers=headers, params=params)
-    soup = BeautifulSoup(response.content,
-                         'lxml')
-    print("HTML TEXT RETURN: {0}".format(soup))
+    soup = get_papers_google(search)
     item = soup.select('[data-lid]')[0]
     result = {"title": item.select('h3')[0].get_text(),
               "authors": select_authors(item.select('.gs_a')[0]),
@@ -98,3 +91,21 @@ def select_authors(element_authors):
             authors = "{0}, {1}".format(authors, item.get_text())
 
     return authors
+
+
+def get_papers_google(search):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'}
+    url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
+    params = {'api_key': AUTH_KEY, 'url': url}
+    response = requests.get(url=URL, headers=headers, params=params)
+    soup = BeautifulSoup(response.content,
+                         'lxml')
+    cont = 1;
+    while cont <= 4 and not soup.select('[data-lid]'):
+        response = requests.get(url=URL, headers=headers, params=params)
+        soup = BeautifulSoup(response.content,
+                             'lxml')
+        cont += 1
+
+    return soup
