@@ -1,3 +1,6 @@
+import random
+import time
+
 import plotly
 import plotly.graph_objs as go
 
@@ -95,16 +98,21 @@ def select_authors(element_authors):
 
 
 def get_papers_google(search):
-    client = ScraperAPIClient(API_KEY)
+    w = random.uniform(1, 2)
+    time.sleep(w)
+    proxies = {
+        "http": "http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001",
+        "https": "http://scraperapi:8fccbfbc3c3d3d708cb9691af4099a2a@proxy-server.scraperapi.com:8001"
+    }
     url = 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={0}&btnG='.format(search)
-    response = client.get(url=url)
+    response = requests.get(url=url, proxies=proxies, verify=False)
     print(response)
     soup = BeautifulSoup(response.text,
                          'lxml')
-    while (response.status_code == 200 or response.status_code == 500) and not soup.select('[data-lid]'):
-        response = client.get(url=url)
-        print(response)
-        soup = BeautifulSoup(response.text,
-                             'lxml')
+   # while (response.status_code == 200 or response.status_code == 500) and not soup.select('[data-lid]'):
+   #     response = client.get(url=url)
+   #     print(response)
+    #    soup = BeautifulSoup(response.text,
+    #                         'lxml')
 
     return soup
