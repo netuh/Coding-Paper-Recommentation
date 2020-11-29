@@ -174,10 +174,10 @@ def deserialize_papers(publications):
 def details(pub_id):
     pub = Publication.query.filter_by(pub_id=pub_id).first_or_404()
     paperData = google_scholar_grap("{0} {1}".format(pub.title, pub.authors))
-    title = paperData.bib['title']
-    author = paperData.bib['authors']
-    abstract = paperData.bib['abstract']
-    link = paperData.bib['url']
+    title = paperData['title']
+    author = paperData['authors']
+    abstract = paperData['abstract']
+    link = paperData['url']
     year = pub.year
     venue = pub.venue
     return render_template('detail.html', title=title, author=author,

@@ -21,9 +21,9 @@ def all():
 def guide(guide_id):
     g = Guideline.query.get_or_404(guide_id)
     paperData = google_scholar_grap("{0} {1}".format(g.title, g.authors))
-    title = paperData.bib['title']
-    author = paperData.bib['authors']
-    abstract = paperData.bib['abstract']
-    link = paperData.bib['url']
+    title = paperData['title']
+    author = paperData['authors']
+    abstract = paperData['abstract']
+    link = paperData['url']
     return render_template('guideline_details.html', title=title, author=author,
                            abstract=abstract, link=link, references=g.referenced_by)
