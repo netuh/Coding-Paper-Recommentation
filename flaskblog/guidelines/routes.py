@@ -22,7 +22,7 @@ def guide(guide_id):
     g = Guideline.query.get_or_404(guide_id)
     paperData = google_scholar_grap("{0} {1}".format(g.title, g.authors))
     title = paperData.bib['title']
-    author = paperData.bib['author']
+    author = paperData.bib['authors']
     abstract = paperData.bib['abstract']
     link = paperData.bib['url']
     return render_template('guideline_details.html', title=title, author=author,
