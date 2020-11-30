@@ -8,7 +8,6 @@ import pandas as pd
 import json
 
 from bs4 import BeautifulSoup
-from scraper_api import ScraperAPIClient
 import requests
 
 colors = ['lightseagreen', 'lightsalmon', 'lightsteelblue',
