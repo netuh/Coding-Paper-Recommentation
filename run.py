@@ -2320,7 +2320,6 @@ def before_first_request_func():
     createPaper91()
 
     db.session.commit()
-    db.session.remove()
 
 
 if __name__ == '__main__':
