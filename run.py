@@ -2238,6 +2238,7 @@ def createPaper91():
 
 @ app.before_first_request
 def before_first_request_func():
+    print("ENTROU NO FIRST REQUEST")
     db.drop_all()
     db.create_all()
     createGuidelines()
